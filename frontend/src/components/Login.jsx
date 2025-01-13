@@ -8,15 +8,27 @@ import { IoMdClose } from "react-icons/io";
 import ClipLoader from 'react-spinners/ClipLoader'
 
 const Login = () => {
-  const usernameRef = useRef()
-  const passwordRef = useRef()
   const modalEmail = useRef()
-  const emailRef = useRef()
+
+  const [form, setForm] = useState({
+    username: '',
+    password: '',
+    email: ''
+  })
+
+  const handleChange = (e) => {
+    setForm(prev => ({
+      ...prev,
+      [e.target.name]: e.target.value
+    }))
+  }
 
   async function sendDataLogin(e) {
     e.preventDefault()
-    const username = usernameRef.current.value
-    const password = passwordRef.current.value
+    
+    const { username, password } = form
+
+    console.log(username, password)
 
     try {
       const response = await fetch("http://localhost:3000/auth/login", {
@@ -47,7 +59,7 @@ const Login = () => {
   }
 
   async function sendMailForgotPassword() {
-    const email = emailRef.current.value
+    const { email } = form
 
     if (email.length === 0) return
     
@@ -100,19 +112,21 @@ const Login = () => {
             <form className="space-y-4 md:space-y-6" onSubmit={sendDataLogin}>
               <div>
                 <input
+                  name="username"
                   className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   placeholder="Username"
                   required={true}
-                  ref={usernameRef}
+                  onChange={handleChange}
                 />
               </div>
               <div className="flex items-center relative">
                 <input
                   type={viewPassword ? "text" : "password"}
+                  name="password"
                   placeholder="••••••••"
                   className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   required={true}
-                  ref={passwordRef}
+                  onChange={handleChange}
                   maxLength={30}
                 />
                 <EyePasswordIcon
@@ -166,7 +180,7 @@ const Login = () => {
       {/* Modal para enviar email */}
       <dialog ref={modalEmail} className="p-3 rounded-md min-w-[250px] shadow-md backdrop:bg-[rgba(0,0,0,.60)]">
         {loading ? <ClipLoader cssOverride={{marginLeft: 'auto', display: 'block'}} size={20}/> : <IoMdClose className="ml-auto cursor-pointer" size={20} onClick={() => modalEmail.current.close()}/>}
-        <input ref={emailRef} type="email" className="mt-3 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter your mail"></input>
+        <input onChange={handleChange} type="email" name="email" className="mt-3 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter your mail"></input>
         <button onClick={sendMailForgotPassword} type="button" className="w-full mt-3 text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Send</button>
       </dialog>
     </>

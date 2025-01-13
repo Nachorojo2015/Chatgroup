@@ -1,4 +1,3 @@
-import PropTypes from "prop-types"
 import ClipLoader from "react-spinners/ClipLoader";
 import UserImage from "./UserImage";
 import { useState } from "react";
@@ -6,16 +5,16 @@ import SearchGroups from "./SearchGroups";
 import SearchUsers from "./SearchUsers";
 import DarkMode from "./DarkMode";
 import CloseSession from "./CloseSession";
+import { useUserStore } from "../store/userStore";
 
 
-const Menu = ({ userData }) => {
+const Menu = () => {
+
+  const { _id, fullname, username, avatar } = useUserStore()
 
   const [activeTab, setActiveTab] = useState('Groups')
 
-  if (!userData) return <ClipLoader cssOverride={{margin: 'auto'}}/>
-
-  const { user } = userData
-  const { fullname, username, pick } = user
+  if (!_id) return <ClipLoader cssOverride={{margin: 'auto'}}/>
 
   return (
     <aside className="flex flex-col items-center">
@@ -25,7 +24,7 @@ const Menu = ({ userData }) => {
          <DarkMode />
          <CloseSession />
         </div>
-        <UserImage pick={pick}/>
+        <UserImage avatar={avatar} userId={_id}/>
         <h1 className="text-3xl">{fullname}</h1>
         <h2>{username}</h2>
         {activeTab === 'Groups' ? <SearchGroups /> : <SearchUsers />}
@@ -42,12 +41,6 @@ const Menu = ({ userData }) => {
       {/* Create group */}
     </aside>
   )
-}
-
-Menu.displayName = 'Menu'
-
-Menu.propTypes = {
-  userData: PropTypes.object
 }
 
 export default Menu

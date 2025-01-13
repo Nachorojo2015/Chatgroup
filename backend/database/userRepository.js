@@ -50,9 +50,10 @@ export class UserRepository {
         if (!isValid) throw new ValidateError('password is not valid')
 
         const newUser = {
+            _id: user._id,
             fullname: user.fullname,
             username: `@${username}`,
-            pick: user.pick,
+            avatar: user.avatar,
             groups: user.groups,
             privateChats: user.privateChats
         }

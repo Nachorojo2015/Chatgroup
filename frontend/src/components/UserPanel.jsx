@@ -1,41 +1,22 @@
 import Menu from "./Menu"
 import Chat from "./Chat"
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
+import { useUserStore } from "../store/userStore"
 
 const UserPanel = () => {
 
-  const [userData, setUserData] = useState(null)
-
-  async function getDataUser() {
-    try {
-      const response = await fetch('http://localhost:3000/auth/protected', {
-        credentials: 'include'
-      })
-      
-      if (!response.ok) {
-        const errorMessage = await response.text()
-        alert(`error, ${errorMessage}`)
-        setTimeout(() => {
-            window.location.href = '/login'
-        }, 3000)
-      }
-
-      const data = await response.json()
-      setUserData(data)
-    } catch (error) {
-      alert(error.message)
-    }
-  }
+  const fetchUserData = useUserStore(state => state.fetchUserData)
 
   useEffect(() => {
-    getDataUser()
+    fetchUserData()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   
 
   return (
     <section className="grid grid-cols-[100%,0] xl:grid-cols-[30%,70%] h-screen">
-        <Menu userData={userData}/>
-        <Chat userData={userData}/>
+        <Menu/>
+        <Chat/>
     </section>
   )
 }

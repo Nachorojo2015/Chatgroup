@@ -1,24 +1,30 @@
 import { Link } from "react-router-dom";
 import { FaEye } from "react-icons/fa";
 import { LuEyeClosed } from "react-icons/lu";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { ToastContainer, toast } from 'react-toastify';
 
 const Register = () => {
 
-  const emailRef = useRef()
-  const fullnameRef = useRef()
-  const usernameRef = useRef()
-  const passwordRef = useRef()
-  const confirmPasswordRef = useRef()
+  const [form, setForm] = useState({
+    email: '',
+    fullname: '',
+    username: '',
+    password: '',
+    confirmPassword: ''
+  })
+
+  const handleChange = (e) => {
+    setForm(prev => ({
+      ...prev,
+      [e.target.name]: e.target.value
+    }))
+  }
 
   async function sendDataRegister(e) {
     e.preventDefault()
-    const email = emailRef.current.value
-    const fullname = fullnameRef.current.value
-    const username = usernameRef.current.value
-    const password = passwordRef.current.value
-    const confirmPassword = confirmPasswordRef.current.value
+
+    const { email, fullname, username, password, confirmPassword } = form
 
     if (password !== confirmPassword) return toast.error('The passwords dont match')
 
@@ -55,6 +61,8 @@ const Register = () => {
   const [securePassword, setSecurePassword] = useState(false)
 
   function verifyPassword(e) {
+    handleChange(e)
+
     const passwordValue = e.target.value
 
     const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/ // Regex que valida la seguridad de la contraseña
@@ -82,36 +90,39 @@ const Register = () => {
             <div>
               <input
                 type="email"
+                name="email"
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="Email Adress"
                 required={true}
-                ref={emailRef}
+                onChange={handleChange}
               />
             </div>
             <div>
               <input
+                name="fullname"
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="Fullname"
                 required={true}
-                ref={fullnameRef}
+                onChange={handleChange}
               />
             </div>
             <div>
               <input
+                name="username"
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="Username"
                 required={true}
-                ref={usernameRef}
+                onChange={handleChange}
               />
             </div>
             <div className="flex items-center relative">
               <input
                 type={viewPassword ? 'text' : 'password'}
+                name="password"
                 placeholder="••••••••"
                 className={`bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white ${securePassword ? 'outline-green-400 border-green-300 dark:border-green-300' : 'outline-red-400'}`}
                 required={true}
                 onChange={verifyPassword}
-                ref={passwordRef}
                 maxLength={30}
               />
               <EyePasswordIcon className="absolute right-3 cursor-pointer dark:text-white" onClick={() => setViewPassword(!viewPassword)}/>
@@ -119,11 +130,12 @@ const Register = () => {
             <div className="flex items-center relative">
               <input
                 type={viewConfirmPassword ? 'text' : 'password'}
+                name="confirmPassword"
                 placeholder="Confirm password"
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 required={true}
                 maxLength={30}
-                ref={confirmPasswordRef}
+                onChange={handleChange}
               />
               <EyeConfirmPasswordIcon className="absolute right-3 cursor-pointer dark:text-white" onClick={() => setViewConfirmPassword(!viewConfirmPassword)}/>
             </div>
