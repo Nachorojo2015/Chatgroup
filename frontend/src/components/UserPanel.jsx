@@ -14,7 +14,7 @@ const UserPanel = () => {
   
 
   return (
-    <section className="grid grid-cols-[100%,0] xl:grid-cols-[30%,70%] h-screen">
+    <section className="grid grid-cols-[100%,0] xl:grid-cols-[30%,70%] h-screen overflow-hidden">
         <Menu/>
         <Chat/>
     </section>

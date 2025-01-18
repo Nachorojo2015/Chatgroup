@@ -107,5 +107,4 @@ export const closeSession = (req, res) => {
   res
     .clearCookie('access_token')
     .send('Logout successfull')
-    
 }

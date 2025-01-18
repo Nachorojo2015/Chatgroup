@@ -1,4 +1,5 @@
 import { CiLogout } from "react-icons/ci";
+import { toast } from "react-toastify";
 
 const CloseSession = () => {
 
@@ -19,18 +20,18 @@ const CloseSession = () => {
         
         const successMessage = await response.text()
         
-        alert(successMessage)
+        toast.success(successMessage)
 
         setTimeout(() => {
             window.location.href = '/login'
-        })
+        }, 2500)
     } catch (error) {
         alert(error.message)
     }
   }
 
   return (
-    <CiLogout className="cursor-pointer" size={20} onClick={closeSession}/>
+    <CiLogout className="cursor-pointer dark:text-white" size={20} onClick={closeSession}/>
   )
 }
 

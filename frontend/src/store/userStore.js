@@ -1,50 +1,71 @@
+import { toast } from "react-toastify";
 import { create } from "zustand";
 
-export const useUserStore = create((set) => ({
-    _id: '',
+export const useUserStore = create((set, get) => ({
     fullname: '',
     username: '',
     avatar: '',
     groups: [],
-    privateChats: [],
+    privateUsers: [],
 
     fetchUserData: async () => {
       try {
-        const response = await fetch('http://localhost:3000/auth/protected', {
-            credentials: 'include'
+        const response = await fetch(`http://localhost:3000/user`, {
+          credentials: 'include'
         })
-    
+
         if (!response.ok) {
           const errorMessage = await response.text()
-          alert(`error, ${errorMessage}`)
+          toast.error(errorMessage)
           setTimeout(() => {
-             window.location.href = '/login'
-          }, 3000)
+            window.location.href = '/login'
+          }, 2500)
         }
-    
+
         const data = await response.json()
-    
-        const user = data.user
-    
-        const { _id, fullname, username, avatar, groups, privateChats } = user
-    
+
+        const { user } = data
+
+        const { fullname, username, avatar, groups, privateUsers } = user
+
         set({
-          _id,
           fullname,
-          username,
+          username, 
           avatar,
           groups,
-          privateChats
+          privateUsers
         })
+        
       } catch (error) {
         console.log(error.message)
-        alert('Error in the server')
+        setTimeout(() => {
+          window.location.href = '/login'
+        }, 2500)
       }
     },
 
-    updateAvatar: (url) => {
-       set({
-        avatar: url
-       })
+    updateAvatar: async ({ url }) => {
+      const { fetchUserData } = get()
+
+       try {
+        const response = await fetch('http://localhost:3000/user/avatar', {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ url }),
+          credentials: 'include'
+        })
+
+        if (!response.ok) {
+          const errorMessage = await response.text()
+          toast.error(`Error to update avatar, ${errorMessage}`)
+        }
+
+        fetchUserData()
+
+       } catch (error) {
+        console.log(error.message)
+       }
     }
 }))

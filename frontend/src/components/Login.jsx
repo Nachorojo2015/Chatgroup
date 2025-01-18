@@ -1,9 +1,9 @@
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { RiChatSmile2Line } from "react-icons/ri"
 import { FaEye } from "react-icons/fa"
 import { LuEyeClosed } from "react-icons/lu"
 import { useRef, useState } from "react"
-import { toast, ToastContainer } from "react-toastify"
+import { toast } from "react-toastify"
 import { IoMdClose } from "react-icons/io";
 import ClipLoader from 'react-spinners/ClipLoader'
 
@@ -23,12 +23,12 @@ const Login = () => {
     }))
   }
 
+  const navigate = useNavigate()
+
   async function sendDataLogin(e) {
     e.preventDefault()
     
     const { username, password } = form
-
-    console.log(username, password)
 
     try {
       const response = await fetch("http://localhost:3000/auth/login", {
@@ -50,7 +50,7 @@ const Login = () => {
 
       toast.success("user login 👍")
       setTimeout(() => {
-        window.location.href = "/"
+        navigate('/')
       }, 3000)
     } catch (error) {
       console.log(error.message)
@@ -99,7 +99,6 @@ const Login = () => {
   return (
     <>
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto h-screen">
-        <ToastContainer />
         <RiChatSmile2Line className="dark:text-white text-3xl" />
         <span className="font-bold text-3xl mb-5 dark:text-white">
           Chatgroup

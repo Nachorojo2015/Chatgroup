@@ -28,7 +28,7 @@ const usersSchema = new Schema({
     default: [],
     ref: 'groups'
   },
-  privateChats: {
+  privateUsers: {
     type: Array,
     default: []
   }

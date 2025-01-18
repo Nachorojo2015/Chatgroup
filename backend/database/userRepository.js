@@ -49,16 +49,9 @@ export class UserRepository {
         const isValid = await bcrypt.compare(password, user.password)
         if (!isValid) throw new ValidateError('password is not valid')
 
-        const newUser = {
-            _id: user._id,
-            fullname: user.fullname,
-            username: `@${username}`,
-            avatar: user.avatar,
-            groups: user.groups,
-            privateChats: user.privateChats
-        }
+        const { _id } = user
 
-        return newUser
+        return { _id }
     }
 
     static async findByEmail(email) {
@@ -94,5 +87,59 @@ export class UserRepository {
         const { _id } = newUser
 
         return _id
+    }
+
+    static async updateAvatar({ _id, url }) {
+        const user = await usersModel.findById(_id)
+        if (!user) throw new ValidateError('user must exists')
+
+        user.avatar = url
+        const { avatar } = await user.save()
+
+        return avatar
+    }
+
+    static async getUser({ _id }) {
+        const user = await usersModel.findById(
+            {
+                _id
+            },
+            {
+                fullname: 1,
+                username: 1,
+                avatar: 1,
+                groups: 1,
+                privateUsers: 1,
+                _id: 0
+            }
+        )
+        if (!user) throw new ValidateError('user must exists')
+
+        return user
+    }
+
+    static async searchUsersByUsername({ username, _id }) {
+        if (!username) throw new MissingFieldError('missing field username')
+        
+        if (username.length < 4) throw new InvalidLength('Username must be at least 4 characters long')
+        
+        const regex = new RegExp(username, 'i')
+
+        const users = await usersModel.find(
+            { 
+              username: { $regex: regex },
+              _id: { $ne: _id }
+            },
+            { 
+              username: 1, 
+              fullname: 1, 
+              avatar: 1, 
+              _id: 0,
+            }
+        )
+          
+        if (!users.length) throw new InvalidLength('Not users found')
+
+        return users
     }
 }

@@ -1,8 +1,8 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaEye } from "react-icons/fa";
 import { LuEyeClosed } from "react-icons/lu";
 import { useState } from "react";
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 const Register = () => {
 
@@ -20,6 +20,8 @@ const Register = () => {
       [e.target.name]: e.target.value
     }))
   }
+
+  const navigate = useNavigate()
 
   async function sendDataRegister(e) {
     e.preventDefault()
@@ -49,7 +51,7 @@ const Register = () => {
   
       toast.success('user register 👌')
       setTimeout(() => {
-        window.location.href = '/login'
+        navigate('/login')
       }, 3000)
     } catch (error) {
       console.log(error.message)
@@ -79,8 +81,7 @@ const Register = () => {
   const EyeConfirmPasswordIcon = viewConfirmPassword ? FaEye : LuEyeClosed
 
   return (
-    <div className="flex flex-col items-center justify-center px-6 py-3 h-screen">
-      <ToastContainer />
+    <section className="flex flex-col items-center justify-center px-6 py-3 h-screen">
       <div className="w-full rounded-lg shadow-md sm:max-w-md dark:bg-gray-800 dark:border-gray-700">
         <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
           <h1 className="text-3xl text-center font-bold leading-tight tracking-tight text-gray-900 dark:text-white">
@@ -154,13 +155,13 @@ const Register = () => {
                   htmlFor="terms"
                   className="font-light text-gray-500 dark:text-gray-300"
                 >
-                  I accept the{" "}
-                  <a
-                    className="font-medium text-primary-600 hover:underline dark:text-primary-500"
-                    href="#"
+                  I accept the
+                  <Link
+                    className="font-medium text-primary-600 hover:underline dark:text-primary-500 ml-1"
+                    to={'#'}
                   >
                     Terms and Conditions
-                  </a>
+                  </Link>
                 </label>
               </div>
             </div>
@@ -171,10 +172,10 @@ const Register = () => {
               Create an account
             </button>
             <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-              Already have an account?{" "}
+              Already have an account?
               <Link
                 to={"/login"}
-                className="font-medium text-primary-600 hover:underline dark:text-primary-500"
+                className="font-medium text-primary-600 hover:underline dark:text-primary-500 ml-1"
               >
                 Login here
               </Link>
@@ -182,7 +183,7 @@ const Register = () => {
           </form>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 

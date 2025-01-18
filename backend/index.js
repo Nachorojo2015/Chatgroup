@@ -7,6 +7,7 @@ import { verifyToken } from './middlewares/verifyToken.js'
 import cors from "cors"
 import http from "http"
 import { Server } from 'socket.io'
+import { userRouter } from './routes/userRoute.js'
 
 
 const app = express()
@@ -16,6 +17,7 @@ app.use(cors({ origin: [FRONTEND_DOMAIN], credentials: true }))
 app.use(verifyToken)
 
 app.use('/auth', authRouter)
+app.use('/user', userRouter)
 
 const server = http.createServer(app)
 
