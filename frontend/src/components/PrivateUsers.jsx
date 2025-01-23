@@ -1,8 +1,8 @@
 import PropTypes from "prop-types";
 import { useRef, useState } from "react";
-import { IoMdClose } from "react-icons/io";
 import { CiSearch } from "react-icons/ci";
 import { ClipLoader } from "react-spinners";
+import { FaArrowLeftLong } from "react-icons/fa6";
 
 const PrivateUsers = ({ privateUsers }) => {
   const [usersSearch, setUsersSearch] = useState([])
@@ -17,16 +17,10 @@ const PrivateUsers = ({ privateUsers }) => {
 
     const valueSearch = inputSearchRef.current.value
 
-    if (!valueSearch) {
-      labelInputSearchRef.current.innerText = 'Insert a value'
-      return
-    }
-
-    if (!valueSearch.includes('@')) {
-      labelInputSearchRef.current.innerText = 'Insert an @ at the beginning to search a username'
-      return
-    }
-
+    if (!valueSearch) return labelInputSearchRef.current.innerText = 'Insert a value'
+      
+    if (!valueSearch.includes('@')) return labelInputSearchRef.current.innerText = 'Insert an @ at the beginning to search a username'
+      
     labelInputSearchRef.current.innerText = ''
     setLoader(true)
 
@@ -79,8 +73,8 @@ const PrivateUsers = ({ privateUsers }) => {
         </div>
 
         <dialog ref={modalRef} className="backdrop:bg-[rgba(0,0,0,.60)] p-3 rounded-md shadow-md xl:min-w-[450px]">
-          <IoMdClose className="cursor-pointer ml-auto" onClick={() => modalRef.current.close()} size={22}/>
-          <form className="flex flex-col items-start" onSubmit={searchUsers}>
+          <FaArrowLeftLong className="cursor-pointer" onClick={() => modalRef.current.close()} size={22}/>
+          <form className="flex flex-col items-start mt-5" onSubmit={searchUsers}>
               <label ref={labelInputSearchRef} htmlFor="user" className="text-sm text-red-500"></label>
               <div className="flex items-center gap-3 w-full mt-1">
                 <input ref={inputSearchRef} name="user" placeholder="Enter a @username" className="p-1 rounded w-full indent-1 border-2 border-black"/>

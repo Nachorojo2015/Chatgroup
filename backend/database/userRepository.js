@@ -59,16 +59,21 @@ export class UserRepository {
 
         if (typeof email !== 'string') throw new TypeError('email must be an string')
 
-        const user = await usersModel.findOne({ email })
+        const user = await usersModel.findOne(
+            {
+                email
+            },
+            {
+                _id: 1,
+                email: 1,
+                fullname: 1,
+                password: 0
+            }
+        )
+        
         if (!user) throw new ValidateError('user email is not registered')
 
-        const newUser = {
-            id: user._id,
-            email: user.email,
-            fullname: user.fullname
-        }
-
-        return newUser
+        return user
     }
 
     static async resetPassword(newPassword, { email }) {
@@ -113,6 +118,20 @@ export class UserRepository {
                 _id: 0
             }
         )
+        .populate({
+            path: 'groups',
+            populate: [
+              {
+                path: 'creator',
+                select: 'username'
+              },
+              {
+                path: 'members',
+                select: 'username avatar'
+              }
+            ]
+        })
+
         if (!user) throw new ValidateError('user must exists')
 
         return user

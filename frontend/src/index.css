@@ -6,34 +6,25 @@ body {
   font-family: "Montserrat", serif;
 }
 
-/* Personalización global para todas las barras de desplazamiento */
-
-/* Contenedor del scrollbar */
-*::-webkit-scrollbar {
-  width: 8px; /* Ancho del scrollbar */
-  height: 8px; /* Altura del scrollbar (horizontal) */
-}
-
-/* Fondo del scrollbar */
-*::-webkit-scrollbar-track {
-  background: #f0f0f0; /* Color claro para el fondo */
-  border-radius: 4px; /* Esquinas redondeadas */
-}
-
-/* Barra móvil (thumb) */
-*::-webkit-scrollbar-thumb {
-  background: #888; /* Color del thumb */
-  border-radius: 4px; /* Esquinas redondeadas */
-}
-
-/* Hover en la barra móvil */
-*::-webkit-scrollbar-thumb:hover {
-  background: #555; /* Cambia a un color más oscuro al pasar el mouse */
-}
-
-/* Compatibilidad con Firefox y navegadores estándar */
 html {
-  scrollbar-color: #888 #f0f0f0; /* thumb-color track-color */
-  scrollbar-width: thin; /* Barra delgada */
+  scrollbar-color: #888 #f0f0f0; 
+  scrollbar-width: thin; 
 }
+
+dialog[open] {
+  scale: 1;
+  transition: scale .3s ease-in-out;
+
+  @starting-style {
+    scale: 0
+  }
+}
+
+dialog {
+  transtion: scale .3s ease,
+    display .3s ease allow-discrete;
+  scale: 0;
+}
+
+
 

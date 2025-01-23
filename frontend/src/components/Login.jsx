@@ -54,7 +54,6 @@ const Login = () => {
       }, 3000)
     } catch (error) {
       console.log(error.message)
-      toast.error("error in the server, try again")
     }
   }
 

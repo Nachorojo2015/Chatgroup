@@ -1,4 +1,4 @@
-import { model, Schema } from "mongoose";
+import mongoose, { model, Schema } from "mongoose";
 
 const usersSchema = new Schema({
   email: {
@@ -23,15 +23,18 @@ const usersSchema = new Schema({
     type: String,
     default: 'https://cdn-icons-png.flaticon.com/512/6596/6596121.png'
   },
-  groups: {
-    type: Array,
-    default: [],
-    ref: 'groups'
-  },
-  privateUsers: {
-    type: Array,
-    default: []
-  }
+  groups: [
+    {
+      type: mongoose.Schema.ObjectId,
+      ref: 'groups'
+    }
+  ],
+  privateUsers: [
+    {
+      type: mongoose.Schema.ObjectId,
+      ref: 'privateUsers'
+    }
+  ]
 })
 
 export const usersModel = model('users', usersSchema)

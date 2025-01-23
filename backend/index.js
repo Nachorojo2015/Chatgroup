@@ -8,6 +8,7 @@ import cors from "cors"
 import http from "http"
 import { Server } from 'socket.io'
 import { userRouter } from './routes/userRoute.js'
+import { groupRouter } from './routes/groupRoute.js'
 
 
 const app = express()
@@ -18,6 +19,7 @@ app.use(verifyToken)
 
 app.use('/auth', authRouter)
 app.use('/user', userRouter)
+app.use('/group', groupRouter)
 
 const server = http.createServer(app)
 
