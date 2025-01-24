@@ -37,3 +37,15 @@ export const deleteGroup = async (req, res) => {
         res.status(400).send(error.message)
     }
 }
+
+export const editGroup = async (req, res) => {
+    const { _id } = req.params
+    const { name, description, picture, visibility } = req.body
+
+    try {
+      const idGroup = await GroupRepository.editGroup({ _id, name, description, picture, visibility })
+      res.send({ idGroup })
+    } catch (error) {
+      res.status(400).send(error.message)
+    }
+}

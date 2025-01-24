@@ -1,52 +1,10 @@
 import PropTypes from "prop-types";
-import { useRef, useState } from "react";
-import { CiSearch } from "react-icons/ci";
-import { ClipLoader } from "react-spinners";
-import { FaArrowLeftLong } from "react-icons/fa6";
+import { useRef } from "react";
+import SearchUsersModal from "./SearchUsersModal";
 
 const PrivateUsers = ({ privateUsers }) => {
-  const [usersSearch, setUsersSearch] = useState([])
-  const [loader, setLoader] = useState(false)
 
-  const modalRef = useRef()
-  const inputSearchRef = useRef()
-  const labelInputSearchRef = useRef()
-
-  async function searchUsers(e) {
-    e.preventDefault()
-
-    const valueSearch = inputSearchRef.current.value
-
-    if (!valueSearch) return labelInputSearchRef.current.innerText = 'Insert a value'
-      
-    if (!valueSearch.includes('@')) return labelInputSearchRef.current.innerText = 'Insert an @ at the beginning to search a username'
-      
-    labelInputSearchRef.current.innerText = ''
-    setLoader(true)
-
-    try {
-      const response = await fetch(`http://localhost:3000/user/${valueSearch}`, {
-        credentials: 'include'
-      })
-
-      if (!response.ok) {
-        const errorMessage = await response.text()
-        labelInputSearchRef.current.innerText = errorMessage
-        setUsersSearch([])
-      }
-
-      const data = await response.json()
-
-      console.log(data.users)
-
-      setUsersSearch(data.users)
-    } catch (error) {
-      console.log(error.message)
-    }
-
-    setLoader(false)
-
-  }
+  const modalSearchUsersRef = useRef()
 
   return (
     <div className="w-full overflow-y-auto h-full absolute">
@@ -69,37 +27,10 @@ const PrivateUsers = ({ privateUsers }) => {
         ))
        }
         <div className="flex flex-col justify-center items-center mt-5">
-          <button type="button" className="text-white w-[50%] bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onClick={() => modalRef.current.showModal()}>Search New Users</button>
+          <button type="button" className="text-white w-[50%] bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onClick={() => modalSearchUsersRef.current.showModal()}>Search New Users</button>
         </div>
 
-        <dialog ref={modalRef} className="backdrop:bg-[rgba(0,0,0,.60)] p-3 rounded-md shadow-md xl:min-w-[450px]">
-          <FaArrowLeftLong className="cursor-pointer" onClick={() => modalRef.current.close()} size={22}/>
-          <form className="flex flex-col items-start mt-5" onSubmit={searchUsers}>
-              <label ref={labelInputSearchRef} htmlFor="user" className="text-sm text-red-500"></label>
-              <div className="flex items-center gap-3 w-full mt-1">
-                <input ref={inputSearchRef} name="user" placeholder="Enter a @username" className="p-1 rounded w-full indent-1 border-2 border-black"/>
-                <button type="submit">
-                  <CiSearch size={30}/>
-                </button>
-              </div>
-          </form>
-          <section className="flex items-center justify-center flex-col gap-3 mt-5">
-            {
-              loader ? 
-              <ClipLoader /> 
-               : 
-              usersSearch.map((userSearch, index) => (
-              <article className="flex items-center gap-5 p-2 transition hover:bg-slate-200 w-full cursor-pointer rounded" key={index}>
-                  <img src={userSearch.avatar} alt="" className="w-16 h-16 rounded-full"/>
-                  <div>
-                    <p className="font-semibold">{userSearch.fullname}</p>
-                    <p>{userSearch.username}</p>
-                  </div>
-              </article>
-              ))
-            }
-          </section>
-        </dialog>
+        <SearchUsersModal ref={modalSearchUsersRef}/>
     </div>
   );
 };

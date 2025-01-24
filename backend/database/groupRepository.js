@@ -36,15 +36,32 @@ export class GroupRepository {
             name: 1,
             members: 1,
             picture: 1,
+            creator: 1,
             _id: 0
          }
-        )
+        ).populate({
+            path: 'creator',
+            select: 'username'
+        })
 
         return groups
     }
 
     static async deleteGroup({ _id }) {
         const group = await groupsModel.findByIdAndDelete({ _id })
+
+        return group._id
+    }
+
+    static async editGroup({ _id, name, description, picture, visibility }) {
+        const group = await groupsModel.findByIdAndUpdate(_id, {
+            name,
+            description,
+            picture,
+            visibility
+        })
+
+        if (!group) throw new ValidateError('The group dont exists')
 
         return group._id
     }

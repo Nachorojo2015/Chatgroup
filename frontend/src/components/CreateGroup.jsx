@@ -2,14 +2,13 @@ import { useRef, useState } from "react"
 import { MdGroups } from "react-icons/md"
 import { toast } from "react-toastify"
 import { uploadImageGroup } from "../firebase/config"
-import { useUserStore } from "../store/userStore"
 import { FaArrowLeftLong } from "react-icons/fa6"
+import PropTypes from "prop-types"
 
-const CreateGroup = () => {
+const CreateGroup = ({ fetchUserData }) => {
 
   const [imageGroup, setImageGroup] = useState('/camera.png')
   const [fileImageGroup, setFileImageGroup] = useState(null)
-  const fetchUserData = useUserStore(state => state.fetchUserData)
 
   const groupNameRef = useRef()
   const labelNameRef = useRef()
@@ -95,6 +94,12 @@ const CreateGroup = () => {
     </dialog>
     </>
   )
+}
+
+CreateGroup.displayName = 'CreateGroup'
+
+CreateGroup.propTypes = {
+  fetchUserData: PropTypes.func
 }
 
 export default CreateGroup

@@ -1,14 +1,11 @@
 import PropTypes from "prop-types"
 import { uploadAvatar } from "../firebase/config"
-import { useUserStore } from "../store/userStore"
 import { useState } from "react"
 import { BeatLoader } from "react-spinners"
 
-const UserImage = () => {
+const UserImage = ({ username, avatar, updateAvatar }) => {
 
   const [loader, setLoader] = useState(false)
-
-  const { username, avatar, updateAvatar } = useUserStore()
 
   async function handleAvatar(e) {
     const avatarFile = e.target.files[0]
@@ -38,8 +35,9 @@ const UserImage = () => {
 UserImage.displayName = 'UserImage'
 
 UserImage.propTypes = {
+    username: PropTypes.string,
     avatar: PropTypes.string,
-    idUser: PropTypes.string
+    updateAvatar: PropTypes.func
 }
 
 export default UserImage
