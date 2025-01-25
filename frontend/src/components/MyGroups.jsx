@@ -2,16 +2,13 @@ import { TbWorld } from "react-icons/tb";
 import { SiPrivateinternetaccess } from "react-icons/si"; 
 import { FaUser } from "react-icons/fa";
 import PropTypes from "prop-types";
-import { useUserStore } from "../store/userStore";
 import CopyLinkGroupButton from "./CopyLinkGroupButton";
 import EditGroupButton from "./EditGroupButton";
 import DeleteGroupButton from "./DeleteGroupButton";
 
-const MyGroups = ({ group }) => {
+const MyGroups = ({ group, fetchUserData, username }) => {
 
   const { picture, name, visibility, members, description, _id } = group
-
-  const { fetchUserData, username } = useUserStore()
 
   return (
     <article
@@ -43,7 +40,7 @@ const MyGroups = ({ group }) => {
 
       <div className="flex items-center ml-auto gap-5">
         <CopyLinkGroupButton _id={_id}/>
-        <EditGroupButton _id={_id} description={description} username={username} picture={picture} members={members} visibility={visibility} fetchUserData={fetchUserData}/>
+        <EditGroupButton _id={_id} name={name} description={description} username={username} picture={picture} members={members} visibility={visibility} fetchUserData={fetchUserData}/>
         <DeleteGroupButton picture={picture} name={name} _id={_id} fetchUserData={fetchUserData}/>
       </div>
     </article>
@@ -53,7 +50,9 @@ const MyGroups = ({ group }) => {
 MyGroups.displayName = 'MyGroups'
 
 MyGroups.propTypes = {
-    group: PropTypes.object
+    group: PropTypes.object,
+    fetchUserData: PropTypes.func,
+    username: PropTypes.string
 }
 
 export default MyGroups;

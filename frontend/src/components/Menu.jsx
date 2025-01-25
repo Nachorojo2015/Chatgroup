@@ -20,7 +20,7 @@ const Menu = () => {
   if (!username || !fullname || !avatar) return <ClipLoader cssOverride={{margin: 'auto'}}/>
 
   const Chats = {
-    'Groups': <ChatGroups groups={groups} username={username} valueSearch={valueSearch}/>,
+    'Groups': <ChatGroups groups={groups} username={username} valueSearch={valueSearch} fetchUserData={fetchUserData}/>,
     'Users': <PrivateUsers privateUsers={privateUsers} valueSearch={valueSearch}/>
   }
 

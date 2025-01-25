@@ -5,7 +5,7 @@ import { toast } from "react-toastify"
 import PropTypes from "prop-types"
 import { MdGroups, MdOutlineGroup } from 'react-icons/md'
 
-const EditGroupModal = forwardRef(({ description, username, picture, _id, members, visibility, fetchUserData }, ref) => {
+const EditGroupModal = forwardRef(({ name, description, username, picture, _id, members, visibility, fetchUserData }, ref) => {
 
   const nameGroupEditRef = useRef()
   const descriptionGroupEditRef = useRef()
@@ -116,6 +116,7 @@ const EditGroupModal = forwardRef(({ description, username, picture, _id, member
 EditGroupModal.displayName = 'EditGroupModal'
 
 EditGroupModal.propTypes = {
+    name: PropTypes.string,
     description: PropTypes.string,
     username: PropTypes.string,
     picture: PropTypes.string,
