@@ -2,15 +2,15 @@ import PropTypes from "prop-types";
 import { FaUser } from "react-icons/fa";
 import { SiPrivateinternetaccess } from "react-icons/si";
 import { TbWorld } from "react-icons/tb";
-import { BiLogOut } from "react-icons/bi";
+import LeaveGroupButton from "./LeaveGroupButton";
 
-const JoinedGroups = ({ group }) => {
+const JoinedGroups = ({ group, fetchUserData }) => {
 
-  const { picture, name, visibility, members } = group 
+  const { picture, name, visibility, members, _id } = group 
 
   return (
     <article
-      className="flex items-center w-full gap-3 transition cursor-pointer hover:bg-slate-200 dark:hover:bg-opacity-20 p-3"
+      className="flex items-center w-full gap-3 transition hover:bg-slate-200 dark:hover:bg-opacity-20 p-3"
     >
       <img
         src={picture}
@@ -36,9 +36,7 @@ const JoinedGroups = ({ group }) => {
         </div>
       </div>
 
-      <div className="flex items-center ml-auto gap-5">
-      <BiLogOut size={20}/>
-      </div>
+      <LeaveGroupButton picture={picture} name={name} _id={_id} fetchUserData={fetchUserData} />
     </article>
   );
 };
@@ -46,7 +44,8 @@ const JoinedGroups = ({ group }) => {
 JoinedGroups.displayName = 'JoinedGroups'
 
 JoinedGroups.propTypes = {
-    group: PropTypes.object
+    group: PropTypes.object,
+    fetchUserData: PropTypes.func
 }
 
 export default JoinedGroups;

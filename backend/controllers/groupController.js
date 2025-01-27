@@ -49,3 +49,31 @@ export const editGroup = async (req, res) => {
       res.status(400).send(error.message)
     }
 }
+
+export const joinGroup = async (req, res) => {
+    const { user } = req.session
+    const { _id } = req.params
+
+    if (!user) return res.status(401).send('User not authorized')
+
+    try {
+      const idGroup = await GroupRepository.joinGroup({ groupId: _id, userId: user._id })
+      res.send({ idGroup })
+    } catch (error) {
+        res.status(400).send(error.message)
+    }
+}
+
+export const leaveGroup = async (req, res) => {
+    const { user } = req.session
+    const { _id } = req.params
+
+    if (!user) return res.status(401).send('User not authorized')
+
+    try {
+      const idGroup = await GroupRepository.leaveGroup({ groupId: _id, userId: user._id })
+      res.send({ idGroup })
+    } catch (error) {
+      res.status(400).send(error.message)
+    }
+}

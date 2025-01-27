@@ -37,12 +37,18 @@ export class GroupRepository {
             members: 1,
             picture: 1,
             creator: 1,
-            _id: 0
+            _id: 1
          }
-        ).populate({
-            path: 'creator',
-            select: 'username'
-        })
+        ).populate([
+            {
+                path: 'creator',
+                select: 'username'
+            },
+            {
+                path: 'members',
+                select: 'username'
+            }
+        ])
 
         return groups
     }
@@ -62,6 +68,44 @@ export class GroupRepository {
         })
 
         if (!group) throw new ValidateError('The group dont exists')
+
+        return group._id
+    }
+
+    static async joinGroup({ groupId, userId }) {
+        const user = await usersModel.findById({ _id: userId })
+        if (!user) throw new ValidateError('user dont exists')
+
+        const group = await groupsModel.findById({ _id: groupId })
+        if (!group) throw new ValidateError('group dont exists')
+
+        if (group.members.includes(userId)) throw new Error('user must not exists in the group')
+
+        user.groups.push(group)
+        group.members.push(user)
+
+        await user.save()
+        await group.save()
+
+        return group._id
+    }
+
+    static async leaveGroup({ groupId, userId }) {
+        const user = await usersModel.findById({ _id: userId })
+        if (!user) throw new ValidateError('user dont exists')
+
+        const group = await groupsModel.findById({ _id: groupId })
+        if (!group) throw new ValidateError('group dont exists')
+
+        if (!group.members.includes(userId)) throw new Error('user must stay in the group')
+
+        user.groups = user.groups.filter(id => id.toString() !== groupId)
+
+        await user.save()
+
+        group.members = group.members.filter(id => id.toString() !== userId)
+
+        await group.save()
 
         return group._id
     }

@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createGroup, deleteGroup, editGroup, searchGroupByName } from "../controllers/groupController.js";
+import { createGroup, deleteGroup, editGroup, joinGroup, leaveGroup, searchGroupByName } from "../controllers/groupController.js";
 
 const groupRouter = Router()
 
@@ -8,5 +8,7 @@ groupRouter
            .get('/search/:name', searchGroupByName)
            .delete('/delete/:_id', deleteGroup)
            .put('/edit/:_id', editGroup)
+           .post('/join/:_id', joinGroup)
+           .put('/leave/:_id', leaveGroup)
 
 export { groupRouter }

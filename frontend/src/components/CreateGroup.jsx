@@ -20,6 +20,8 @@ const CreateGroup = ({ fetchUserData }) => {
      if (!imageGroupFile) return
     
      const url = URL.createObjectURL(imageGroupFile)
+
+     console.log(url)
     
      setImageGroup(url)
      setFileImageGroup(imageGroupFile)
@@ -77,14 +79,18 @@ const CreateGroup = ({ fetchUserData }) => {
   return (
     <>
     <span className="text-xl dark:text-white">Create new Group</span>
-    <MdGroups size={30} className="cursor-pointer dark:text-white" onClick={() => modalRef.current.showModal()}/>
+    <button onClick={() => modalRef.current.showModal()}>
+      <MdGroups size={30} className="dark:text-white"/>
+    </button>
 
     <dialog ref={modalRef} className="backdrop:bg-[rgba(0,0,0,.60)] p-3 rounded-md">
-        <FaArrowLeftLong onClick={() => modalRef.current.close()} className="cursor-pointer"/>
+        <button onClick={() => modalRef.current.close()}>
+          <FaArrowLeftLong />
+        </button>
 
-        <label htmlFor="picture" className="pointer-events-none">
-          <img src={imageGroup} alt="" className="cursor-pointer m-auto w-16 h-16 rounded-full pointer-events-auto transition hover:opacity-50"/>
-          <input type="file" id="picture" name="picture" hidden onChange={handleImageGroup} accept=".jpg, .png, .webp"/>
+        <label className="pointer-events-none">
+          <img src={imageGroup} alt="picture-group" className="cursor-pointer m-auto w-16 h-16 rounded-full pointer-events-auto transition hover:opacity-50"/>
+          <input type="file" hidden onChange={handleImageGroup} accept=".jpg, .png, .webp"/>
         </label>
 
         <label ref={labelNameRef} htmlFor="group-name" className="block mt-3 text-sm text-red-500"></label>

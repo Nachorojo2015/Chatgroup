@@ -5,7 +5,7 @@ import { ClipLoader } from "react-spinners"
 import PropTypes from "prop-types"
 import Group from "./Group"
 
-const SearchGroupsModal = forwardRef(({ username }, ref) => {
+const SearchGroupsModal = forwardRef(({ username, fetchUserData }, ref) => {
 
   const [loader, setLoader] = useState(false)
   const [groupsSearch, setGroupsSearch] = useState([])
@@ -64,7 +64,7 @@ const SearchGroupsModal = forwardRef(({ username }, ref) => {
             <ClipLoader />
              :
             groupsSearch.map((groupSearch, index) => (
-              <Group key={index} groupSearch={groupSearch} username={username}/>
+              <Group key={index} groupSearch={groupSearch} username={username} fetchUserData={fetchUserData} searchGroups={searchGroups}/>
             ))
           }
         </section>
@@ -75,7 +75,8 @@ const SearchGroupsModal = forwardRef(({ username }, ref) => {
 SearchGroupsModal.displayName = 'SearchGroupsModal'
 
 SearchGroupsModal.propTypes = {
-  username: PropTypes.string
+  username: PropTypes.string,
+  fetchUserData: PropTypes.func
 }
 
 export default SearchGroupsModal

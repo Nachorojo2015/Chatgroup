@@ -4,13 +4,18 @@ import JoinedGroups from "./JoinedGroups"
 import SearchGroupsButton from "./SearchGroupsButton"
 
 
-const ChatGroups = ({ groups, username, fetchUserData }) => { 
-  const myGroups = groups.filter(group => group.creator.username === username) // Grupos creados por el usuario
-  const joinedGroups = groups.filter(group => group.creator.username !== username) // Grupos en los que el usuario esta unido
+const ChatGroups = ({ groups, username, fetchUserData, valueSearch }) => { 
+  let myGroups = groups.filter(group => group.creator.username === username) // Grupos creados por el usuario
+  let joinedGroups = groups.filter(group => group.creator.username !== username) // Grupos en los que el usuario esta unido
+
+  if (valueSearch) {
+    myGroups = groups.filter(group => group.creator.username === username && group.name.toLowerCase().includes(valueSearch))
+    joinedGroups = groups.filter(group => group.creator.username !== username && group.name.toLowerCase().includes(valueSearch))
+  }
 
   return (
     <div className="w-full overflow-y-auto h-full absolute">
-      <span className="ml-5 mt-2 block font-semibold">{myGroups.length === 0 ? '' : 'My groups'}</span>
+      <span className="ml-5 mt-2 block font-semibold dark:text-white">{myGroups.length === 0 ? '' : 'My groups'}</span>
 
       {
         myGroups.map((group, index) => (
@@ -18,15 +23,15 @@ const ChatGroups = ({ groups, username, fetchUserData }) => {
         ))
       }
 
-      <span className="ml-5 mt-2 block font-semibold">{joinedGroups.length === 0 ? '' : 'Joined'}</span>
+      <span className="ml-5 mt-2 block font-semibold dark:text-white">{joinedGroups.length === 0 ? '' : 'Joined'}</span>
 
       {
         joinedGroups.map((group, index) => (
-          <JoinedGroups key={index} group={group}/>
+          <JoinedGroups key={index} group={group} fetchUserData={fetchUserData} />
         ))
       }
 
-      <SearchGroupsButton username={username}/>
+      <SearchGroupsButton username={username} fetchUserData={fetchUserData} />
     </div>
   )
 }
@@ -36,7 +41,8 @@ ChatGroups.displayName = 'ChatGroups'
 ChatGroups.propTypes = {
     groups: PropTypes.array,
     username: PropTypes.string,
-    fetchUserData: PropTypes.func
+    fetchUserData: PropTypes.func,
+    valueSearch: PropTypes.string
 }
 
 export default ChatGroups
