@@ -115,7 +115,7 @@ export class UserRepository {
                 avatar: 1,
                 groups: 1,
                 privateUsers: 1,
-                _id: 0
+                _id: 1
             }
         )
         .populate({

@@ -2,6 +2,7 @@ import { toast } from "react-toastify";
 import { create } from "zustand";
 
 export const useUserStore = create((set, get) => ({
+    userId: '',
     fullname: '',
     username: '',
     avatar: '',
@@ -26,9 +27,10 @@ export const useUserStore = create((set, get) => ({
 
         const { user } = data
 
-        const { fullname, username, avatar, groups, privateUsers } = user
+        const { fullname, username, avatar, groups, privateUsers, _id } = user
 
         set({
+          userId: _id,
           fullname,
           username, 
           avatar,

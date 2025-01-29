@@ -10,7 +10,7 @@ const DeleteGroupButton = ({ picture, name, _id, fetchUserData }) => {
   return (
     <>
     <button aria-label="Delete Group">
-        <FaTrash size={20} onClick={() => modalDeleteRef.current.showModal()} className="cursor-pointer"/>
+        <FaTrash size={20} onClick={() => modalDeleteRef.current.showModal()} className="dark:text-white"/>
     </button>
     <DeleteGroupModal ref={modalDeleteRef} picture={picture} name={name} _id={_id} fetchUserData={fetchUserData} />
     </>

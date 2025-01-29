@@ -16,7 +16,7 @@ const CopyLinkGroupButton = ({ _id }) => {
 
   return (
     <button aria-label="Copy group Link">
-        <FaPaperclip size={20} onClick={copyLinkGroup}/>
+        <FaPaperclip size={20} onClick={copyLinkGroup} className="dark:text-white"/>
     </button>
   )
 }

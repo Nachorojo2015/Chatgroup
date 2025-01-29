@@ -9,28 +9,44 @@ import http from "http"
 import { Server } from 'socket.io'
 import { userRouter } from './routes/userRoute.js'
 import { groupRouter } from './routes/groupRoute.js'
-
+import { MessagesRepository } from './database/messageRepository.js'
+import { messageRouter } from './routes/messageRoute.js'
 
 const app = express()
+app.use(cors({ origin: [FRONTEND_DOMAIN], credentials: true }))
 app.use(express.json())
 app.use(cookieParser())
-app.use(cors({ origin: [FRONTEND_DOMAIN], credentials: true }))
 app.use(verifyToken)
 
 app.use('/auth', authRouter)
 app.use('/user', userRouter)
 app.use('/group', groupRouter)
+app.use('/messages', messageRouter)
 
 const server = http.createServer(app)
 
-export const io = new Server(server, {
+const io = new Server(server, {
   cors: {
     origin: FRONTEND_DOMAIN,
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true
   }
 })
 
-app.listen(PORT, () => {
+io.on('connection', socket => {
+  console.log('Client connected')
+
+  // Recive message
+  socket.on('message', async ({ message }) => {
+    const newMessage = await MessagesRepository.createMessage({ message })
+    io.emit('new-message', { newMessage })
+  })
+
+  io.on('disconnected', () => {
+    console.log('Client disconnected')
+  })
+})
+
+server.listen(PORT, () => {
   console.log('App running on port', PORT)
 })
+

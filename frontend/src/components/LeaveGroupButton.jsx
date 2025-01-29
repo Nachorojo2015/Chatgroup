@@ -9,7 +9,7 @@ const LeaveGroupButton = ({ picture, name, _id, fetchUserData }) => {
 
   return (
     <>
-    <button className="ml-auto" onClick={() => modalLeaveGroup.current.showModal()}>
+    <button className="ml-auto dark:text-white" onClick={() => modalLeaveGroup.current.showModal()}>
         <BiLogOut size={25}/>
     </button>
     <LeaveGroupModal ref={modalLeaveGroup} picture={picture} name={name} _id={_id} fetchUserData={fetchUserData} />

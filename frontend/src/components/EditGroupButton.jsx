@@ -10,7 +10,7 @@ const EditGroupButton = ({ name, description, username, picture, _id, members, v
   return (
     <>
     <button aria-label="Edit group">
-          <FaPenClip size={20} onClick={() => modalEditRef.current.showModal()} className="cursor-pointer"/>
+          <FaPenClip size={20} onClick={() => modalEditRef.current.showModal()} className="dark:text-white"/>
     </button>
     <EditGroupModal ref={modalEditRef} name={name} description={description} username={username} picture={picture} _id={_id} members={members} visibility={visibility} fetchUserData={fetchUserData}/>
     </>
