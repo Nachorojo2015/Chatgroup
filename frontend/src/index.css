@@ -6,11 +6,6 @@ body {
   font-family: "Montserrat", serif;
 }
 
-html {
-  scrollbar-color: #888 #f0f0f0; 
-  scrollbar-width: thin; 
-}
-
 dialog[open] {
   scale: 1;
   transition: scale .3s ease-in-out;

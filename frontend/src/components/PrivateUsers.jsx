@@ -4,7 +4,7 @@ import SearchUsersButton from "./SearchUsersButton";
 const PrivateUsers = ({ privateUsers }) => {
 
   return (
-    <div className="w-full overflow-y-auto h-full absolute">
+    <div className="w-full overflow-y-auto h-full absolute [scrollbar-width:thin]">
       {
         privateUsers.map((privateUser, index) => (
                 <article className="flex items-center w-full gap-3 transition cursor-pointer hover:bg-slate-200 dark:hover:bg-opacity-20 p-3" key={index}>

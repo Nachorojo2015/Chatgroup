@@ -75,14 +75,14 @@ const Chat = () => {
         <span className="dark:text-white">{name}</span>
       </header>
       <div className="relative flex flex-1">
-        <ul className="overflow-y-auto h-full absolute w-full pb-3">
+        <ul className="overflow-y-auto h-full absolute w-full pb-3 [scrollbar-width:thin]">
           {
             !messages
             ?
             <ClipLoader/>
             :
             <>
-            <article className="flex items-center justify-center mb-8 gap-2 bg-blue-400 text-white p-1 bg-opacity-60">
+            <article className="flex items-center justify-center mb-8 gap-2 bg-blue-400 text-white p-1 bg-opacity-60 border-b">
               <TbLock/>
               <p className="text-sm">The messages send to this Chat are cifred end-to-end. Nobody outside this chat, not even Chatgroup can read or listen them.</p>
             </article>

@@ -14,7 +14,7 @@ const ChatGroups = ({ groups, username, fetchUserData, valueSearch }) => {
   }
 
   return (
-    <div className="w-full overflow-y-auto h-full absolute">
+    <div className="w-full overflow-y-auto h-full absolute [scrollbar-width:thin]">
       <span className="ml-5 mt-2 block font-semibold dark:text-white">{myGroups.length === 0 ? '' : 'My groups'}</span>
 
       {

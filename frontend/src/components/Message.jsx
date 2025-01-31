@@ -4,32 +4,18 @@ const Text = ({ userId, _id, content, username, avatar }) => {
   // If is my user id
   if (userId === _id)
   return (
-    <div className="flex gap-2.5 ml-auto mt-3">
-      <img className="w-8 h-8 rounded-full" src={avatar} alt="Jese image"/>
-      <div className="flex flex-col gap-1 w-full max-w-[320px]">
-        <div className="flex items-center space-x-2 rtl:space-x-reverse">
-          <span className="text-sm font-semibold text-gray-900 dark:text-white">{username}</span>
-          {/* <span className="text-sm font-normal text-gray-500 dark:text-gray-400">11:46</span> */}
-        </div>
-        <div className="flex flex-col leading-1.5 p-4 border-gray-200 bg-gray-100 rounded-e-xl rounded-es-xl dark:bg-gray-700">
-          <p className="text-sm font-normal text-gray-900 dark:text-white">{content}</p>
-        </div>
-      </div>
-    </div>
+    <li className="flex justify-end gap-2.5 mt-3 mr-3">
+      <span className="bg-slate-200 p-2 rounded-md inline-block dark:bg-gray-600 dark:text-white">{content}</span>
+    </li>
   )
 
   // If is not my user id
     return (
-    <div className="flex items-start gap-2.5 mt-3">
+    <div className="flex items-start gap-2.5 mt-3 ml-2">
       <img className="w-8 h-8 rounded-full" src={avatar} alt="Jese image"/>
-      <div className="flex flex-col gap-1 w-full max-w-[320px]">
-        <div className="flex items-center space-x-2 rtl:space-x-reverse">
-          <span className="text-sm font-semibold text-gray-900 dark:text-white">{username}</span>
-          {/* <span className="text-sm font-normal text-gray-500 dark:text-gray-400">11:46</span> */}
-        </div>
-        <div className="flex flex-col leading-1.5 p-4 border-gray-200 bg-gray-100 rounded-e-xl rounded-es-xl dark:bg-gray-700">
-          <p className="text-sm font-normal text-gray-900 dark:text-white">{content}</p>
-        </div>
+      <div className="flex flex-col gap-1">
+        <span className="dark:text-white">{username}</span>
+        <span className="bg-slate-200 p-2 rounded-md inline-block dark:bg-gray-600 dark:text-white">{content}</span>
       </div>
     </div>
   )
