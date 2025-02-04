@@ -6,9 +6,9 @@ import CloseSession from "./CloseSession";
 import { useUserStore } from "../store/userStore";
 import ChatGroups from "./ChatGroups";
 import PrivateUsers from "./PrivateUsers";
-import CreateGroup from "./CreateGroup";
 import { CiSearch } from "react-icons/ci";
 import { useChatStore } from "../store/chatStore";
+import CreateGroupButton from "./CreateGroupButton";
 
 
 const Menu = () => {
@@ -52,7 +52,7 @@ const Menu = () => {
       </section>
       
       <section className="mt-auto flex items-center justify-center gap-5 w-full border-t border-black p-4 dark:border-white">
-        <CreateGroup fetchUserData={fetchUserData}/>
+        <CreateGroupButton fetchUserData={fetchUserData}/>
       </section>
     </aside>
   )

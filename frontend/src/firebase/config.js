@@ -35,3 +35,11 @@ export async function uploadImageGroup(file) {
   const url = getDownloadURL(storageRef)
   return url
 }
+
+export async function uploadMediaFile(file) {
+  const uuid = v4()
+  const storageRef = ref(storage, `media/${uuid}`)
+  await uploadBytes(storageRef, file)
+  const url = getDownloadURL(storageRef)
+  return url
+}

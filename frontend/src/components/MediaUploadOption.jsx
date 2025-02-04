@@ -1,12 +1,29 @@
 import PropTypes from "prop-types"
 import { useChatStore } from "../store/chatStore"
+import { uploadMediaFile } from "../firebase/config"
+import { toast } from "react-toastify"
 
-const MediaUploadOption = ({ icon: Icon, typeFiles, extensions }) => {
+const MediaUploadOption = ({ icon: Icon, typeFiles, extensions, socket, id, userId }) => {
 
   const setIsOpenMenu = useChatStore(state => state.setIsOpenMenu)
 
-  async function handleFile() {
-    
+  async function handleFile(e) {
+    const file = e.target.files[0]
+
+    if (!file) return
+
+    const formatFile = file.type.split('/').shift()
+
+    const urlFile = await uploadMediaFile(file)
+
+    if (!urlFile) return toast.error('Error to upload file')
+
+    socket.emit('message', { message: {
+      format: formatFile,
+      content: urlFile,
+      chatId: id,
+      user: userId
+    }})
   }
 
   return (
@@ -21,7 +38,10 @@ const MediaUploadOption = ({ icon: Icon, typeFiles, extensions }) => {
 MediaUploadOption.propTypes = {
     icon: PropTypes.func,
     typeFiles: PropTypes.string,
-    extensions: PropTypes.string
+    extensions: PropTypes.string,
+    socket: PropTypes.object,
+    id: PropTypes.string,
+    userId: PropTypes.string
 }
 
 export default MediaUploadOption

@@ -99,10 +99,10 @@ const Chat = () => {
       <footer className="flex items-center gap-3 p-4 mt-auto border-t border-black dark:border-white relative">
         <div className={`transition-all ${isOpenMenu ? 'scale-100 bottom-16' : 'scale-0 bottom-0 pointer-events-none'} absolute left-[1px] bg-white shadow-xl dark:bg-black dark:text-white px-2`}>
           <ul>
-            <MediaUploadOption icon={AiFillPicture} typeFiles={'Pictures'} extensions={'.jpg, .png, .webp'}/>
-            <MediaUploadOption icon={TbPlayerPlayFilled } typeFiles={'Videos'} extensions={'.mp3'}/>
-            <MediaUploadOption icon={LuFiles} typeFiles={'Files'} extensions={'.pdf, .docx'}/>
-            <MediaUploadOption icon={FaMicrophone} typeFiles={'Audio'} extensions={'.mp3'}/>
+            <MediaUploadOption icon={AiFillPicture} typeFiles={'Pictures'} extensions={'.jpg, .png, .webp'} socket={socket} id={id} userId={userId}/>
+            <MediaUploadOption icon={TbPlayerPlayFilled } typeFiles={'Videos'} extensions={'.mp4'} socket={socket} id={id} userId={userId}/>
+            <MediaUploadOption icon={LuFiles} typeFiles={'Files'} extensions={'.pdf, .docx'} socket={socket} id={id} userId={userId}/>
+            <MediaUploadOption icon={FaMicrophone} typeFiles={'Audio'} extensions={'.mp3'} socket={socket} id={id} userId={userId}/>
           </ul>
         </div>
         <button onClick={() => setIsOpenMenu(!isOpenMenu)}>
@@ -110,7 +110,6 @@ const Chat = () => {
         </button>
         <textarea placeholder="Write a message..." className="w-full dark:bg-black dark:text-white indent-1 resize-none h-auto outline-none max-h-48" ref={textareaMessageRef} rows={1} onInput={handleInput} onChange={(e) => {
           setMessage(e.target.value)
-          console.log(message)
         }} onKeyDown={(e) => {
           if (e.key === 'Enter' && !e.shiftKey) {
             e.preventDefault()

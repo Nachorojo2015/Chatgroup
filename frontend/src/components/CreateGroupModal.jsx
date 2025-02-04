@@ -1,31 +1,30 @@
-import { useRef, useState } from "react"
-import { MdGroups } from "react-icons/md"
-import { toast } from "react-toastify"
-import { uploadImageGroup } from "../firebase/config"
-import { FaArrowLeftLong } from "react-icons/fa6"
-import PropTypes from "prop-types"
+import { forwardRef, useRef, useState } from 'react'
+import { FaArrowLeftLong } from 'react-icons/fa6'
+import { toast } from 'react-toastify'
+import { uploadImageGroup } from '../firebase/config'
+import PropTypes from 'prop-types'
 
-const CreateGroup = ({ fetchUserData }) => {
+const CreateGroupModal = forwardRef(({ fetchUserData }, ref) => {
 
-  const [imageGroup, setImageGroup] = useState('/camera.png')
-  const [fileImageGroup, setFileImageGroup] = useState(null)
-
-  const groupNameRef = useRef()
-  const labelNameRef = useRef()
-  const modalRef = useRef()
-
-  function handleImageGroup(e) {
-     const imageGroupFile = e.target.files[0]
+    const [imageGroup, setImageGroup] = useState('/camera.png')
+    const [fileImageGroup, setFileImageGroup] = useState(null)
     
-     if (!imageGroupFile) return
+    const groupNameRef = useRef()
+    const labelNameRef = useRef()
+      
     
-     const url = URL.createObjectURL(imageGroupFile)
-
-     console.log(url)
+      function handleImageGroup(e) {
+         const imageGroupFile = e.target.files[0]
+        
+         if (!imageGroupFile) return
+        
+         const url = URL.createObjectURL(imageGroupFile)
     
-     setImageGroup(url)
-     setFileImageGroup(imageGroupFile)
-   }
+         console.log(url)
+        
+         setImageGroup(url)
+         setFileImageGroup(imageGroupFile)
+       }
 
     async function createGroup() {
         const groupName = groupNameRef.current.value
@@ -35,7 +34,7 @@ const CreateGroup = ({ fetchUserData }) => {
         if (imageGroup === '/camera.png') return labelNameRef.current.innerText = 'Insert a pick'
     
         labelNameRef.current.innerText = ''
-        modalRef.current.close()
+        ref.current.close()
         const toastId = toast.loading('Creating group...')
     
         try {
@@ -74,17 +73,10 @@ const CreateGroup = ({ fetchUserData }) => {
         } catch (error) {
           console.log(error.message)
         }
-      }
-
+    }
   return (
-    <>
-    <button onClick={() => modalRef.current.showModal()} className="text-xl flex items-center gap-5 dark:text-white">
-      Create new Group
-      <MdGroups size={30}/>
-    </button>
-
-    <dialog ref={modalRef} className="p-3 rounded-md dark:bg-gray-700 dark:text-white">
-        <button onClick={() => modalRef.current.close()}>
+    <dialog ref={ref} className="p-3 rounded-md dark:bg-gray-700 dark:text-white">
+        <button onClick={() => ref.current.close()}>
           <FaArrowLeftLong />
         </button>
 
@@ -98,14 +90,13 @@ const CreateGroup = ({ fetchUserData }) => {
 
         <button onClick={createGroup} type="button" className="text-white block mt-5 bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center m-auto dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Create</button>
     </dialog>
-    </>
   )
+})
+
+CreateGroupModal.displayName = 'CreateGroupModal'
+
+CreateGroupModal.propTypes = {
+    fetchUserData: PropTypes.func
 }
 
-CreateGroup.displayName = 'CreateGroup'
-
-CreateGroup.propTypes = {
-  fetchUserData: PropTypes.func
-}
-
-export default CreateGroup
+export default CreateGroupModal

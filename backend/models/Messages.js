@@ -3,7 +3,7 @@ import mongoose, { model, Schema } from "mongoose";
 const messagesSchema = new Schema({
     format: {
         type: String,
-        enum: ['text', 'image', 'video', 'file', 'audio']
+        enum: ['text', 'image', 'video', 'application', 'audio']
     },
     date: {
         type: Date,
