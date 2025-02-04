@@ -8,11 +8,13 @@ import ChatGroups from "./ChatGroups";
 import PrivateUsers from "./PrivateUsers";
 import CreateGroup from "./CreateGroup";
 import { CiSearch } from "react-icons/ci";
+import { useChatStore } from "../store/chatStore";
 
 
 const Menu = () => {
 
   const { fullname, username, avatar, groups, privateUsers, fetchUserData, updateAvatar } = useUserStore()
+  const isChatMobileOpen = useChatStore(state => state.isChatMobileOpen)
 
   const [activeTab, setActiveTab] = useState('Groups')
   const [valueSearch, setValueSearch] = useState('')
@@ -25,7 +27,7 @@ const Menu = () => {
   }
 
   return (
-    <aside className="flex flex-col items-center">
+    <aside className={`flex flex-col items-center ${isChatMobileOpen ? 'hidden xl:flex' : 'xl:flex'}`}>
       <section className="flex flex-col items-center w-full">
         <div className="flex justify-between w-[90%] mt-2">
           <DarkMode />

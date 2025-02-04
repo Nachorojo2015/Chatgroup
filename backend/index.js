@@ -33,7 +33,7 @@ const io = new Server(server, {
 })
 
 io.on('connection', socket => {
-  console.log('Client connected')
+  // console.log('Client connected')
 
   // Recive message
   socket.on('message', async ({ message }) => {

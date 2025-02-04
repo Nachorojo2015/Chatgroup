@@ -1,11 +1,13 @@
 import PropTypes from "prop-types"
 
 const Text = ({ userId, _id, content, username, avatar }) => {
+
+  console.log(content)
   // If is my user id
   if (userId === _id)
   return (
-    <li className="flex justify-end gap-2.5 mt-3 mr-3">
-      <span className="bg-slate-200 p-2 rounded-md inline-block dark:bg-gray-600 dark:text-white">{content}</span>
+    <li className="flex justify-end mt-3 mr-3 items-center">
+      <span className="bg-slate-200 p-2 rounded-md dark:bg-gray-600 dark:text-white text-wrap whitespace-pre-line break-words max-w-96">{content}</span>
     </li>
   )
 

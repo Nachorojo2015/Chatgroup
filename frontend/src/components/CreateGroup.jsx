@@ -78,12 +78,12 @@ const CreateGroup = ({ fetchUserData }) => {
 
   return (
     <>
-    <span className="text-xl dark:text-white">Create new Group</span>
-    <button onClick={() => modalRef.current.showModal()}>
-      <MdGroups size={30} className="dark:text-white"/>
+    <button onClick={() => modalRef.current.showModal()} className="text-xl flex items-center gap-5 dark:text-white">
+      Create new Group
+      <MdGroups size={30}/>
     </button>
 
-    <dialog ref={modalRef} className="backdrop:bg-[rgba(0,0,0,.60)] p-3 rounded-md">
+    <dialog ref={modalRef} className="p-3 rounded-md dark:bg-gray-700 dark:text-white">
         <button onClick={() => modalRef.current.close()}>
           <FaArrowLeftLong />
         </button>
@@ -94,7 +94,7 @@ const CreateGroup = ({ fetchUserData }) => {
         </label>
 
         <label ref={labelNameRef} htmlFor="group-name" className="block mt-3 text-sm text-red-500"></label>
-        <input name="group-name" placeholder="Enter group name" className="border-b border-black outline-none" ref={groupNameRef}/>
+        <input name="group-name" placeholder="Enter group name" className="border-b border-black dark:border-white indent-1 outline-none bg-gray-700" ref={groupNameRef}/>
 
         <button onClick={createGroup} type="button" className="text-white block mt-5 bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center m-auto dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Create</button>
     </dialog>

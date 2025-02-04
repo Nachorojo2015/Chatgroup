@@ -13,8 +13,8 @@ import { TbPlayerPlayFilled } from "react-icons/tb";
 import { io } from 'socket.io-client'
 import { useRef } from "react";
 import { useUserStore } from "../store/userStore";
-import { ClipLoader } from "react-spinners";
 import Message from "./Message";
+import { FaArrowLeft } from "react-icons/fa6";
 
 const socket = io('http://localhost:3000', {
   withCredentials: true
@@ -22,13 +22,13 @@ const socket = io('http://localhost:3000', {
 
 const Chat = () => {
 
-  const [open, setOpen] = useState(false)
+  const { isOpenMenu, setIsOpenMenu } = useChatStore()
   const [message, setMessage] = useState('')
   const userId = useUserStore(state => state.userId)
   
-  const inputMessageRef = useRef()
+  const textareaMessageRef = useRef()
 
-  const { image, name, messages, id, addMessage } = useChatStore()
+  const { image, name, messages, id, addMessage, isChatMobileOpen, setIsChatMobileOpen } = useChatStore()
 
   useEffect(() => {
     socket.on('new-message', ({ newMessage }) => {
@@ -53,9 +53,8 @@ const Chat = () => {
     </div>
   )
 
-  function sendMessage(e) {
-    e.preventDefault()
-    if (!message) return
+  function sendMessage() {
+    if (!message.trim()) return
 
     socket.emit('message', { message: {
       format: 'text',
@@ -64,39 +63,41 @@ const Chat = () => {
       user: userId
     }})
     
-    inputMessageRef.current.value = ''
+    textareaMessageRef.current.value = ''
+    textareaMessageRef.current.style.height = "auto";
     setMessage('')
   }
 
+  function handleInput() {
+    const textarea = textareaMessageRef.current
+    textarea.style.height = "auto"; // Resetea la altura
+    textarea.style.height = textarea.scrollHeight + "px"; // Ajusta la altura
+  }
+
   return (
-    <section className="xl:border-l border-black dark:border-white flex flex-col">
+    <section className={`xl:border-l border-black dark:border-white flex flex-col ${!isChatMobileOpen ? 'hidden xl:flex' : ''}`}>
       <header className="p-3 flex items-center gap-3 border-b border-black dark:border-white">
+        <button onClick={() => setIsChatMobileOpen(false)} className="xl:hidden">
+           <FaArrowLeft className="dark:text-white"/>
+        </button>
         <img src={image} alt="picture-chat" className="w-16 h-16 rounded-full"/>
         <span className="dark:text-white">{name}</span>
       </header>
-      <div className="relative flex flex-1">
-        <ul className="overflow-y-auto h-full absolute w-full pb-3 [scrollbar-width:thin]">
-          {
-            !messages
-            ?
-            <ClipLoader/>
-            :
-            <>
-            <article className="flex items-center justify-center mb-8 gap-2 bg-blue-400 text-white p-1 bg-opacity-60 border-b">
-              <TbLock/>
-              <p className="text-sm">The messages send to this Chat are cifred end-to-end. Nobody outside this chat, not even Chatgroup can read or listen them.</p>
+      <div className="relative flex flex-1 w-full">
+        <ul className="overflow-y-auto overflow-x-hidden absolute h-full w-full pb-3 [scrollbar-width:thin]">
+            <article className="flex items-center justify-center gap-3 mb-8 bg-blue-400 text-white p-1 bg-opacity-60 border-b">
+              <TbLock className="hidden xl:block"/>
+              <p className="text-[12px] text-center xl:text-left">The messages send to this Chat are cifred end-to-end. Nobody outside this chat, not even Chatgroup can read or listen them.</p>
             </article>
             {
               messages.map(message => (
                 <Message key={message._id} message={message} userId={userId}/>
               ))
             }
-            </>
-          }
         </ul>
       </div>
       <footer className="flex items-center gap-3 p-4 mt-auto border-t border-black dark:border-white relative">
-        <div className={`transition-all ${open ? 'scale-100 opacity-100' : 'scale-0 opacity-0 pointer-events-none'} absolute top-[-141px] left-0 bg-slate-200 px-2`}>
+        <div className={`transition-all ${isOpenMenu ? 'scale-100 bottom-16' : 'scale-0 bottom-0 pointer-events-none'} absolute left-[1px] bg-white shadow-xl dark:bg-black dark:text-white px-2`}>
           <ul>
             <MediaUploadOption icon={AiFillPicture} typeFiles={'Pictures'} extensions={'.jpg, .png, .webp'}/>
             <MediaUploadOption icon={TbPlayerPlayFilled } typeFiles={'Videos'} extensions={'.mp3'}/>
@@ -104,20 +105,29 @@ const Chat = () => {
             <MediaUploadOption icon={FaMicrophone} typeFiles={'Audio'} extensions={'.mp3'}/>
           </ul>
         </div>
-        <button onClick={() => setOpen(!open)}>
+        <button onClick={() => setIsOpenMenu(!isOpenMenu)}>
          <IoAddCircle size={30} className="dark:text-white"/>
         </button>
-        <form className="flex w-full gap-3 items-center" onSubmit={sendMessage}>
-         <input placeholder="Write a message..." className="w-full indent-2 dark:bg-black dark:text-white" ref={inputMessageRef} onChange={(e) => setMessage(e.target.value)}/>
+        <textarea placeholder="Write a message..." className="w-full dark:bg-black dark:text-white indent-1 resize-none h-auto outline-none max-h-48" ref={textareaMessageRef} rows={1} onInput={handleInput} onChange={(e) => {
+          setMessage(e.target.value)
+          console.log(message)
+        }} onKeyDown={(e) => {
+          if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault()
+            sendMessage()
+          } else if (e.key === 'Enter' && e.shiftKey) {
+            // e.preventDefault()
+            setMessage((prev) => prev + "\n")
+          }
+         }}/>
           {
           message ? 
-          <button type="submit">
+          <button onClick={sendMessage}>
             <IoSend size={20} className="dark:text-white"/>
           </button>
           :
           <Microphone />
           }
-        </form>
       </footer>
     </section>
   )

@@ -6,12 +6,28 @@ export const useChatStore = create((set) => ({
     id: '',
     messages: [],
 
+    isOpenMenu: false, // Media Upload Option menu
+
+    isChatMobileOpen: false,
+
     setData: (image, name, id, messages) => {
         set({
             image,
             name,
             id,
             messages
+        })
+    },
+
+    setIsOpenMenu: (open) => {
+        set({
+            isOpenMenu: open
+        })
+    },
+
+    setIsChatMobileOpen: (open) => {
+        set({
+            isChatMobileOpen: open
         })
     },
 

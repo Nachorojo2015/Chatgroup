@@ -11,15 +11,15 @@ import { toast } from "react-toastify";
 const MyGroups = ({ group, fetchUserData, username }) => {
 
   const { picture, name, visibility, members, description, _id } = group
-  const setData = useChatStore(state => state.setData)
+  const { setData, setIsChatMobileOpen } = useChatStore()
 
-  async function fetchDataChat() {
+  async function openChat() {
       try {
         const response = await fetch(`http://localhost:3000/messages/${_id}`)
   
         if (!response.ok) {
           const errorMessage = await response.text()
-          return toast.error(errorMessage)
+          return toast.error(`${errorMessage}, try again`)
         }
   
         const data = await response.json()
@@ -30,6 +30,8 @@ const MyGroups = ({ group, fetchUserData, username }) => {
           _id,
           data.messages
         )
+
+        setIsChatMobileOpen(true)
       } catch (error) {
         console.log(error)
       }
@@ -38,7 +40,6 @@ const MyGroups = ({ group, fetchUserData, username }) => {
   return (
     <article
       className="flex items-center w-full gap-3 transition hover:bg-slate-200 dark:hover:bg-opacity-20 p-3"
-      onClick={fetchDataChat}
     >
       <img
         src={picture}
@@ -47,7 +48,7 @@ const MyGroups = ({ group, fetchUserData, username }) => {
       />
 
       <div className="flex flex-col gap-1">
-        <span className="dark:text-white font-bold">{name}</span>
+        <span className="dark:text-white font-bold hover:underline cursor-pointer" onClick={openChat}>{name}</span>
         <div>
           <span className="border-r-2 border-black dark:border-white pr-2 dark:text-white">
             {visibility}
