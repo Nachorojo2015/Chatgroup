@@ -1,5 +1,4 @@
 import PropTypes from "prop-types"
-import { FaPaperclip } from "react-icons/fa"
 import { toast } from "react-toastify"
 
 const CopyLinkGroupButton = ({ _id }) => {
@@ -15,8 +14,8 @@ const CopyLinkGroupButton = ({ _id }) => {
 }  
 
   return (
-    <button aria-label="Copy group Link">
-        <FaPaperclip size={20} onClick={copyLinkGroup} className="dark:text-white"/>
+    <button aria-label="Copy group Link" className="text-sm transition hover:opacity-70" onClick={copyLinkGroup}>
+        Copy Link
     </button>
   )
 }

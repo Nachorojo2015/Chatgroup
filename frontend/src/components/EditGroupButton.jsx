@@ -1,5 +1,4 @@
 import { useRef } from "react"
-import { FaPenClip } from "react-icons/fa6"
 import EditGroupModal from "./EditGroupModal"
 import PropTypes from "prop-types"
 
@@ -9,8 +8,8 @@ const EditGroupButton = ({ name, description, username, picture, _id, members, v
 
   return (
     <>
-    <button aria-label="Edit group">
-          <FaPenClip size={20} onClick={() => modalEditRef.current.showModal()} className="dark:text-white"/>
+    <button aria-label="Edit group" onClick={() => modalEditRef.current.showModal()} className="text-sm transition hover:opacity-70">
+        Edit Group
     </button>
     <EditGroupModal ref={modalEditRef} name={name} description={description} username={username} picture={picture} _id={_id} members={members} visibility={visibility} fetchUserData={fetchUserData}/>
     </>

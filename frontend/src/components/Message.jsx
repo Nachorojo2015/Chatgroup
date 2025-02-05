@@ -26,7 +26,7 @@ const Text = ({ userId, _id, content, username, avatar }) => {
 const Image = ({ userId, _id, content, username, avatar }) => {
   // If is my user id
   if (userId === _id) {
-    return <img src={content} alt="user-image" className="ml-auto max-w-96 mr-3 mt-3"/>
+    return <img src={content} alt="user-image" className="ml-auto xl:max-w-96 max-w-60 mr-3 mt-3"/>
   }
 
   return (
@@ -34,7 +34,7 @@ const Image = ({ userId, _id, content, username, avatar }) => {
       <img className="w-8 h-8 rounded-full" src={avatar} alt="user-avatar"/>
       <div className="flex flex-col gap-1">
         <span className="dark:text-white">{username}</span>
-        <img src={content} alt="user-image" className="max-w-96"/>
+        <img src={content} alt="user-image" className="xl:max-w-96 max-w-60"/>
       </div>
     </div>
   )
@@ -43,7 +43,7 @@ const Image = ({ userId, _id, content, username, avatar }) => {
 const Video = ({ userId, _id, content, username, avatar }) => {
   // If is my user id
   if (userId === _id) {
-    return <video src={content} controls className="ml-auto max-w-96 mr-3 mt-3"></video>
+    return <video src={content} controls className="ml-auto xl:max-w-96 max-w-60 mr-3 mt-3"></video>
   }
 
   return (
@@ -51,7 +51,7 @@ const Video = ({ userId, _id, content, username, avatar }) => {
       <img className="w-8 h-8 rounded-full" src={avatar} alt="user-avatar"/>
       <div className="flex flex-col gap-1">
         <span className="dark:text-white">{username}</span>
-        <video src={content} controls className="max-w-96"></video>
+        <video src={content} controls className="xl:max-w-96 max-w-60"></video>
       </div>
     </div>
   )
@@ -61,7 +61,7 @@ const Application = ({ userId, _id, content, username, avatar }) => {
   // If is my user id
   if (userId === _id) {
     return (
-      <div className="flex w-[10%] ml-auto items-center justify-end gap-3 mr-3 mt-3 p-2 rounded-md bg-slate-200 dark:bg-gray-600 dark:text-white">
+      <div className="flex xl:w-[10%] w-[30%] ml-auto items-center justify-end gap-3 mr-3 mt-3 p-2 rounded-md bg-slate-200 dark:bg-gray-600 dark:text-white">
         <FaFileAlt />
         File
         <a href={content}>
@@ -91,7 +91,7 @@ const Application = ({ userId, _id, content, username, avatar }) => {
 const Audio = ({ userId, _id, content, username, avatar }) => {
   // If is my user id
   if (userId === _id) {
-    return <audio src={content} controls className="ml-auto mt-3 mr-3"></audio>
+    return <audio src={content} controls className="ml-auto mt-3 mr-3 w-[75%] xl:w-[30%]"></audio>
   }
 
   return (
@@ -99,7 +99,7 @@ const Audio = ({ userId, _id, content, username, avatar }) => {
       <img className="w-8 h-8 rounded-full" src={avatar} alt="user-avatar"/>
       <div className="flex flex-col gap-1">
         <span className="dark:text-white">{username}</span>
-        <audio src={content} controls></audio>
+        <audio src={content} controls className="w-[75%] xl:w-[30%]"></audio>
       </div>
     </div>
   )

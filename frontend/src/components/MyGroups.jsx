@@ -7,11 +7,14 @@ import EditGroupButton from "./EditGroupButton";
 import DeleteGroupButton from "./DeleteGroupButton";
 import { useChatStore } from "../store/chatStore";
 import { toast } from "react-toastify";
+import { SlOptionsVertical } from "react-icons/sl";
+import { useState } from "react";
 
 const MyGroups = ({ group, fetchUserData, username }) => {
 
   const { picture, name, visibility, members, description, _id } = group
   const { setData, setIsChatMobileOpen } = useChatStore()
+  const [openMenu, setOpenMenu] = useState(false)
 
   async function openChat() {
       try {
@@ -65,10 +68,15 @@ const MyGroups = ({ group, fetchUserData, username }) => {
         </div>
       </div>
 
-      <div className="flex items-center ml-auto gap-5">
-        <CopyLinkGroupButton _id={_id}/>
-        <EditGroupButton _id={_id} name={name} description={description} username={username} picture={picture} members={members} visibility={visibility} fetchUserData={fetchUserData}/>
-        <DeleteGroupButton picture={picture} name={name} _id={_id} fetchUserData={fetchUserData}/>
+      <div className="flex items-center ml-auto gap-5 relative">
+        <button onClick={() => setOpenMenu(!openMenu)}>
+          <SlOptionsVertical className="dark:text-white"/>
+        </button>
+        <div className={`transition-all ${!openMenu ? 'invisible opacity-0' : 'opacity-100'} flex flex-col gap-2 p-1 rounded-md absolute right-9 shadow-xl dark:bg-black dark:text-white min-w-28`}>
+          <CopyLinkGroupButton _id={_id}/>
+          <EditGroupButton _id={_id} name={name} description={description} username={username} picture={picture} members={members} visibility={visibility} fetchUserData={fetchUserData}/>
+          <DeleteGroupButton picture={picture} name={name} _id={_id} fetchUserData={fetchUserData}/>
+        </div>
       </div>
     </article>
   );
