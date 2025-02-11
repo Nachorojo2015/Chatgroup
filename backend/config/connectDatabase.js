@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { DATABASE } from "../config/variables.js";
+import { DATABASE } from "./variables.js";
 import { config } from "dotenv";
 
 config()

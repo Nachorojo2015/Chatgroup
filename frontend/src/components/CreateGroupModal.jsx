@@ -1,7 +1,6 @@
 import { forwardRef, useRef, useState } from 'react'
 import { FaArrowLeftLong } from 'react-icons/fa6'
 import { toast } from 'react-toastify'
-import { uploadImageGroup } from '../firebase/config'
 import PropTypes from 'prop-types'
 
 const CreateGroupModal = forwardRef(({ fetchUserData }, ref) => {
@@ -13,18 +12,16 @@ const CreateGroupModal = forwardRef(({ fetchUserData }, ref) => {
     const labelNameRef = useRef()
       
     
-      function handleImageGroup(e) {
-         const imageGroupFile = e.target.files[0]
+    function handleImageGroup(e) {
+      const imageGroupFile = e.target.files[0]
         
-         if (!imageGroupFile) return
+      if (!imageGroupFile) return
         
-         const url = URL.createObjectURL(imageGroupFile)
-    
-         console.log(url)
+      const url = URL.createObjectURL(imageGroupFile)
         
-         setImageGroup(url)
-         setFileImageGroup(imageGroupFile)
-       }
+      setImageGroup(url)
+      setFileImageGroup(imageGroupFile)
+    }
 
     async function createGroup() {
         const groupName = groupNameRef.current.value
@@ -36,42 +33,40 @@ const CreateGroupModal = forwardRef(({ fetchUserData }, ref) => {
         labelNameRef.current.innerText = ''
         ref.current.close()
         const toastId = toast.loading('Creating group...')
-    
+
+        const formData = new FormData()
+        formData.append('image', fileImageGroup)
+
         try {
-          const urlImageGroup = await uploadImageGroup(fileImageGroup)
-    
-          const response = await fetch('http://localhost:3000/group/create', {
+          const response = await fetch(`http://localhost:3000/group/create/${groupName}`, {
             method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ name: groupName, picture: urlImageGroup }),
+            body: formData,
             credentials: 'include'
           })
-    
+
           if (!response.ok) {
             const errorMessage = await response.text()
             return toast.update(toastId, {
-                render: errorMessage,
-                type: 'error',
-                isLoading: false,
-                autoClose: 2000
+              render: errorMessage,
+              type: 'error',
+              isLoading: false,
+              autoClose: 2000
             })
           }
-    
+
           toast.update(toastId, {
             render: 'Group created successfully!',
             type: 'success',
             isLoading: false,
             autoClose: 2000
           })
+
           setImageGroup('/camera.png')
           setFileImageGroup(null)
           groupNameRef.current.value = ''
-    
           fetchUserData()
         } catch (error) {
-          console.log(error.message)
+          console.log(error)
         }
     }
   return (

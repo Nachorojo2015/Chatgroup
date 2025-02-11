@@ -1,18 +1,20 @@
 import { UserRepository } from "../database/userRepository.js"
 
 export const updateAvatar = async (req, res) => {
-    const { user } = req.session
+    const file = req.file
+    if (!file) return res.status(400).send('Not file include')
 
+    const { user } = req.session
     if (!user) return res.status(401).send('User not authorized')
 
-    const { url } = req.body
     const { _id } = user
 
     try {
-        const avatar = await UserRepository.updateAvatar({ _id, url })
-        res.send({ avatar })
+      const idUser = await UserRepository.updateAvatar({ _id, file })
+      res.send({ idUser })
     } catch (error) {
-        res.status(400).send(error.message)
+      console.log(error)
+      res.status(500).send('Error uploading avatar')
     }
 }
 

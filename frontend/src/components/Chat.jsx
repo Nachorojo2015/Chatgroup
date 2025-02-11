@@ -15,6 +15,7 @@ import { useRef } from "react";
 import { useUserStore } from "../store/userStore";
 import Message from "./Message";
 import { FaArrowLeft } from "react-icons/fa6";
+import MessageInput from "./MessageInput";
 
 const socket = io('http://localhost:3000', {
   withCredentials: true
@@ -26,11 +27,18 @@ const Chat = () => {
   const [message, setMessage] = useState('')
   const userId = useUserStore(state => state.userId)
   
-  const textareaMessageRef = useRef()
-
-  const { image, name, messages, id, addMessage, isChatMobileOpen, setIsChatMobileOpen } = useChatStore()
+  const { image, name, messages, id, addMessage, isChatMobileOpen, setIsChatMobileOpen, activeMicro, setActiveMicro } = useChatStore()
 
   useEffect(() => {
+    document.addEventListener('click', () => {
+      const menuChatOptions = document.getElementById('menu-chat-options')
+      const menuChatOptionsButton = document.getElementById('menu-chat-options-button')
+
+      if (menuChatOptions && menuChatOptionsButton && !menuChatOptions.contains(event.target) && !menuChatOptionsButton.contains(event.target)) {
+        setIsOpenMenu(false)
+      }
+    })
+
     socket.on('new-message', ({ newMessage }) => {
       addMessage(newMessage)
     })
@@ -38,9 +46,10 @@ const Chat = () => {
     return () => {
       socket.off('new-message'); // Elimina el evento al desmontar
     }
-  }, [addMessage])
-  
+  }, [addMessage, setIsOpenMenu])
 
+  const textareaMessageRef = useRef()
+  
   if (!image || !name || !id) 
   return ( 
     <div className="hidden xl:grid place-content-center place-items-center border-black dark:border-white xl:border-l">
@@ -53,6 +62,7 @@ const Chat = () => {
     </div>
   )
 
+
   function sendMessage() {
     if (!message.trim()) return
 
@@ -64,15 +74,8 @@ const Chat = () => {
     }})
     
     textareaMessageRef.current.value = ''
-    textareaMessageRef.current.style.height = "auto";
     setMessage('')
-  }
-
-  function handleInput() {
-    const textarea = textareaMessageRef.current
-    textarea.style.height = "auto"; // Resetea la altura
-    textarea.style.height = textarea.scrollHeight + "px"; // Ajusta la altura
-  }
+}
 
   return (
     <section className={`xl:border-l border-black dark:border-white flex flex-col ${!isChatMobileOpen ? 'hidden xl:flex' : ''}`}>
@@ -90,14 +93,14 @@ const Chat = () => {
               <p className="text-[12px] text-center xl:text-left">The messages send to this Chat are cifred end-to-end. Nobody outside this chat, not even Chatgroup can read or listen them.</p>
             </article>
             {
-              messages.map(message => (
-                <Message key={message._id} message={message} userId={userId}/>
+              messages.map((message, index) => (
+                <Message key={message._id} message={messages[index]} userId={userId} nextMessage={messages[index+1]}/>
               ))
             }
         </ul>
       </div>
       <footer className="flex items-center gap-3 p-4 mt-auto border-t border-black dark:border-white relative">
-        <div className={`transition-all ${isOpenMenu ? 'scale-100 bottom-16' : 'scale-0 bottom-0 pointer-events-none'} absolute left-[1px] bg-white shadow-xl dark:bg-black dark:text-white px-2`}>
+        <div id="menu-chat-options" className={`transition-all ${isOpenMenu ? 'scale-100 bottom-16' : 'scale-0 bottom-0 pointer-events-none'} absolute left-[1px] bg-white shadow-xl dark:bg-black dark:text-white px-2`}>
           <ul>
             <MediaUploadOption icon={AiFillPicture} typeFiles={'Pictures'} extensions={'.jpg, .png, .webp'} socket={socket} id={id} userId={userId}/>
             <MediaUploadOption icon={TbPlayerPlayFilled } typeFiles={'Videos'} extensions={'.mp4'} socket={socket} id={id} userId={userId}/>
@@ -105,27 +108,17 @@ const Chat = () => {
             <MediaUploadOption icon={FaMicrophone} typeFiles={'Audio'} extensions={'.mp3'} socket={socket} id={id} userId={userId}/>
           </ul>
         </div>
-        <button onClick={() => setIsOpenMenu(!isOpenMenu)}>
+        <button id="menu-chat-options-button" onClick={() => setIsOpenMenu(!isOpenMenu)} className={`${activeMicro ? 'hidden' : ''}`}>
          <IoAddCircle size={30} className="dark:text-white"/>
-        </button>
-        <textarea placeholder="Write a message..." className="w-full dark:bg-black dark:text-white indent-1 resize-none h-auto outline-none max-h-48" ref={textareaMessageRef} rows={1} onInput={handleInput} onChange={(e) => {
-          setMessage(e.target.value)
-        }} onKeyDown={(e) => {
-          if (e.key === 'Enter' && !e.shiftKey) {
-            e.preventDefault()
-            sendMessage()
-          } else if (e.key === 'Enter' && e.shiftKey) {
-            // e.preventDefault()
-            setMessage((prev) => prev + "\n")
-          }
-         }}/>
+        </button> 
+        <MessageInput socket={socket} userId={userId} id={id} ref={textareaMessageRef}/>
           {
-          message ? 
+          message && !activeMicro ? 
           <button onClick={sendMessage}>
             <IoSend size={20} className="dark:text-white"/>
           </button>
           :
-          <Microphone />
+          <Microphone activeMicro={activeMicro} setActiveMicro={setActiveMicro} socket={socket} id={id} userId={userId}/>
           }
       </footer>
     </section>

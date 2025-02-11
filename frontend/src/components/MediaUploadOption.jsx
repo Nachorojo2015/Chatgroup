@@ -1,6 +1,5 @@
 import PropTypes from "prop-types"
 import { useChatStore } from "../store/chatStore"
-import { uploadMediaFile } from "../firebase/config"
 import { toast } from "react-toastify"
 
 const MediaUploadOption = ({ icon: Icon, typeFiles, extensions, socket, id, userId }) => {
@@ -12,18 +11,44 @@ const MediaUploadOption = ({ icon: Icon, typeFiles, extensions, socket, id, user
 
     if (!file) return
 
-    const formatFile = file.type.split('/').shift()
+    const formData = new FormData()
+    formData.append('file', file)
 
-    const urlFile = await uploadMediaFile(file)
+    const toastId = toast.loading('Sending file...')
 
-    if (!urlFile) return toast.error('Error to upload file')
+    try {
+      const response = await fetch('http://localhost:3000/messages/upload', {
+        method: 'POST',
+        body: formData,
+        credentials: 'include'
+      })
 
-    socket.emit('message', { message: {
-      format: formatFile,
-      content: urlFile,
-      chatId: id,
-      user: userId
-    }})
+      if (!response.ok) {
+        const errorMessage = await response.text()
+        toast.error(errorMessage)
+      }
+
+      const data = await response.json()
+
+      const formatFile = file.type.split('/').shift()
+      const fileUrl = data.fileUrl
+
+      socket.emit('message', { message: {
+        format: formatFile,
+        content: fileUrl,
+        chatId: id,
+        user: userId
+      }})
+
+      toast.update(toastId, {
+        render: 'File update',
+        type: 'success',
+        isLoading: false,
+        autoClose: 2000
+      })
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   return (

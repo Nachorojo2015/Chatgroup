@@ -4,6 +4,8 @@ import bcrypt from 'bcrypt'
 import { SALT_ROUNDS } from "../config/variables.js";
 import { MissingFieldError } from "../errors/MissingFieldError.js";
 import { InvalidLength } from "../errors/InvalidLength.js";
+import { getFileUrl, uploadFile } from "../config/firebaseConfig.js";
+import fs from "fs"
 
 export class UserRepository {
     static async register({ email, fullname, username, password }) {
@@ -94,14 +96,24 @@ export class UserRepository {
         return _id
     }
 
-    static async updateAvatar({ _id, url }) {
+    static async updateAvatar({ _id, file }) {
         const user = await usersModel.findById(_id)
         if (!user) throw new ValidateError('user must exists')
 
-        user.avatar = url
-        const { avatar } = await user.save()
+        if (!file) throw new Error('File not include')
 
-        return avatar
+        const destination = `avatars/${user.username}.jpeg`
+
+        await uploadFile(file.path, destination)
+
+        const fileUrl = await getFileUrl(destination)
+
+        user.avatar = fileUrl
+        await user.save()
+
+        fs.unlinkSync(file.path)
+
+        return user
     }
 
     static async getUser({ _id }) {

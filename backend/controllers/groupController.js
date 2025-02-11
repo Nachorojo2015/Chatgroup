@@ -1,16 +1,18 @@
 import { GroupRepository } from "../database/groupRepository.js"
 
 export const createGroup = async (req, res) => {
-    const { user } = req.session
+    const file = req.file
+    if (!file) return res.status(400).send('File not include')
 
+    const { user } = req.session
     if (!user) return res.status(401).send('User not authorized')
 
-    const { name, picture } = req.body
     const { _id } = user
+    const { name } = req.params
 
     try {
-        const idGroup = await GroupRepository.createGroup({ name, picture, _id })
-        res.send({ idGroup })
+      const idGroup = await GroupRepository.createGroup({ name, file, _id })
+      res.send({ idGroup })
     } catch (error) {
         res.status(400).send(error.message)
     }
@@ -60,7 +62,7 @@ export const joinGroup = async (req, res) => {
       const idGroup = await GroupRepository.joinGroup({ groupId: _id, userId: user._id })
       res.send({ idGroup })
     } catch (error) {
-        res.status(400).send(error.message)
+      res.status(400).send(error.message)
     }
 }
 

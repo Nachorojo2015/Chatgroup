@@ -1,13 +1,24 @@
+import { getFileUrl, uploadFile } from "../config/firebaseConfig.js";
 import { MissingFieldError } from "../errors/MissingFieldError.js";
 import { ValidateError } from "../errors/ValidateError.js";
 import { groupsModel } from "../models/Groups.js";
 import { usersModel } from "../models/Users.js";
+import fs from "fs"
+import crypto from "crypto"
 
 export class GroupRepository {
-    static async createGroup({ name, picture, _id }) {
+    static async createGroup({ name, file, _id }) {
+        const randomUUID = crypto.randomUUID()
+        const fileType = file.mimetype.split('/').pop()
+        const destination = `groups/${randomUUID}.${fileType}`
+
+        await uploadFile(file.path, destination)
+
+        const fileUrl = await getFileUrl(destination)
+
         const group = await groupsModel.create({
             name,
-            picture,
+            picture: fileUrl,
             creator: _id,
             members: [_id],
             administrators: [_id]
@@ -18,6 +29,8 @@ export class GroupRepository {
 
         user.groups.push(group._id)
         await user.save()
+
+        fs.unlinkSync(file.path)
 
         return group._id
     }

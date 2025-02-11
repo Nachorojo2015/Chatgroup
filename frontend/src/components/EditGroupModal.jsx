@@ -1,6 +1,5 @@
 import { forwardRef, useRef, useState } from "react"
 import { FaArrowLeftLong } from "react-icons/fa6"
-import { uploadImageGroup } from "../firebase/config"
 import { toast } from "react-toastify"
 import PropTypes from "prop-types"
 import { MdGroups, MdOutlineGroup } from 'react-icons/md'
@@ -33,7 +32,7 @@ const EditGroupModal = forwardRef(({ name, description, username, picture, _id, 
        let urlPicture = picture;
    
        if (picture !== pictureGroup) {
-         urlPicture = await uploadImageGroup(pictureGroupFile)
+        //  urlPicture = await uploadImageGroup(pictureGroupFile)
        }
    
        try {
@@ -68,11 +67,9 @@ const EditGroupModal = forwardRef(({ name, description, username, picture, _id, 
           <input type="file" hidden id="picture" name="picture" accept=".jpg, .png, .webp" onChange={handlePicture}/>
         </label>
         
-        <input placeholder="Name of the group" defaultValue={name} ref={nameGroupEditRef} className="m-auto block mt-3 border-b border-black outline-none"/>
+        <input placeholder="Group name" defaultValue={name} ref={nameGroupEditRef} className="m-auto block mt-3 border p-3 rounded-md border-black outline-none"/>
         
-        <hr className="mt-5 border-gray-500"/>
-        
-        <input placeholder="Description (Optional)" defaultValue={description} ref={descriptionGroupEditRef} className="mt-5 w-full outline-none bg-gray-400 text-white placeholder:text-white p-2"/>
+        <textarea placeholder="Description" defaultValue={description} ref={descriptionGroupEditRef} maxLength={255} className="[field-sizing:content] resize-none mt-5 rounded-md p-3 border border-black w-full outline-none max-h-48"/>
                 
         <hr className="mt-5 border-gray-500"/>
         
@@ -108,7 +105,7 @@ const EditGroupModal = forwardRef(({ name, description, username, picture, _id, 
         
         <hr className="mt-3 border-gray-500"/>
         
-        <button onClick={editGroup} type="button" className="text-white block m-auto mt-5 w-full bg-purple-700 hover:bg-purple-800 focus:outline-none focus:ring-4 focus:ring-purple-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900">Edit</button>
+        <button onClick={editGroup} type="button" className="text-white block m-auto mt-5 w-full bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-purple-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-900">Edit</button>
     </dialog>
   )
 })

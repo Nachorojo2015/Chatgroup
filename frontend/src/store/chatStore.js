@@ -6,9 +6,19 @@ export const useChatStore = create((set) => ({
     id: '',
     messages: [],
 
+    message: '',
+
     isOpenMenu: false, // Media Upload Option menu
 
     isChatMobileOpen: false,
+
+    activeMicro: false,
+
+    setMessage: (message) => {
+        set({
+            message
+        })
+    },
 
     setData: (image, name, id, messages) => {
         set({
@@ -35,5 +45,11 @@ export const useChatStore = create((set) => ({
         set((state) => ({
             messages: [...state.messages, message]
         }));
+    },
+
+    setActiveMicro: (active) => {
+        set({
+            activeMicro: active
+        })
     }
 }))

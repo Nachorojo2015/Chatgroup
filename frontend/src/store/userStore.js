@@ -1,7 +1,7 @@
 import { toast } from "react-toastify";
 import { create } from "zustand";
 
-export const useUserStore = create((set, get) => ({
+export const useUserStore = create((set) => ({
     userId: '',
     fullname: '',
     username: '',
@@ -44,30 +44,5 @@ export const useUserStore = create((set, get) => ({
           window.location.href = '/login'
         }, 2500)
       }
-    },
-
-    updateAvatar: async ({ url }) => {
-      const { fetchUserData } = get()
-
-       try {
-        const response = await fetch('http://localhost:3000/user/avatar', {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ url }),
-          credentials: 'include'
-        })
-
-        if (!response.ok) {
-          const errorMessage = await response.text()
-          toast.error(`Error to update avatar, ${errorMessage}`)
-        }
-
-        fetchUserData()
-
-       } catch (error) {
-        console.log(error.message)
-       }
     }
 }))

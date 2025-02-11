@@ -1,6 +1,6 @@
 import express from 'express'
 import { FRONTEND_DOMAIN, PORT } from './config/variables.js'
-import './database/connect.js'
+import './config/connectDatabase.js'
 import { authRouter } from './routes/authRoute.js'
 import cookieParser from 'cookie-parser'
 import { verifyToken } from './middlewares/verifyToken.js'

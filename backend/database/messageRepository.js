@@ -1,4 +1,7 @@
 import { messagesModel } from "../models/Messages.js";
+import crypto from "crypto"
+import fs from "fs"
+import { getFileUrl, uploadFile } from "../config/firebaseConfig.js";
 
 export class MessagesRepository {
     static async createMessage({ message }) {
@@ -26,5 +29,19 @@ export class MessagesRepository {
         })
 
         return messages
+    }
+
+    static async uploadFile({ file }) {
+        const randomUUID = crypto.randomUUID()
+        const fileType = file.mimetype.split('/').pop()
+        const destination = `media/${randomUUID}.${fileType}`
+
+        await uploadFile(file.path, destination)
+
+        const fileUrl = await getFileUrl(destination)
+
+        fs.unlinkSync(file.path)
+
+        return fileUrl
     }
 }
