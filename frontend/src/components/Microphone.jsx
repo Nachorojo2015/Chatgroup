@@ -21,9 +21,7 @@ const Microphone = ({ setActiveMicro, socket, id, userId }) => {
       mediaStreamRef.current = stream; // Almacenamos el MediaStream
       mediaRecorderRef.current = new MediaRecorder(stream);
       mediaRecorderRef.current.ondataavailable = (event) => {
-        if (event.data.size > 0) {
-          audioChunksRef.current.push(event.data);
-        }
+        audioChunksRef.current.push(event.data);
       };
       mediaRecorderRef.current.onstop = () => {
         const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/wav' });
@@ -49,11 +47,11 @@ const Microphone = ({ setActiveMicro, socket, id, userId }) => {
   };
 
   const deleteAudio = () => {
+    setActiveMicro(false)
     setAudioURL(''); // Elimina la URL del audio
     if (mediaStreamRef.current) {
       mediaStreamRef.current.getTracks().forEach(track => track.stop()); // Detiene las pistas de audio
     }
-    setActiveMicro(false)
   };
 
   const sendAudio = async () => {
@@ -101,15 +99,15 @@ const Microphone = ({ setActiveMicro, socket, id, userId }) => {
           isLoading: false,
           autoClose: 2000
         })
-
-        // Limpiar el estado y detener el micrófono
-        if (mediaStreamRef.current) {
-         mediaStreamRef.current.getTracks().forEach(track => track.stop());
-        }
-        audioChunksRef.current = []; // Limpiar los chunks de audio
       } catch (error) {
         console.log(error)
       }
+
+      // Limpiar el estado y detener el micrófono
+      if (mediaStreamRef.current) {
+        mediaStreamRef.current.getTracks().forEach(track => track.stop());
+       }
+       audioChunksRef.current = []; // Limpiar los chunks de audio
     }
   }
 
@@ -120,13 +118,13 @@ const Microphone = ({ setActiveMicro, socket, id, userId }) => {
       ) : (
         <div className="flex items-center gap-3">
          <span className="w-3 h-3 rounded-full bg-red-500 animate-blink"></span>
-         <button onClick={stopRecording}><FaStop /></button>
+         <button onClick={stopRecording}><FaStop size={30}/></button>
         </div>
       )}
       {audioURL && (
         <div className="flex gap-3">
           <button onClick={deleteAudio}><FaRegTrashAlt /></button>
-          <audio controls src={audioURL} className="bg-transparent"/>
+          <audio controls src={audioURL} className="h-[30px]"/>
           <button onClick={sendAudio}><IoSend /></button>
         </div>
       )}

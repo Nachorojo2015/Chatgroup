@@ -34,13 +34,13 @@ const Group = ({ groupSearch, username, fetchUserData }) => {
   }
 
   return (
-    <article className="flex items-center gap-5 p-2 transition hover:bg-slate-200 w-full">
+    <article className="flex items-center gap-5 p-2 transition hover:opacity-65 w-full">
         <img src={groupSearch.picture} alt="picture-group" className="w-16 h-16 rounded-full"/>
-          <div>
-            <p className="font-semibold">{groupSearch.name}</p>
-            <p>
+          <div className="dark:text-white">
+            <p className="font-semibold ">{groupSearch.name}</p>
+            <p className="flex items-center gap-3 mt-2">
              <span>{groupSearch.members?.length}</span>
-             <FaUser className="inline ml-1 mb-[2px]" />
+             <FaUser />
             </p>
           </div>
             {
@@ -49,7 +49,7 @@ const Group = ({ groupSearch, username, fetchUserData }) => {
                 :
                 <div className="flex items-center gap-3 ml-auto">
                   <button>
-                    <FaInfoCircle size={30}/>
+                    <FaInfoCircle size={30} className="dark:text-white"/>
                   </button>
                   {
                     isMember ? 
@@ -59,7 +59,7 @@ const Group = ({ groupSearch, username, fetchUserData }) => {
                     <ClipLoader />
                     :
                     <button onClick={joinGroup} ref={addButtonRef}>
-                      <IoMdAddCircle size={35} />
+                      <IoMdAddCircle size={35} className="dark:text-white"/>
                     </button>
                   }
                 </div>

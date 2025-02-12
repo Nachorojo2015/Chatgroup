@@ -47,14 +47,16 @@ const SearchGroupsModal = forwardRef(({ username, fetchUserData }, ref) => {
       setLoader(false)
     } 
   return (
-    <dialog ref={ref} className="backdrop:bg-[rgba(0,0,0,.60)] p-3 rounded-md shadow-md xl:min-w-[450px]">
-        <FaArrowLeftLong className="cursor-pointer" size={22} onClick={() => ref.current.close()}/>
+    <dialog ref={ref} className="backdrop:bg-[rgba(0,0,0,.60)] dark:bg-gray-700 p-3 rounded-md shadow-md xl:min-w-[450px]">
+        <button onClick={() => ref.current.close()}>
+          <FaArrowLeftLong className="dark:text-white" size={22}/>
+        </button>
         <form className="flex flex-col items-start mt-5" onSubmit={searchGroups}>
           <label htmlFor="groups" ref={labelInputSearchRef} className="text-sm text-red-500"></label>
           <div className="flex items-center gap-3 w-full mt-1">
-            <input ref={inputSearchRef} name="groups" placeholder="Enter a Group Name" className="p-1 rounded w-full indent-1 border-2 border-black"/>
+            <input ref={inputSearchRef} name="groups" placeholder="Enter a Group Name" className="dark:bg-gray-700 dark:text-white p-1 rounded w-full indent-1 border-2 border-black"/>
             <button type="submit">
-              <CiSearch size={30}/>
+              <CiSearch size={30} className="dark:text-white"/>
             </button>
           </div>
         </form>

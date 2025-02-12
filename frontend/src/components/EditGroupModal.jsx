@@ -34,7 +34,7 @@ const EditGroupModal = forwardRef(({ name, description, username, picture, _id, 
 
        const formData = new FormData()
 
-       if (pictureGroup !== picture) {
+       if (pictureGroup && pictureGroupFile && pictureGroup !== picture) {
         formData.append('image', pictureGroupFile)
        }
 

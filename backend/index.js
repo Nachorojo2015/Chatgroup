@@ -12,6 +12,10 @@ import { groupRouter } from './routes/groupRoute.js'
 import { messageRouter } from './routes/messageRoute.js'
 import { privateRouter } from './routes/privateRoute.js'
 import { MessagesRepository } from './database/messageRepository.js'
+import crypto from "crypto"
+
+const key = crypto.randomBytes(32).toString('hex'); // 32 bytes = 64 caracteres en hexadecimal
+console.log(key);
 
 const app = express()
 app.use(cors({ origin: [FRONTEND_DOMAIN], credentials: true }))

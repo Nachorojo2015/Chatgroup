@@ -21,7 +21,7 @@ export async function getFileUrl(filePath) {
     // Genera una URL firmada válida por 15 minutos (puedes ajustar el tiempo)
     const [url] = await file.getSignedUrl({
         action: 'read',
-        expires: Date.now() + 15 * 60 * 1000, // 15 minutos
+        expires: Date.now() + 10 * 365 * 24 * 60 * 60 * 1000, // 15 minutos
     });
 
     return url;

@@ -2,22 +2,28 @@ import { messagesModel } from "../models/Messages.js";
 import crypto from "crypto"
 import fs from "fs"
 import { getFileUrl, uploadFile } from "../config/firebaseConfig.js";
+import { decrypt, encrypt } from "../utils/encrypt.js";
 
 export class MessagesRepository {
     static async createMessage({ message }) {
         const { format, content, chatId, user } = message
+        const encryptedContent = encrypt(content)
 
         const newMessage = await messagesModel.create({
             format,
-            content,
+            content: encryptedContent,
             chatId,
             user
         })
 
-        return newMessage.populate({
+        const populatedMessage = await newMessage.populate({
             path: 'user',
-            select: 'avatar username'
-        })
+            select: 'avatar username', // Selecciona los campos que quieres devolver del usuario
+        });
+
+        populatedMessage.content = decrypt(populatedMessage.content)
+
+        return populatedMessage
     }
 
     static async getMessages({ id }) {
@@ -28,7 +34,14 @@ export class MessagesRepository {
             select: 'avatar username'
         })
 
-        return messages
+        const decryptedMessages = messages.map((message) => {
+            return {
+              ...message.toObject(),
+              content: decrypt(message.content),
+            }
+        })
+
+        return decryptedMessages
     }
 
     static async uploadFile({ file }) {

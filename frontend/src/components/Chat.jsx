@@ -104,7 +104,7 @@ function closeChatMobile() {
         <ul className="overflow-y-auto overflow-x-hidden absolute h-full w-full pb-3 [scrollbar-width:thin]" id="chatContainer">
             <article className="flex items-center justify-center gap-3 mb-8 bg-blue-400 text-white p-1 bg-opacity-60 border-b">
               <TbLock className="hidden xl:block"/>
-              <p className="text-[12px] text-center xl:text-left">The messages send to this Chat are cifred end-to-end. Nobody outside this chat, not even Chatgroup can read or listen them.</p>
+              <p className="text-[12px] text-center xl:text-left">The messages send to this Chat are cifred end-to-end</p>
             </article>
             {
               messages.map((message, index) => (

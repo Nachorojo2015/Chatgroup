@@ -2,8 +2,9 @@ import PropTypes from "prop-types"
 import { useChatStore } from "../store/chatStore"
 import { toast } from "react-toastify"
 import { useUserStore } from "../store/userStore"
+import { forwardRef } from "react"
 
-const User = ({ userSearch, fetchUserData }) => {
+const User = forwardRef(({ userSearch, fetchUserData }, ref) => {
   const { setData, setIsChatMobileOpen } = useChatStore()
 
   const { privateUsers } = useUserStore()
@@ -12,7 +13,7 @@ const User = ({ userSearch, fetchUserData }) => {
     for (let i = 0; i < privateUsers.length; i++) {
       const privateChat = privateUsers[i]
       const users = privateChat.users.map(user => user._id)
-      if (users.includes(userSearch._id)) return
+      if (users.includes(userSearch._id)) return ref.current.close()
     }
 
     const toastId = toast.loading('Creating private chat...')
@@ -61,15 +62,15 @@ const User = ({ userSearch, fetchUserData }) => {
   }
 
   return (
-    <article className="flex items-center gap-5 p-2 transition hover:bg-slate-200 w-full cursor-pointer" onClick={createPrivateChat}>
+    <article className="flex items-center gap-5 p-2 transition hover:opacity-65 w-full cursor-pointer" onClick={createPrivateChat}>
         <img src={userSearch.avatar} alt="user-avatar" className="w-16 h-16 rounded-full"/>
-        <div>
+        <div className="dark:text-white">
           <p className="font-semibold">{userSearch.fullname}</p>
           <p>{userSearch.username}</p>
         </div>
     </article>
   )
-}
+})
 
 User.displayName = 'User'
 
