@@ -1,20 +1,18 @@
 import PropTypes from "prop-types"
-import { useRef, useState } from "react"
+import { forwardRef } from "react"
 import { FaInfoCircle, FaUser } from "react-icons/fa"
 import { IoMdAddCircle } from "react-icons/io"
-import { ClipLoader } from "react-spinners"
 import LeaveGroupButton from "./LeaveGroupButton"
+import { toast } from "react-toastify"
 
-const Group = ({ groupSearch, username, fetchUserData }) => {
-
-  const [loader, setLoader] = useState(false)
-
-  const addButtonRef = useRef()
+const Group = forwardRef(({ groupSearch, username, fetchUserData }, ref) => {
 
   const isMember = groupSearch.members.map(group => group.username).includes(username)
 
   async function joinGroup() {
-    setLoader(true)
+    ref.current.close()
+    const toastId = toast.loading('Join to group...')
+    
     try {
       const response = await fetch(`http://localhost:3000/group/join/${groupSearch._id}`, {
         method: 'POST',
@@ -24,13 +22,27 @@ const Group = ({ groupSearch, username, fetchUserData }) => {
         credentials: 'include'
       })
 
-      if (!response.ok && addButtonRef.current) return addButtonRef.current.classList.add('text-red-500')
+      if (!response.ok) {
+        const errorMessage = await response.text()
+        return toast.update(toastId, {
+          render: errorMessage,
+          type: 'error',
+          isLoading: false,
+          autoClose: 2000
+        })
+      }
+
+      toast.update(toastId, {
+        render: 'Joined!',
+        type: 'success',
+        isLoading: false,
+        autoClose: 2000
+      })
 
       fetchUserData()
     } catch (error) {
       console.log(error.message)
     }
-    setLoader(false)
   }
 
   return (
@@ -55,10 +67,7 @@ const Group = ({ groupSearch, username, fetchUserData }) => {
                     isMember ? 
                     <LeaveGroupButton picture={groupSearch.picture} name={groupSearch.name} _id={groupSearch._id} fetchUserData={fetchUserData} />
                     :
-                    loader ? 
-                    <ClipLoader />
-                    :
-                    <button onClick={joinGroup} ref={addButtonRef}>
+                    <button onClick={joinGroup}>
                       <IoMdAddCircle size={35} className="dark:text-white"/>
                     </button>
                   }
@@ -66,7 +75,7 @@ const Group = ({ groupSearch, username, fetchUserData }) => {
             }
     </article>
   )
-}
+})
 
 Group.displayName = 'Group'
 

@@ -32,6 +32,7 @@ const CreateGroupModal = forwardRef(({ fetchUserData }, ref) => {
     
         labelNameRef.current.innerText = ''
         ref.current.close()
+        
         const toastId = toast.loading('Creating group...')
 
         const formData = new FormData()

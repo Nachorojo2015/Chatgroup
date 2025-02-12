@@ -66,7 +66,7 @@ const SearchGroupsModal = forwardRef(({ username, fetchUserData }, ref) => {
             <ClipLoader />
              :
             groupsSearch.map((groupSearch, index) => (
-              <Group key={index} groupSearch={groupSearch} username={username} fetchUserData={fetchUserData} searchGroups={searchGroups}/>
+              <Group key={index} groupSearch={groupSearch} username={username} fetchUserData={fetchUserData} searchGroups={searchGroups} ref={ref}/>
             ))
           }
         </section>

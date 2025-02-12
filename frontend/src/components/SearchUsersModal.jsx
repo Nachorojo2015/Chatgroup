@@ -51,8 +51,8 @@ const SearchUsersModal = forwardRef(({ fetchUserData }, ref) => {
 
   return (
     <dialog ref={ref} className="backdrop:bg-[rgba(0,0,0,.60)] dark:bg-gray-700 p-3 rounded-md shadow-md xl:min-w-[450px]">
-        <button>
-         <FaArrowLeftLong className="dark:text-white" onClick={() => ref.current.close()} size={22}/>
+        <button onClick={() => ref.current.close()}>
+         <FaArrowLeftLong className="dark:text-white" size={22}/>
         </button>
           <form className="flex flex-col items-start mt-5" onSubmit={searchUsers}>
               <label ref={labelInputSearchRef} htmlFor="user" className="text-sm text-red-500"></label>

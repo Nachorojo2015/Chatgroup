@@ -83,3 +83,17 @@ export const leaveGroup = async (req, res) => {
       res.status(400).send(error.message)
     }
 }
+
+export const removeUser = async (req, res) => {
+  const { user } = req.session
+  if (!user) return res.status(401).send('User not authorized')
+
+  const { _id, idUser } = req.params
+
+  try {
+    const username = await GroupRepository.removeUser({ _id, idUser })
+    res.send({ username })
+  } catch (error) {
+    res.status(400).send(error.message)
+  }
+}

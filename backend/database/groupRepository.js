@@ -105,12 +105,14 @@ export class GroupRepository {
 
     static async joinGroup({ groupId, userId }) {
         const user = await usersModel.findById({ _id: userId })
-        if (!user) throw new ValidateError('user dont exists')
+        if (!user) throw new ValidateError('User dont exists')
 
         const group = await groupsModel.findById({ _id: groupId })
-        if (!group) throw new ValidateError('group dont exists')
+        if (!group) throw new ValidateError('Group dont exists')
 
-        if (group.members.includes(userId)) throw new Error('user must not exists in the group')
+        if (group.members.includes(userId)) throw new Error('The user is already in this group')
+
+        if (group.blockedUsers.includes(userId)) throw new Error('Cannot join to this group')
 
         user.groups.push(group)
         group.members.push(user)
@@ -139,5 +141,27 @@ export class GroupRepository {
         await group.save()
 
         return group._id
+    }
+
+    static async removeUser({ _id, idUser }) {
+        const user = await usersModel.findById({ _id: idUser })
+        if (!user) throw new ValidateError('user must exists')
+
+        const group = await groupsModel.findById(_id)
+        if (!group) throw new ValidateError('group must exists')
+
+        if (!group.members.includes(idUser)) throw new Error('The user is not into the group')
+
+        if (group.blockedUsers.includes(idUser)) throw new Error('The user is blocked from the group')
+
+        group.members = group.members.filter(id => id.toString() !== idUser)
+
+        await group.save()
+
+        user.groups = user.groups.filter(id => id.toString() !== _id)
+
+        await user.save()
+
+        return user.username
     }
 }

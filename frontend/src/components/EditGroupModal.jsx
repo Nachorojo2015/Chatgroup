@@ -72,27 +72,67 @@ const EditGroupModal = forwardRef(({ name, description, username, picture, _id, 
        }
      }
 
+
+    async function removeUser(idUser) {
+      ref.current.close()
+      const toastId = toast.loading('Removing user...')
+      try {
+        const response = await fetch(`http://localhost:3000/group/remove/${_id}/${idUser}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          credentials: 'include'
+        })
+
+        if (!response.ok) {
+          const errorMessage = await response.text()
+          return toast.update(toastId, {
+            render: errorMessage,
+            type: 'error',
+            isLoading: false,
+            autoClose: 2000
+          })
+        }
+
+        const data = await response.json()
+
+        toast.update(toastId, {
+          render: `${data.username} was removed`,
+          type: 'success',
+          isLoading: false,
+          autoClose: 2000
+        })
+
+        fetchUserData()
+      } catch (error) {
+        console.log(error)
+      }
+    }
+
   return (
-    <dialog ref={ref} className="backdrop:bg-[rgba(0,0,0,.60)] p-3 rounded-md shadow-md xl:min-w-[450px] min-w-[95%]">
-        <FaArrowLeftLong onClick={() => ref.current.close()} className="cursor-pointer"/>
+    <dialog ref={ref} className="backdrop:bg-[rgba(0,0,0,.60)] dark:bg-gray-700 dark:text-white p-3 rounded-md shadow-md xl:min-w-[450px] min-w-[95%]">
+        <button onClick={() => ref.current.close()}>
+          <FaArrowLeftLong />
+        </button>
       
         <label htmlFor="picture" className="pointer-events-none">
           <img src={pictureGroup} alt="picture-group" className="w-36 h-36 m-auto rounded-full transition cursor-pointer pointer-events-auto hover:opacity-60"/>
           <input type="file" hidden id="picture" name="picture" accept=".jpg, .png, .webp" onChange={handlePicture}/>
         </label>
         
-        <input placeholder="Group name" defaultValue={name} ref={nameGroupEditRef} className="m-auto block mt-3 border p-3 rounded-md border-black outline-none"/>
+        <input placeholder="Group name" defaultValue={name} ref={nameGroupEditRef} className="dark:bg-gray-700 m-auto block mt-3 border p-3 rounded-md border-black outline-none"/>
         
-        <textarea placeholder="Description" defaultValue={description} ref={descriptionGroupEditRef} maxLength={255} className="[field-sizing:content] resize-none mt-5 rounded-md p-3 border border-black w-full outline-none max-h-48 max-w-[430px]"/>
+        <textarea placeholder="Description" defaultValue={description} ref={descriptionGroupEditRef} maxLength={255} className="[field-sizing:content] dark:bg-gray-700 resize-none mt-5 rounded-md p-3 border border-black w-full outline-none max-h-48 max-w-[430px]"/>
                 
         <hr className="mt-5 border-gray-500"/>
         
         <div className="flex justify-between mt-5">
           <p className="flex items-center gap-3">
             <span className="font-semibold">Type of group</span>
-            <MdOutlineGroup size={30}/>
+            <MdOutlineGroup size={30} />
           </p>
-          <select name="visibility" className="outline-none" defaultValue={visibility} ref={visibilityGroupEditRef}>
+          <select name="visibility" className="outline-none dark:bg-gray-700" defaultValue={visibility} ref={visibilityGroupEditRef}>
             <option value="Public">Public</option>
             <option value="Private">Private</option>
           </select>
@@ -106,10 +146,10 @@ const EditGroupModal = forwardRef(({ name, description, username, picture, _id, 
                 {
                 members.map((member, index) => (
                   <article className="flex items-center gap-3 mt-3" key={index}>
-                    <img src={member.avatar} alt="avatar-user" className="w-16 h-16 rounded-full"/>
+                    <img src={member.avatar} alt="avatar-user" className="w-16 h-16 align-middle rounded-full"/>
                     <span>{member.username}</span>
                     {
-                    member.username === username ? <span className="ml-auto text-blue-500">Owner</span> : <button className="block ml-auto focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">Remove</button>
+                    member.username === username ? <span className="ml-auto text-blue-500">Owner</span> : <button className="block ml-auto focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900" onClick={() => removeUser(member._id)}>Remove</button>
                     }
                   </article>
                     ))

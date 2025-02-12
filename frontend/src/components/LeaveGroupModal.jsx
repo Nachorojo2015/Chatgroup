@@ -37,8 +37,10 @@ const LeaveGroupModal = forwardRef(({ picture, name, _id, fetchUserData }, ref) 
   }
 
   return (
-    <dialog ref={ref} className="backdrop:bg-[rgba(0,0,0,.60)] p-3 rounded-md shadow-md xl:min-w-[450px]">
-      <FaArrowLeftLong className="cursor-pointer" onClick={() => ref.current.close()} size={22}/>
+    <dialog ref={ref} className="backdrop:bg-[rgba(0,0,0,.60)] dark:bg-gray-700 dark:text-white p-3 rounded-md shadow-md xl:min-w-[450px]">
+      <button onClick={() => ref.current.close()} size={22}>
+        <FaArrowLeftLong />
+      </button>
 
       <img src={picture} alt="picture-group" className="w-36 h-36 rounded-full m-auto"/>
       <p className="text-center mt-3 font-bold">{name}</p>
