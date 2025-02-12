@@ -9,8 +9,8 @@ const ChatGroups = ({ groups, username, fetchUserData, valueSearch }) => {
   let joinedGroups = groups.filter(group => group.creator.username !== username) // Grupos en los que el usuario esta unido
 
   if (valueSearch) {
-    myGroups = groups.filter(group => group.creator.username === username && group.name.toLowerCase().includes(valueSearch))
-    joinedGroups = groups.filter(group => group.creator.username !== username && group.name.toLowerCase().includes(valueSearch))
+    myGroups = groups.filter(group => group.creator.username === username && group.name.toLowerCase().includes(valueSearch.toLowerCase()))
+    joinedGroups = groups.filter(group => group.creator.username !== username && group.name.toLowerCase().includes(valueSearch.toLowerCase()))
   }
 
   return (

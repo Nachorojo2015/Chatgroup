@@ -41,11 +41,15 @@ export const deleteGroup = async (req, res) => {
 }
 
 export const editGroup = async (req, res) => {
+    const { user } = req.session
+    if (!user) return res.status(401).send('User not authorized')
+
     const { _id } = req.params
     const { name, description, picture, visibility } = req.body
+    const file = req.file
 
     try {
-      const idGroup = await GroupRepository.editGroup({ _id, name, description, picture, visibility })
+      const idGroup = await GroupRepository.editGroup({ _id, name, description, file, visibility })
       res.send({ idGroup })
     } catch (error) {
       res.status(400).send(error.message)

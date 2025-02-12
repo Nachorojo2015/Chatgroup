@@ -9,8 +9,9 @@ import http from "http"
 import { Server } from 'socket.io'
 import { userRouter } from './routes/userRoute.js'
 import { groupRouter } from './routes/groupRoute.js'
-import { MessagesRepository } from './database/messageRepository.js'
 import { messageRouter } from './routes/messageRoute.js'
+import { privateRouter } from './routes/privateRoute.js'
+import { MessagesRepository } from './database/messageRepository.js'
 
 const app = express()
 app.use(cors({ origin: [FRONTEND_DOMAIN], credentials: true }))
@@ -22,6 +23,7 @@ app.use('/auth', authRouter)
 app.use('/user', userRouter)
 app.use('/group', groupRouter)
 app.use('/messages', messageRouter)
+app.use('/private', privateRouter)
 
 const server = http.createServer(app)
 
@@ -41,7 +43,7 @@ io.on('connection', socket => {
     io.emit('new-message', { newMessage })
   })
 
-  io.on('disconnected', () => {
+  socket.on('disconnected', () => {
     console.log('Client disconnected')
   })
 })

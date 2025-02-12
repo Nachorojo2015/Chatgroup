@@ -6,6 +6,7 @@ import { MissingFieldError } from "../errors/MissingFieldError.js";
 import { InvalidLength } from "../errors/InvalidLength.js";
 import { getFileUrl, uploadFile } from "../config/firebaseConfig.js";
 import fs from "fs"
+import { privatesModel } from "../models/Private.js";
 
 export class UserRepository {
     static async register({ email, fullname, username, password }) {
@@ -143,6 +144,13 @@ export class UserRepository {
               }
             ]
         })
+        .populate({
+            path: 'privateUsers',
+            populate: {
+                path: 'users',
+                select: 'avatar username fullname',
+            }
+        })
 
         if (!user) throw new ValidateError('user must exists')
 
@@ -154,20 +162,20 @@ export class UserRepository {
         
         if (username.length < 4) throw new InvalidLength('Username must be at least 4 characters long')
         
-        const regex = new RegExp(username, 'i')
-
-        const users = await usersModel.find(
-            { 
-              username: { $regex: regex },
-              _id: { $ne: _id }
-            },
-            { 
-              username: 1, 
-              fullname: 1, 
-              avatar: 1, 
-              _id: 0,
-            }
-        )
+            const regex = new RegExp(username, 'i'); // Expresión regular para buscar coincidencias en el username
+            
+            const users = await usersModel.find(
+                { 
+                  username: { $regex: regex },
+                  _id: { $ne: _id }
+                },
+                { 
+                  username: 1, 
+                  fullname: 1, 
+                  avatar: 1, 
+                  _id: 1,
+                }
+            )
           
         if (!users.length) throw new InvalidLength('Not users found')
 

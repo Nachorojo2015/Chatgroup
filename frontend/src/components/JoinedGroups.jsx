@@ -30,6 +30,7 @@ const JoinedGroups = ({ group, fetchUserData }) => {
       )
 
       setIsChatMobileOpen(true)
+      document.getElementById(`chat-id-${_id}`).classList.add('hidden')
     } catch (error) {
       console.log(error)
     }
@@ -62,8 +63,10 @@ const JoinedGroups = ({ group, fetchUserData }) => {
           </span>
         </div>
       </div>
-
+     <div className="flex items-center ml-auto gap-3">
+      <span className="bg-blue-400 rounded-full p-1 ml-auto hidden" id={`chat-id-${_id}`}></span>
       <LeaveGroupButton picture={picture} name={name} _id={_id} fetchUserData={fetchUserData} />
+     </div>
     </article>
   );
 };

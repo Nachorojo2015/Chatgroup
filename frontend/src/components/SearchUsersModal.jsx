@@ -3,8 +3,9 @@ import { CiSearch } from 'react-icons/ci'
 import { FaArrowLeftLong } from 'react-icons/fa6'
 import { ClipLoader } from 'react-spinners'
 import User from './User'
+import PropTypes from 'prop-types'
 
-const SearchUsersModal = forwardRef((props, ref) => {
+const SearchUsersModal = forwardRef(({ fetchUserData }, ref) => {
 
     const [usersSearch, setUsersSearch] = useState([])
     const [loader, setLoader] = useState(false)
@@ -66,7 +67,7 @@ const SearchUsersModal = forwardRef((props, ref) => {
               <ClipLoader /> 
                : 
               usersSearch.map((userSearch, index) => (
-              <User key={index} userSearch={userSearch}/>
+              <User key={index} userSearch={userSearch} fetchUserData={fetchUserData}/>
               ))
             }
           </section>
@@ -77,7 +78,7 @@ const SearchUsersModal = forwardRef((props, ref) => {
 SearchUsersModal.displayName = 'SearchUsersModal'
 
 SearchUsersModal.propTypes = {
-
+  fetchUserData: PropTypes.func
 }
 
 export default SearchUsersModal

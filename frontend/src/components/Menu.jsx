@@ -23,7 +23,7 @@ const Menu = () => {
 
   const Chats = {
     'Groups': <ChatGroups groups={groups} username={username} valueSearch={valueSearch} fetchUserData={fetchUserData}/>,
-    'Users': <PrivateUsers privateUsers={privateUsers} valueSearch={valueSearch}/>
+    'Users': <PrivateUsers privateUsers={privateUsers} valueSearch={valueSearch} fetchUserData={fetchUserData} username={username}/>
   }
 
   return (

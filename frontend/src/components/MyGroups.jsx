@@ -21,7 +21,7 @@ const MyGroups = ({ group, fetchUserData, username }) => {
         const menuOptions = document.getElementById('menu-options')
         const menuOptionsButton = document.getElementById('menu-options-button')
 
-        if (!menuOptions.contains(event.target) && !menuOptionsButton.contains(event.target)) {
+        if (menuOptions && menuOptionsButton && !menuOptions.contains(event.target) && !menuOptionsButton.contains(event.target)) {
           setOpenMenu(false)
         }
       })
@@ -47,6 +47,7 @@ const MyGroups = ({ group, fetchUserData, username }) => {
         )
 
         setIsChatMobileOpen(true)
+        document.getElementById(`chat-id-${_id}`).classList.add('hidden')
       } catch (error) {
         console.log(error)
       }
@@ -81,6 +82,7 @@ const MyGroups = ({ group, fetchUserData, username }) => {
       </div>
 
       <div className="flex items-center ml-auto gap-5 relative">
+        <span className="bg-blue-400 rounded-full p-1 hidden" id={`chat-id-${_id}`}></span>
         <button onClick={() => setOpenMenu(!openMenu)} id="menu-options-button">
           <SlOptionsVertical className="dark:text-white"/>
         </button>

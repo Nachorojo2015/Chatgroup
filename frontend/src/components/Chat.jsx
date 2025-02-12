@@ -3,7 +3,7 @@ import { TbLock } from "react-icons/tb";
 import { IoAddCircle } from "react-icons/io5";
 import { FaMicrophone } from "react-icons/fa";
 import { IoSend } from "react-icons/io5";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { AiFillPicture } from "react-icons/ai";
 import { LuFiles } from "react-icons/lu";
 import MediaUploadOption from "./MediaUploadOption";
@@ -23,11 +23,10 @@ const socket = io('http://localhost:3000', {
 
 const Chat = () => {
 
-  const { isOpenMenu, setIsOpenMenu } = useChatStore()
-  const [message, setMessage] = useState('')
+  const { isOpenMenu, setIsOpenMenu, setMessage, message } = useChatStore()
   const userId = useUserStore(state => state.userId)
   
-  const { image, name, messages, id, addMessage, isChatMobileOpen, setIsChatMobileOpen, activeMicro, setActiveMicro } = useChatStore()
+  const { image, name, messages, id, addMessage, isChatMobileOpen, setIsChatMobileOpen, activeMicro, setActiveMicro, setIdChat } = useChatStore()
 
   useEffect(() => {
     document.addEventListener('click', () => {
@@ -39,14 +38,24 @@ const Chat = () => {
       }
     })
 
+    function scrollToBottom() {
+      const chatContainer = document.getElementById('chatContainer')
+      chatContainer.scrollTop = chatContainer.scrollHeight
+    }
+
     socket.on('new-message', ({ newMessage }) => {
-      addMessage(newMessage)
+      const chatId = newMessage.chatId
+      if (chatId !== id) document.getElementById(`chat-id-${chatId}`).classList.remove('hidden')
+      if (chatId === id) {
+        addMessage(newMessage)
+        scrollToBottom()
+      }
     })
 
     return () => {
       socket.off('new-message'); // Elimina el evento al desmontar
     }
-  }, [addMessage, setIsOpenMenu])
+  }, [addMessage, setIsOpenMenu, id])
 
   const textareaMessageRef = useRef()
   
@@ -77,17 +86,22 @@ const Chat = () => {
     setMessage('')
 }
 
+function closeChatMobile() {
+  setIsChatMobileOpen(false)
+  setIdChat('')
+}
+
   return (
     <section className={`xl:border-l border-black dark:border-white flex flex-col ${!isChatMobileOpen ? 'hidden xl:flex' : ''}`}>
       <header className="p-3 flex items-center gap-3 border-b border-black dark:border-white">
-        <button onClick={() => setIsChatMobileOpen(false)} className="xl:hidden">
+        <button onClick={closeChatMobile} className="xl:hidden">
            <FaArrowLeft className="dark:text-white"/>
         </button>
         <img src={image} alt="picture-chat" className="w-16 h-16 rounded-full"/>
         <span className="dark:text-white">{name}</span>
       </header>
       <div className="relative flex flex-1 w-full">
-        <ul className="overflow-y-auto overflow-x-hidden absolute h-full w-full pb-3 [scrollbar-width:thin]">
+        <ul className="overflow-y-auto overflow-x-hidden absolute h-full w-full pb-3 [scrollbar-width:thin]" id="chatContainer">
             <article className="flex items-center justify-center gap-3 mb-8 bg-blue-400 text-white p-1 bg-opacity-60 border-b">
               <TbLock className="hidden xl:block"/>
               <p className="text-[12px] text-center xl:text-left">The messages send to this Chat are cifred end-to-end. Nobody outside this chat, not even Chatgroup can read or listen them.</p>

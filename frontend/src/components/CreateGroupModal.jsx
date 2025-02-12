@@ -81,7 +81,7 @@ const CreateGroupModal = forwardRef(({ fetchUserData }, ref) => {
         </label>
 
         <label ref={labelNameRef} htmlFor="group-name" className="block mt-3 text-sm text-red-500"></label>
-        <input name="group-name" placeholder="Enter group name" className="border-b border-black dark:border-white indent-1 outline-none bg-gray-700" ref={groupNameRef}/>
+        <input name="group-name" placeholder="Enter group name" className="border-b border-black dark:border-white indent-1 outline-none dark:bg-gray-700" ref={groupNameRef}/>
 
         <button onClick={createGroup} type="button" className="text-white block mt-5 bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center m-auto dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Create</button>
     </dialog>

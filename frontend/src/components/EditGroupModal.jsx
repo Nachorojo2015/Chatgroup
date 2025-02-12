@@ -28,40 +28,54 @@ const EditGroupModal = forwardRef(({ name, description, username, picture, _id, 
        const nameEdit = nameGroupEditRef.current.value
        const descriptionEdit = descriptionGroupEditRef.current.value
        const visibilityEdit = visibilityGroupEditRef.current.value
-   
-       let urlPicture = picture;
-   
-       if (picture !== pictureGroup) {
-        //  urlPicture = await uploadImageGroup(pictureGroupFile)
+
+       ref.current.close()
+       const toastId = toast.loading('Editing group...')
+
+       const formData = new FormData()
+
+       if (pictureGroup !== picture) {
+        formData.append('image', pictureGroupFile)
        }
-   
+
+       formData.append('name', nameEdit)   
+       formData.append('visibility', visibilityEdit)
+       formData.append('description', descriptionEdit)
+
        try {
          const response = await fetch(`http://localhost:3000/group/edit/${_id}`, {
            method: 'PUT',
-           headers: {
-             'Content-Type': 'application/json'
-           },
-           body: JSON.stringify({ name: nameEdit, description: descriptionEdit, picture: urlPicture, visibility: visibilityEdit })
+           body: formData,
+           credentials: 'include'
          })
    
          if (!response.ok) {
            const errorMessage = await response.text()
-           return toast.error(errorMessage)
+           return toast.update(toastId, {
+            render: errorMessage,
+            type: 'error',
+            isLoading: false,
+            autoClose: 2000
+           })
          }
    
-         toast.success('Group edited')
+         toast.update(toastId, {
+          render: 'Group edited!',
+          type: 'success',
+          isLoading: false,
+          autoClose: 2000
+         })
+
          fetchUserData()
        } catch (error) {
          console.log(error.message)
        }
-   
-       ref.current.close()
      }
 
   return (
     <dialog ref={ref} className="backdrop:bg-[rgba(0,0,0,.60)] p-3 rounded-md shadow-md xl:min-w-[450px] min-w-[95%]">
         <FaArrowLeftLong onClick={() => ref.current.close()} className="cursor-pointer"/>
-        
+      
         <label htmlFor="picture" className="pointer-events-none">
           <img src={pictureGroup} alt="picture-group" className="w-36 h-36 m-auto rounded-full transition cursor-pointer pointer-events-auto hover:opacity-60"/>
           <input type="file" hidden id="picture" name="picture" accept=".jpg, .png, .webp" onChange={handlePicture}/>
@@ -69,7 +83,7 @@ const EditGroupModal = forwardRef(({ name, description, username, picture, _id, 
         
         <input placeholder="Group name" defaultValue={name} ref={nameGroupEditRef} className="m-auto block mt-3 border p-3 rounded-md border-black outline-none"/>
         
-        <textarea placeholder="Description" defaultValue={description} ref={descriptionGroupEditRef} maxLength={255} className="[field-sizing:content] resize-none mt-5 rounded-md p-3 border border-black w-full outline-none max-h-48"/>
+        <textarea placeholder="Description" defaultValue={description} ref={descriptionGroupEditRef} maxLength={255} className="[field-sizing:content] resize-none mt-5 rounded-md p-3 border border-black w-full outline-none max-h-48 max-w-[430px]"/>
                 
         <hr className="mt-5 border-gray-500"/>
         

@@ -51,5 +51,11 @@ export const useChatStore = create((set) => ({
         set({
             activeMicro: active
         })
+    },
+    
+    setIdChat: (id) => {
+        set({
+            id
+        })
     }
 }))

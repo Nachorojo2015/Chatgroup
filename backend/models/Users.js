@@ -32,7 +32,7 @@ const usersSchema = new Schema({
   privateUsers: [
     {
       type: mongoose.Schema.ObjectId,
-      ref: 'privateUsers'
+      ref: 'privates'
     }
   ]
 })

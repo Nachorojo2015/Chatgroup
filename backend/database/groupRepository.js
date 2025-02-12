@@ -72,15 +72,33 @@ export class GroupRepository {
         return group._id
     }
 
-    static async editGroup({ _id, name, description, picture, visibility }) {
+    static async editGroup({ _id, name, description, file, visibility }) {
+
+        let fileUrl
+
+        if (!file) {
+            const group = await groupsModel.findById(_id)
+            fileUrl = group.picture
+        } else {
+          const randomUUID = crypto.randomUUID()
+          const fileType = file.mimetype.split('/').pop()
+          const destination = `groups/${randomUUID}.${fileType}`
+
+          await uploadFile(file.path, destination)
+
+          fileUrl = await getFileUrl(destination)
+        }
+
         const group = await groupsModel.findByIdAndUpdate(_id, {
             name,
             description,
-            picture,
+            picture: fileUrl,
             visibility
         })
 
         if (!group) throw new ValidateError('The group dont exists')
+
+        fs.unlinkSync(file.path)
 
         return group._id
     }

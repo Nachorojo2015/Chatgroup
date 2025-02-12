@@ -26,7 +26,7 @@ const Text = ({ userId, _id, content, username, avatar, isSameUser }) => {
 const Image = ({ userId, _id, content, username, avatar, isSameUser }) => {
   // If is my user id
   if (userId === _id) {
-    return <img src={content} alt="user-image" className="ml-auto xl:max-w-96 max-w-60 mr-3 mt-3"/>
+    return <img src={content} alt="user-image" className="ml-auto xl:max-w-96 max-w-60 mr-3 mt-3 rounded-md"/>
   }
 
   return (
@@ -34,7 +34,7 @@ const Image = ({ userId, _id, content, username, avatar, isSameUser }) => {
       <img className={`w-8 h-8 rounded-full ${isSameUser ? 'hidden' : ''}`} src={avatar} alt="user-avatar"/>
       <div className={`flex flex-col gap-1 ${isSameUser ? 'ml-10' : ''}`}>
         <span className={`dark:text-white ${isSameUser ? 'hidden' : ''}`}>{username}</span>
-        <img src={content} alt="user-image" className="xl:max-w-96 max-w-60"/>
+        <img src={content} alt="user-image" className="xl:max-w-96 max-w-60 rounded-md"/>
       </div>
     </div>
   )
@@ -43,7 +43,7 @@ const Image = ({ userId, _id, content, username, avatar, isSameUser }) => {
 const Video = ({ userId, _id, content, username, avatar, isSameUser }) => {
   // If is my user id
   if (userId === _id) {
-    return <video src={content} controls className="ml-auto xl:max-w-96 max-w-60 mr-3 mt-3"></video>
+    return <video src={content} controls className="ml-auto xl:max-w-96 max-w-60 mr-3 mt-3 rounded-md"></video>
   }
 
   return (
@@ -51,7 +51,7 @@ const Video = ({ userId, _id, content, username, avatar, isSameUser }) => {
       <img className={`w-8 h-8 rounded-full ${isSameUser ? 'hidden' : ''}`} src={avatar} alt="user-avatar"/>
       <div className={`flex flex-col gap-1 ${isSameUser ? 'ml-10' : ''}`}>
         <span className={`dark:text-white ${isSameUser ? 'hidden' : ''}`}>{username}</span>
-        <video src={content} controls className="xl:max-w-96 max-w-60"></video>
+        <video src={content} controls className="xl:max-w-96 max-w-60 rounded-md"></video>
       </div>
     </div>
   )

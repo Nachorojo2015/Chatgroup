@@ -6,8 +6,6 @@ const MessageInput = forwardRef(({ socket, userId, id }, ref) => {
 
   const { setMessage, message, activeMicro } = useChatStore()
 
- 
-
   function sendMessage() {
       if (!message.trim()) return
   
