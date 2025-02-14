@@ -108,7 +108,7 @@ function closeChatMobile() {
             </article>
             {
               messages.map((message, index) => (
-                <Message key={message._id} message={messages[index]} userId={userId} nextMessage={messages[index+1]}/>
+                <Message key={message._id} message={message} userId={userId} nextMessage={messages[index+1]} />
               ))
             }
         </ul>

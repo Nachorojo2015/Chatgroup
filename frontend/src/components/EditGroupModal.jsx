@@ -10,6 +10,8 @@ const EditGroupModal = forwardRef(({ name, description, username, picture, _id, 
   const descriptionGroupEditRef = useRef()
   const visibilityGroupEditRef = useRef()
 
+  // const [descriptionGroupEdit, setDescriptionGroupEdit] = useState(description)
+
   const [ pictureGroup, setPictureGroup ] = useState(picture)
   const [ pictureGroupFile, setPictureGroupFile ] = useState(null)
 
@@ -34,7 +36,7 @@ const EditGroupModal = forwardRef(({ name, description, username, picture, _id, 
 
        const formData = new FormData()
 
-       if (pictureGroup && pictureGroupFile && pictureGroup !== picture) {
+       if (pictureGroupFile) {
         formData.append('image', pictureGroupFile)
        }
 
@@ -110,9 +112,15 @@ const EditGroupModal = forwardRef(({ name, description, username, picture, _id, 
       }
     }
 
+    function closeEditModal() {
+      ref.current.close()
+      nameGroupEditRef.current.value = name
+      descriptionGroupEditRef.current.value = description
+    }
+
   return (
     <dialog ref={ref} className="backdrop:bg-[rgba(0,0,0,.60)] dark:bg-gray-700 dark:text-white p-3 rounded-md shadow-md xl:min-w-[450px] min-w-[95%]">
-        <button onClick={() => ref.current.close()}>
+        <button onClick={closeEditModal}>
           <FaArrowLeftLong />
         </button>
       

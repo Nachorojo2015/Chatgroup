@@ -77,8 +77,8 @@ export class GroupRepository {
         let fileUrl
 
         if (!file) {
-            const group = await groupsModel.findById(_id)
-            fileUrl = group.picture
+          const group = await groupsModel.findById(_id)
+          fileUrl = group.picture
         } else {
           const randomUUID = crypto.randomUUID()
           const fileType = file.mimetype.split('/').pop()
@@ -87,6 +87,8 @@ export class GroupRepository {
           await uploadFile(file.path, destination)
 
           fileUrl = await getFileUrl(destination)
+
+          fs.unlinkSync(file.path)
         }
 
         const group = await groupsModel.findByIdAndUpdate(_id, {
@@ -97,8 +99,6 @@ export class GroupRepository {
         })
 
         if (!group) throw new ValidateError('The group dont exists')
-
-        fs.unlinkSync(file.path)
 
         return group._id
     }

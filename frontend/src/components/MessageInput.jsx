@@ -6,7 +6,8 @@ const MessageInput = forwardRef(({ socket, userId, id }, ref) => {
 
   const { setMessage, message, activeMicro } = useChatStore()
 
-  function sendMessage() {
+  function sendMessage(e) {
+      e.preventDefault()
       if (!message.trim()) return
   
       socket.emit('message', { message: {
@@ -21,14 +22,11 @@ const MessageInput = forwardRef(({ socket, userId, id }, ref) => {
   }
 
   return (
-    <textarea placeholder="Write a message..." className={`${activeMicro ? 'hidden' : ''} [field-sizing:content] w-full dark:bg-black dark:text-white indent-1 resize-none h-auto outline-none max-h-48`} ref={ref} rows={1} onChange={(e) => {
+    <textarea placeholder="Write a message..." className={`${activeMicro ? 'hidden' : ''} [field-sizing:content] w-full dark:bg-black dark:text-white indent-1 resize-none h-auto outline-none max-h-48`} ref={ref} onChange={(e) => {
       setMessage(e.target.value)
     }} onKeyDown={(e) => {
        if (e.key === 'Enter' && !e.shiftKey) {
-        e.preventDefault()
-        sendMessage()
-    } else if (e.key === 'Enter' && e.shiftKey) {
-        setMessage((prev) => prev + "\n")
+          sendMessage(e)
     }
     }}/>
   )

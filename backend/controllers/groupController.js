@@ -45,7 +45,7 @@ export const editGroup = async (req, res) => {
     if (!user) return res.status(401).send('User not authorized')
 
     const { _id } = req.params
-    const { name, description, picture, visibility } = req.body
+    const { name, description, visibility } = req.body
     const file = req.file
 
     try {

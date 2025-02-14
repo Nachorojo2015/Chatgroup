@@ -13,7 +13,8 @@ export class MessagesRepository {
             format,
             content: encryptedContent,
             chatId,
-            user
+            user,
+            date: new Date()
         })
 
         const populatedMessage = await newMessage.populate({
