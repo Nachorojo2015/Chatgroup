@@ -14,6 +14,14 @@ export const useChatStore = create((set) => ({
 
     activeMicro: false,
 
+    loader: false,
+
+    setLoader: (loader) => {
+        set({
+            loader
+        })
+    },
+
     setMessage: (message) => {
         set({
             message

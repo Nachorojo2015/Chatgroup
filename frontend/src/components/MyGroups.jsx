@@ -13,7 +13,7 @@ import { useEffect, useState } from "react";
 const MyGroups = ({ group, fetchUserData, username }) => {
 
   const { picture, name, visibility, members, description, _id } = group
-  const { setData, setIsChatMobileOpen } = useChatStore()
+  const { setData, setIsChatMobileOpen, setLoader } = useChatStore()
   const [openMenu, setOpenMenu] = useState(false)
 
   useEffect(() => {
@@ -29,10 +29,12 @@ const MyGroups = ({ group, fetchUserData, username }) => {
   
 
   async function openChat() {
+      setLoader(true)
       try {
         const response = await fetch(`http://localhost:3000/messages/${_id}`)
   
         if (!response.ok) {
+          setLoader(false)
           const errorMessage = await response.text()
           return toast.error(`${errorMessage}, try again`)
         }
@@ -47,6 +49,7 @@ const MyGroups = ({ group, fetchUserData, username }) => {
         )
 
         setIsChatMobileOpen(true)
+        setLoader(false)
         document.getElementById(`chat-id-${_id}`).classList.add('hidden')
       } catch (error) {
         console.log(error)

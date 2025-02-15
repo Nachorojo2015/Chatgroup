@@ -9,13 +9,15 @@ import { toast } from "react-toastify";
 const JoinedGroups = ({ group, fetchUserData }) => {
 
   const { picture, name, visibility, members, _id } = group 
-  const { setData, setIsChatMobileOpen } = useChatStore()
+  const { setData, setIsChatMobileOpen, setLoader } = useChatStore()
 
   async function openChat() {
+    setLoader(true)
     try {
       const response = await fetch(`http://localhost:3000/messages/${_id}`)
 
       if (!response.ok) {
+        setLoader(false)
         const errorMessage = await response.text()
         return toast.error(`${errorMessage}, try again`)
       }
@@ -30,6 +32,7 @@ const JoinedGroups = ({ group, fetchUserData }) => {
       )
 
       setIsChatMobileOpen(true)
+      setLoader(false)
       document.getElementById(`chat-id-${_id}`).classList.add('hidden')
     } catch (error) {
       console.log(error)

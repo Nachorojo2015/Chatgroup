@@ -3,7 +3,7 @@ import { TbLock } from "react-icons/tb";
 import { IoAddCircle } from "react-icons/io5";
 import { FaMicrophone } from "react-icons/fa";
 import { IoSend } from "react-icons/io5";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { AiFillPicture } from "react-icons/ai";
 import { LuFiles } from "react-icons/lu";
 import MediaUploadOption from "./MediaUploadOption";
@@ -16,6 +16,7 @@ import { useUserStore } from "../store/userStore";
 import Message from "./Message";
 import { FaArrowLeft } from "react-icons/fa6";
 import MessageInput from "./MessageInput";
+import { ClipLoader } from "react-spinners";
 
 const socket = io('http://localhost:3000', {
   withCredentials: true
@@ -25,41 +26,55 @@ const Chat = () => {
 
   const { isOpenMenu, setIsOpenMenu, setMessage, message } = useChatStore()
   const userId = useUserStore(state => state.userId)
+  const chatContainer = useRef(null)
+  const textareaMessageRef = useRef(null)
+  const menuChatOptions = useRef(null)
+  const menuChatOptionsButton = useRef(null)
   
-  const { image, name, messages, id, addMessage, isChatMobileOpen, setIsChatMobileOpen, activeMicro, setActiveMicro, setIdChat } = useChatStore()
+  const { image, name, messages, id, addMessage, isChatMobileOpen, setIsChatMobileOpen, activeMicro, setActiveMicro, setIdChat, loader } = useChatStore()
+
+  const formattedMessages = messages.map((message, index) => {
+    const prevMessage = messages[index - 1] ? messages[index - 1].user._id : ""
+
+    return {
+      ...message,
+      sequence: prevMessage !== message.user._id ? 1 : 0
+    }
+  })
+
+  const handleClickOutside = useCallback((event) => {
+    if (
+      menuChatOptions.current &&
+      menuChatOptionsButton.current &&
+      !menuChatOptions.current.contains(event.target) &&
+      !menuChatOptionsButton.current.contains(event.target)
+    ) {
+      setIsOpenMenu(false);
+    }
+  }, [setIsOpenMenu]); 
 
   useEffect(() => {
-    document.addEventListener('click', () => {
-      const menuChatOptions = document.getElementById('menu-chat-options')
-      const menuChatOptionsButton = document.getElementById('menu-chat-options-button')
-
-      if (menuChatOptions && menuChatOptionsButton && !menuChatOptions.contains(event.target) && !menuChatOptionsButton.contains(event.target)) {
-        setIsOpenMenu(false)
-      }
-    })
-
-    function scrollToBottom() {
-      const chatContainer = document.getElementById('chatContainer')
-      chatContainer.scrollTop = chatContainer.scrollHeight
-    }
+    document.addEventListener('click', handleClickOutside)
 
     socket.on('new-message', ({ newMessage }) => {
       const chatId = newMessage.chatId
       if (chatId !== id) document.getElementById(`chat-id-${chatId}`).classList.remove('hidden')
       if (chatId === id) {
         addMessage(newMessage)
-        scrollToBottom()
       }
     })
 
     return () => {
       socket.off('new-message'); // Elimina el evento al desmontar
+      document.removeEventListener('click', handleClickOutside)
     }
-  }, [addMessage, setIsOpenMenu, id])
+  }, [addMessage, setIsOpenMenu, id, handleClickOutside])
 
-  const textareaMessageRef = useRef()
+  useEffect(() => {
+    scrollToBottom()
+  }, [messages])
   
-  if (!image || !name || !id) 
+  if (!id) 
   return ( 
     <div className="hidden xl:grid place-content-center place-items-center border-black dark:border-white xl:border-l">
       <img src="/chat.svg" alt="brand-app-logue" className="w-52 h-52"/> 
@@ -70,7 +85,6 @@ const Chat = () => {
       </div>
     </div>
   )
-
 
   function sendMessage() {
     if (!message.trim()) return
@@ -91,6 +105,12 @@ function closeChatMobile() {
   setIdChat('')
 }
 
+function scrollToBottom() {
+  if (chatContainer.current) {
+    chatContainer.current.scrollTop = chatContainer.current.scrollHeight
+  }
+}
+
   return (
     <section className={`xl:border-l border-black dark:border-white flex flex-col ${!isChatMobileOpen ? 'hidden xl:flex' : ''}`}>
       <header className="p-3 flex items-center gap-3 border-b border-black dark:border-white">
@@ -101,20 +121,21 @@ function closeChatMobile() {
         <span className="dark:text-white">{name}</span>
       </header>
       <div className="relative flex flex-1 w-full">
-        <ul className="overflow-y-auto overflow-x-hidden absolute h-full w-full pb-3 [scrollbar-width:thin]" id="chatContainer">
-            <article className="flex items-center justify-center gap-3 mb-8 bg-blue-400 text-white p-1 bg-opacity-60 border-b">
-              <TbLock className="hidden xl:block"/>
-              <p className="text-[12px] text-center xl:text-left">The messages send to this Chat are cifred end-to-end</p>
-            </article>
+        <ul className="overflow-y-auto overflow-x-hidden absolute h-full w-full pb-3 [scrollbar-width:thin]" ref={chatContainer}>
             {
-              messages.map((message, index) => (
-                <Message key={message._id} message={message} userId={userId} nextMessage={messages[index+1]} />
+              loader ? 
+              <div className="grid place-content-center place-items-center mt-60">
+                <ClipLoader />
+              </div>
+              :
+              formattedMessages.map(message => (
+                <Message key={message._id} message={message} userId={userId} />
               ))
             }
         </ul>
       </div>
       <footer className="flex items-center gap-3 p-4 mt-auto border-t border-black dark:border-white relative">
-        <div id="menu-chat-options" className={`transition-all ${isOpenMenu ? 'scale-100 bottom-16' : 'scale-0 bottom-0 pointer-events-none'} absolute left-[1px] bg-white shadow-xl dark:bg-black dark:text-white px-2`}>
+        <div ref={menuChatOptions} className={`transition-all ${isOpenMenu ? 'scale-100 bottom-16' : 'scale-0 bottom-0 pointer-events-none'} absolute left-[1px] bg-white shadow-xl dark:bg-black dark:text-white px-2`}>
           <ul>
             <MediaUploadOption icon={AiFillPicture} typeFiles={'Pictures'} extensions={'.jpg, .png, .webp'} socket={socket} id={id} userId={userId}/>
             <MediaUploadOption icon={TbPlayerPlayFilled } typeFiles={'Videos'} extensions={'.mp4'} socket={socket} id={id} userId={userId}/>
@@ -122,7 +143,7 @@ function closeChatMobile() {
             <MediaUploadOption icon={FaMicrophone} typeFiles={'Audio'} extensions={'.mp3'} socket={socket} id={id} userId={userId}/>
           </ul>
         </div>
-        <button id="menu-chat-options-button" onClick={() => setIsOpenMenu(!isOpenMenu)} className={`${activeMicro ? 'hidden' : ''}`}>
+        <button ref={menuChatOptionsButton} onClick={() => setIsOpenMenu(!isOpenMenu)} className={`${activeMicro ? 'hidden' : ''}`}>
          <IoAddCircle size={30} className="dark:text-white"/>
         </button> 
         <MessageInput socket={socket} userId={userId} id={id} ref={textareaMessageRef}/>

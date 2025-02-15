@@ -5,6 +5,7 @@ import { FaRegTrashAlt } from "react-icons/fa";
 import { FaStop } from "react-icons/fa";
 import { IoSend } from "react-icons/io5";
 import { toast } from "react-toastify";
+import Player from "./Player";
 
 const Microphone = ({ setActiveMicro, socket, id, userId }) => {
 
@@ -122,9 +123,9 @@ const Microphone = ({ setActiveMicro, socket, id, userId }) => {
         </div>
       )}
       {audioURL && (
-        <div className="flex gap-3">
+        <div className="flex gap-5">
           <button onClick={deleteAudio}><FaRegTrashAlt /></button>
-          <audio controls src={audioURL} className="h-[30px]"/>
+          <Player audioURL={audioURL}/>
           <button onClick={sendAudio}><IoSend /></button>
         </div>
       )}
