@@ -112,7 +112,7 @@ export class GroupRepository {
 
         if (group.members.includes(userId)) throw new Error('The user is already in this group')
 
-        if (group.blockedUsers.includes(userId)) throw new Error('Cannot join to this group')
+        if (group.blockedUsers.includes(userId)) throw new Error('You are blocked to this group')
 
         user.groups.push(group)
         group.members.push(user)
@@ -143,23 +143,41 @@ export class GroupRepository {
         return group._id
     }
 
-    static async removeUser({ _id, idUser }) {
+    static async blockUser({ _id, idUser }) {
         const user = await usersModel.findById({ _id: idUser })
         if (!user) throw new ValidateError('user must exists')
 
         const group = await groupsModel.findById(_id)
         if (!group) throw new ValidateError('group must exists')
 
+        if (group.blockedUsers.includes(idUser)) throw new Error('The user is already block')
+
         if (!group.members.includes(idUser)) throw new Error('The user is not into the group')
 
-        if (group.blockedUsers.includes(idUser)) throw new Error('The user is blocked from the group')
-
+        group.blockedUsers.push(idUser)
         group.members = group.members.filter(id => id.toString() !== idUser)
-
         await group.save()
 
         user.groups = user.groups.filter(id => id.toString() !== _id)
+        await user.save()
 
+        return user.username
+    }
+
+    static async unlockUser({ _id, idUser }) {
+        const user = await usersModel.findById({ _id: idUser })
+        if (!user) throw new ValidateError('user must exists')
+
+        const group = await groupsModel.findById(_id)
+        if (!group) throw new ValidateError('group must exists')
+
+        if (!group.blockedUsers.includes(idUser)) throw new Error('The user is not block')
+
+        group.blockedUsers = group.blockedUsers.filter(id => id.toString() !== idUser)
+        group.members.push(idUser)
+        await group.save()
+
+        user.groups.push(_id)
         await user.save()
 
         return user.username

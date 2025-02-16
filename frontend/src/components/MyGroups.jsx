@@ -12,7 +12,7 @@ import { useEffect, useState } from "react";
 
 const MyGroups = ({ group, fetchUserData, username }) => {
 
-  const { picture, name, visibility, members, description, _id } = group
+  const { picture, name, visibility, members, blockedUsers, description, _id } = group
   const { setData, setIsChatMobileOpen, setLoader } = useChatStore()
   const [openMenu, setOpenMenu] = useState(false)
 
@@ -91,7 +91,7 @@ const MyGroups = ({ group, fetchUserData, username }) => {
         </button>
         <div id="menu-options" className={`transition-all ${!openMenu ? 'invisible opacity-0' : 'opacity-100'} flex flex-col gap-2 p-1 rounded-md absolute right-9 shadow-xl dark:bg-black dark:text-white min-w-28`}>
           <CopyLinkGroupButton _id={_id} />
-          <EditGroupButton _id={_id} name={name} description={description} username={username} picture={picture} members={members} visibility={visibility} fetchUserData={fetchUserData}/>
+          <EditGroupButton _id={_id} name={name} description={description} username={username} picture={picture} members={members} blockedUsers={blockedUsers} visibility={visibility} fetchUserData={fetchUserData}/>
           <DeleteGroupButton picture={picture} name={name} _id={_id} fetchUserData={fetchUserData}/>
         </div>
       </div>

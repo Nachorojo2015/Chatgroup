@@ -119,7 +119,7 @@ const Audio = ({ userId, _id, content, username, avatar, isSameUser, time }) => 
   if (userId === _id) {
     return (
       <li className={`flex items-center justify-end mr-3 ${isSameUser ? 'mt-1' : 'mt-3'} relative`}>
-        <div className={`flex items-center gap-5 dark:bg-gray-600 p-2 rounded-md ${isSameUser ? '' : 'rounded-tr-none'}`}>
+        <div className={`flex items-center gap-5 bg-slate-200 dark:bg-gray-600 p-2 rounded-md ${isSameUser ? '' : 'rounded-tr-none'}`}>
           <img src={avatar} alt="user-avatar" className="w-12 h-12 rounded-full"/>
           <Player audioURL={content}/>
         </div>
@@ -129,11 +129,11 @@ const Audio = ({ userId, _id, content, username, avatar, isSameUser, time }) => 
   }
 
   return (
-    <li className="flex items-start gap-2.5 mt-3 ml-2">
+    <li className={`flex items-start gap-2.5 ${isSameUser ? 'mt-1' : 'mt-3'} ml-2`}>
       <img className={`w-8 h-8 rounded-full ${isSameUser ? 'hidden' : ''}`} src={avatar} alt="user-avatar"/>
-      <div className={`flex flex-col gap-1 ${isSameUser ? 'ml-10' : ''} relative`}>
+      <div className={`flex flex-col gap-1 ${isSameUser ? 'ml-[42px]' : ''} relative`}>
         <span className={`dark:text-white ${isSameUser ? 'hidden' : ''}`}>{username}</span>
-        <div className={`dark:bg-gray-600 p-4 rounded-md ${isSameUser ? '' : 'rounded-tl-none'}`}>
+        <div className={`bg-slate-200 dark:bg-gray-600 p-4 rounded-md ${isSameUser ? '' : 'rounded-tl-none'}`}>
           <Player audioURL={content}/>
         </div>
         <time className="text-[10px] mt-auto absolute bottom-0 right-2 dark:text-gray-300 cursor-pointer">{time}</time>

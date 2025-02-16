@@ -1,6 +1,5 @@
 import PropTypes from "prop-types"
 import { TbLock } from "react-icons/tb";
-import { IoAddCircle } from "react-icons/io5";
 import { FaMicrophone } from "react-icons/fa";
 import { IoSend } from "react-icons/io5";
 import { useCallback, useEffect } from "react";
@@ -17,6 +16,8 @@ import Message from "./Message";
 import { FaArrowLeft } from "react-icons/fa6";
 import MessageInput from "./MessageInput";
 import { ClipLoader } from "react-spinners";
+import { IoMdClose } from "react-icons/io";
+import { IoMdAdd } from "react-icons/io";
 
 const socket = io('http://localhost:3000', {
   withCredentials: true
@@ -135,7 +136,7 @@ function scrollToBottom() {
         </ul>
       </div>
       <footer className="flex items-center gap-3 p-4 mt-auto border-t border-black dark:border-white relative">
-        <div ref={menuChatOptions} className={`transition-all ${isOpenMenu ? 'scale-100 bottom-16' : 'scale-0 bottom-0 pointer-events-none'} absolute left-[1px] bg-white shadow-xl dark:bg-black dark:text-white px-2`}>
+        <div ref={menuChatOptions} className={`transition-all ${isOpenMenu ? 'scale-100 bottom-[63px]' : 'scale-0 bottom-0 pointer-events-none'} rounded-md absolute left-0 bg-white shadow dark:bg-black dark:text-white px-2`}>
           <ul>
             <MediaUploadOption icon={AiFillPicture} typeFiles={'Pictures'} extensions={'.jpg, .png, .webp'} socket={socket} id={id} userId={userId}/>
             <MediaUploadOption icon={TbPlayerPlayFilled } typeFiles={'Videos'} extensions={'.mp4'} socket={socket} id={id} userId={userId}/>
@@ -144,7 +145,8 @@ function scrollToBottom() {
           </ul>
         </div>
         <button ref={menuChatOptionsButton} onClick={() => setIsOpenMenu(!isOpenMenu)} className={`${activeMicro ? 'hidden' : ''}`}>
-         <IoAddCircle size={30} className="dark:text-white"/>
+         <IoMdAdd  size={30} className={`dark:text-white ${isOpenMenu ? 'hidden' : 'spin-icon'}`}/>
+         <IoMdClose size={30} className={`dark:text-white ${isOpenMenu ? 'spin-icon' : 'hidden'}`}/>
         </button> 
         <MessageInput socket={socket} userId={userId} id={id} ref={textareaMessageRef}/>
           {

@@ -24,3 +24,16 @@ dialog {
 dialog::backdrop {
   background: rgba(0,0,0,.60)
 }
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.spin-icon {
+  animation: spin 0.1s linear; /* 1s es la duración, puedes ajustarla */
+}

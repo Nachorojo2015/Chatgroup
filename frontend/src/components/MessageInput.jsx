@@ -22,7 +22,7 @@ const MessageInput = forwardRef(({ socket, userId, id }, ref) => {
   }
 
   return (
-    <textarea placeholder="Write a message..." className={`${activeMicro ? 'hidden' : ''} [field-sizing:content] w-full dark:bg-black dark:text-white indent-1 resize-none h-auto outline-none max-h-48`} ref={ref} onChange={(e) => {
+    <textarea placeholder="Write a message..." className={`${activeMicro ? 'hidden' : ''} [field-sizing:content] rounded-md w-full dark:bg-black dark:text-white indent-1 resize-none h-auto outline-none max-h-48`} ref={ref} onChange={(e) => {
       setMessage(e.target.value)
     }} onKeyDown={(e) => {
        if (e.key === 'Enter' && !e.shiftKey) {

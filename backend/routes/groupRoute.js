@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createGroup, deleteGroup, editGroup, joinGroup, leaveGroup, removeUser, searchGroupByName } from "../controllers/groupController.js";
+import { blockUser, createGroup, deleteGroup, editGroup, joinGroup, leaveGroup, searchGroupByName, unlockUser } from "../controllers/groupController.js";
 import multer from "multer";
 import { storage } from "../config/multerConfig.js";
 
@@ -14,6 +14,7 @@ groupRouter
            .put('/edit/:_id', upload.single('image'), editGroup)
            .post('/join/:_id', joinGroup)
            .put('/leave/:_id', leaveGroup)
-           .put('/remove/:_id/:idUser', removeUser)
+           .put('/block/:_id/:idUser', blockUser)
+           .put('/unlock/:_id/:idUser', unlockUser)
 
 export { groupRouter }

@@ -3,14 +3,13 @@ import { FaArrowLeftLong } from "react-icons/fa6"
 import { toast } from "react-toastify"
 import PropTypes from "prop-types"
 import { MdGroups, MdOutlineGroup } from 'react-icons/md'
+import { TbLock } from "react-icons/tb";
 
-const EditGroupModal = forwardRef(({ name, description, username, picture, _id, members, visibility, fetchUserData }, ref) => {
+const EditGroupModal = forwardRef(({ name, description, username, picture, _id, members, blockedUsers, visibility, fetchUserData }, ref) => {
 
   const nameGroupEditRef = useRef()
   const descriptionGroupEditRef = useRef()
   const visibilityGroupEditRef = useRef()
-
-  // const [descriptionGroupEdit, setDescriptionGroupEdit] = useState(description)
 
   const [ pictureGroup, setPictureGroup ] = useState(picture)
   const [ pictureGroupFile, setPictureGroupFile ] = useState(null)
@@ -75,11 +74,11 @@ const EditGroupModal = forwardRef(({ name, description, username, picture, _id, 
      }
 
 
-    async function removeUser(idUser) {
+    async function blockUserFromGroup(idUser) {
       ref.current.close()
       const toastId = toast.loading('Removing user...')
       try {
-        const response = await fetch(`http://localhost:3000/group/remove/${_id}/${idUser}`, {
+        const response = await fetch(`http://localhost:3000/group/block/${_id}/${idUser}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json'
@@ -100,7 +99,7 @@ const EditGroupModal = forwardRef(({ name, description, username, picture, _id, 
         const data = await response.json()
 
         toast.update(toastId, {
-          render: `${data.username} was removed`,
+          render: `${data.username} was blocked`,
           type: 'success',
           isLoading: false,
           autoClose: 2000
@@ -109,6 +108,55 @@ const EditGroupModal = forwardRef(({ name, description, username, picture, _id, 
         fetchUserData()
       } catch (error) {
         console.log(error)
+        toast.update(toastId, {
+          render: 'Error in server',
+          type: 'error',
+          isLoading: false,
+          autoClose: 2000
+        })
+      }
+    }
+
+    async function unlockUserFromGroup(idUser) {
+      ref.current.close()
+      const toastId = toast.loading('Removing user...')
+      try {
+        const response = await fetch(`http://localhost:3000/group/unlock/${_id}/${idUser}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          credentials: 'include'
+        })
+
+        if (!response.ok) {
+          const errorMessage = await response.text()
+          return toast.update(toastId, {
+            render: errorMessage,
+            type: 'error',
+            isLoading: false,
+            autoClose: 2000
+          })
+        }
+
+        const data = await response.json()
+
+        toast.update(toastId, {
+          render: `${data.username} was unlocked`,
+          type: 'success',
+          isLoading: false,
+          autoClose: 2000
+        })
+
+        fetchUserData()
+      } catch (error) {
+        console.log(error)
+        toast.update(toastId, {
+          render: 'Error in server',
+          type: 'error',
+          isLoading: false,
+          autoClose: 2000
+        })
       }
     }
 
@@ -157,7 +205,7 @@ const EditGroupModal = forwardRef(({ name, description, username, picture, _id, 
                     <img src={member.avatar} alt="avatar-user" className="w-16 h-16 align-middle rounded-full"/>
                     <span>{member.username}</span>
                     {
-                    member.username === username ? <span className="ml-auto text-blue-500">Owner</span> : <button className="block ml-auto focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900" onClick={() => removeUser(member._id)}>Remove</button>
+                    member.username === username ? <span className="ml-auto text-blue-500">Owner</span> : <button className="block ml-auto focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900" onClick={() => blockUserFromGroup(member._id)}>Block</button>
                     }
                   </article>
                     ))
@@ -166,6 +214,26 @@ const EditGroupModal = forwardRef(({ name, description, username, picture, _id, 
         </div>
         
         <hr className="mt-3 border-gray-500"/>
+
+        <div className="mt-5">
+          <details>
+            <summary>Users Blocked <TbLock className="inline mb-1 ml-2" size={30}/></summary>
+                {
+                blockedUsers.map((member, index) => (
+                  <article className="flex items-center gap-3 mt-3" key={index}>
+                    <img src={member.avatar} alt="avatar-user" className="w-16 h-16 align-middle rounded-full"/>
+                    <span>{member.username}</span>
+                    {
+                    member.username === username ? <span className="ml-auto text-blue-500">Owner</span> : <button className="block ml-auto focus:outline-none text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-900" onClick={() => unlockUserFromGroup(member._id)}>Unlock</button>
+                    }
+                  </article>
+                    ))
+                }
+            </details>
+        </div>
+
+        <hr className="mt-5 border-gray-500"/>
+
         
         <button onClick={editGroup} type="button" className="text-white block m-auto mt-5 w-full bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-purple-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-900">Edit</button>
     </dialog>
@@ -182,7 +250,8 @@ EditGroupModal.propTypes = {
     _id: PropTypes.string,
     members: PropTypes.array,
     visibility: PropTypes.string,
-    fetchUserData: PropTypes.func
+    fetchUserData: PropTypes.func,
+    blockedUsers: PropTypes.array
 }
 
 export default EditGroupModal

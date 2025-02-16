@@ -141,6 +141,10 @@ export class UserRepository {
               {
                 path: 'members',
                 select: 'username avatar'
+              },
+              {
+                path: 'blockedUsers',
+                select: 'username avatar'
               }
             ]
         })
