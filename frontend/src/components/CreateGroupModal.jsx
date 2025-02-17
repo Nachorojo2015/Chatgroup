@@ -2,6 +2,7 @@ import { forwardRef, useRef, useState } from 'react'
 import { FaArrowLeftLong } from 'react-icons/fa6'
 import { toast } from 'react-toastify'
 import PropTypes from 'prop-types'
+import { IoMdAdd } from 'react-icons/io'
 
 const CreateGroupModal = forwardRef(({ fetchUserData }, ref) => {
 
@@ -70,14 +71,24 @@ const CreateGroupModal = forwardRef(({ fetchUserData }, ref) => {
           console.log(error)
         }
     }
+
+    function closeCreateModal() {
+      ref.current.close()
+      groupNameRef.current.value = ''
+      setImageGroup('/camera.png')
+      setFileImageGroup(null)
+    }
   return (
     <dialog ref={ref} className="p-3 rounded-md dark:bg-gray-700 dark:text-white">
-        <button onClick={() => ref.current.close()}>
+        <button onClick={closeCreateModal}>
           <FaArrowLeftLong />
         </button>
 
         <label className="pointer-events-none">
-          <img src={imageGroup} alt="picture-group" className="cursor-pointer m-auto w-16 h-16 rounded-full pointer-events-auto transition hover:opacity-50"/>
+          <div className="relative flex items-center justify-center group">
+            <IoMdAdd className="absolute dark:text-white opacity-0 transition group-hover:opacity-100" size={50} />
+            <img src={imageGroup} alt="picture-group" className="cursor-pointer m-auto w-24 h-24 object-cover rounded-full pointer-events-auto transition group-hover:opacity-20"/>
+          </div>
           <input type="file" hidden onChange={handleImageGroup} accept=".jpg, .png, .webp"/>
         </label>
 

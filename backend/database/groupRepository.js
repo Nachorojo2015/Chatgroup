@@ -5,6 +5,7 @@ import { groupsModel } from "../models/Groups.js";
 import { usersModel } from "../models/Users.js";
 import fs from "fs"
 import crypto from "crypto"
+import { InvalidLength } from "../errors/InvalidLength.js";
 
 export class GroupRepository {
     static async createGroup({ name, file, _id }) {
@@ -62,6 +63,8 @@ export class GroupRepository {
                 select: 'username'
             }
         ])
+
+        if (!groups.length) throw new InvalidLength('Not groups found')
 
         return groups
     }

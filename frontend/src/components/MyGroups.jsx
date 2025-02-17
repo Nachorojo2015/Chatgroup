@@ -63,7 +63,7 @@ const MyGroups = ({ group, fetchUserData, username }) => {
       <img
         src={picture}
         alt="avatar user"
-        className="w-16 h-16 rounded-full"
+        className="w-16 h-16 rounded-full object-cover"
       />
 
       <div className="flex flex-col gap-1">

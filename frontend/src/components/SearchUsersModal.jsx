@@ -38,20 +38,23 @@ const SearchUsersModal = forwardRef(({ fetchUserData }, ref) => {
     
           const data = await response.json()
     
-          console.log(data.users)
-    
           setUsersSearch(data.users)
         } catch (error) {
           console.log(error.message)
         }
-    
         setLoader(false)
-    
       }  
+
+      function closeSearchUsersModal() {
+        ref.current.close()
+        inputSearchRef.current.value = ''
+        labelInputSearchRef.current.innerText = ''
+        setUsersSearch([])
+      }
 
   return (
     <dialog ref={ref} className="backdrop:bg-[rgba(0,0,0,.60)] dark:bg-gray-700 p-3 rounded-md shadow-md xl:min-w-[450px]">
-        <button onClick={() => ref.current.close()}>
+        <button onClick={closeSearchUsersModal}>
          <FaArrowLeftLong className="dark:text-white" size={22}/>
         </button>
           <form className="flex flex-col items-start mt-5" onSubmit={searchUsers}>

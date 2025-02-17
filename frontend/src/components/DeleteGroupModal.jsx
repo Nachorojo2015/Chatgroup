@@ -35,12 +35,16 @@ const DeleteGroupModal = forwardRef(({ picture, name, _id, fetchUserData }, ref)
       }
     } 
 
+    function closeDeleteModal() {
+      ref.current.close()
+    }
+
   return (
     <dialog ref={ref} className="backdrop:bg-[rgba(0,0,0,.60)] dark:bg-gray-700 dark:text-white p-3 rounded-md shadow-md xl:min-w-[450px] min-w-[95%]">
-        <button onClick={() => ref.current.close()}>
+        <button onClick={closeDeleteModal}>
           <FaArrowLeftLong />
         </button>
-        <img src={picture} alt="picture-group" className="w-36 h-36 rounded-full m-auto"/>
+        <img src={picture} alt="picture-group" className="w-36 h-36 rounded-full object-cover m-auto"/>
         <p className="text-center mt-3 font-bold">{name}</p>
         <h1 className="text-center">¿Delete Group?</h1>
         

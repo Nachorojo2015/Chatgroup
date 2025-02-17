@@ -3,6 +3,7 @@ import { useState } from "react"
 import { BeatLoader } from "react-spinners"
 import { toast } from 'react-toastify'
 import { useUserStore } from "../store/userStore"
+import { IoMdAdd } from "react-icons/io"
 
 const UserImage = ({ avatar }) => {
 
@@ -43,7 +44,14 @@ const UserImage = ({ avatar }) => {
 
   return (
     <label>
-        {loader ? <BeatLoader cssOverride={{height: '144px', margin: 'auto', color: 'gray'}} className="dark:text-white"/> : <img src={avatar} alt="user avatar" className="rounded-full w-36 h-36 cursor-pointer transition hover:opacity-80"/>}
+        {loader ? 
+        <BeatLoader cssOverride={{height: '144px', margin: 'auto', color: 'gray'}} className="dark:text-white"/> 
+        : 
+        <div className="relative flex items-center justify-center group">
+          <IoMdAdd className="absolute dark:text-white opacity-0 transition group-hover:opacity-100" size={80} />
+          <img src={avatar} alt="user avatar" className="rounded-full w-36 h-36 object-cover cursor-pointer transition group-hover:opacity-20" />
+        </div>
+        }
         <input type="file" hidden accept=".jpg, .png, .webp" onChange={handleAvatar}/>
     </label>
   )

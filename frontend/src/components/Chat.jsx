@@ -118,7 +118,7 @@ function scrollToBottom() {
         <button onClick={closeChatMobile} className="xl:hidden">
            <FaArrowLeft className="dark:text-white"/>
         </button>
-        <img src={image} alt="picture-chat" className="w-16 h-16 rounded-full"/>
+        <img src={image} alt="picture-chat" className="w-16 h-16 rounded-full object-cover"/>
         <span className="dark:text-white">{name}</span>
       </header>
       <div className="relative flex flex-1 w-full">

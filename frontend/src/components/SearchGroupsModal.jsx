@@ -31,13 +31,11 @@ const SearchGroupsModal = forwardRef(({ username, fetchUserData }, ref) => {
     
         if (!response.ok) {
           const errorMessage = await response.text()
+          labelInputSearchRef.current.innerText = errorMessage
           setGroupsSearch([])
-          return labelInputSearchRef.innerText = errorMessage
         }
     
         const data = await response.json()
-
-        console.log(data.groups)
     
         setGroupsSearch(data.groups)
       } catch (error) {
@@ -46,9 +44,18 @@ const SearchGroupsModal = forwardRef(({ username, fetchUserData }, ref) => {
     
       setLoader(false)
     } 
+
+    function closeSearchGroupsModal() {
+      ref.current.close()
+      inputSearchRef.current.value = ''
+      labelInputSearchRef.current.innerText = ''
+      setGroupsSearch([])
+    }
+
+
   return (
     <dialog ref={ref} className="backdrop:bg-[rgba(0,0,0,.60)] dark:bg-gray-700 p-3 rounded-md shadow-md xl:min-w-[450px]">
-        <button onClick={() => ref.current.close()}>
+        <button onClick={closeSearchGroupsModal}>
           <FaArrowLeftLong className="dark:text-white" size={22}/>
         </button>
         <form className="flex flex-col items-start mt-5" onSubmit={searchGroups}>

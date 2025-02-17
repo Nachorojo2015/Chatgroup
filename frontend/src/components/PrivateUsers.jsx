@@ -46,7 +46,7 @@ const PrivateUsers = ({ privateUsers, valueSearch, fetchUserData, username }) =>
                     <img
                     src={privateChat.user.avatar}
                     alt="avatar user"
-                    className="w-16 h-16 rounded-full"
+                    className="w-16 h-16 rounded-full object-cover"
                     />
                     <div className="flex flex-col gap-1">
                     <span className="dark:text-white">{privateChat.user.fullname}</span>
