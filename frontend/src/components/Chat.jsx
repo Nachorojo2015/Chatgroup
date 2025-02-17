@@ -9,7 +9,6 @@ import MediaUploadOption from "./MediaUploadOption";
 import { useChatStore } from "../store/chatStore";
 import Microphone from "./Microphone";
 import { TbPlayerPlayFilled } from "react-icons/tb";
-import { io } from 'socket.io-client'
 import { useRef } from "react";
 import { useUserStore } from "../store/userStore";
 import Message from "./Message";
@@ -19,11 +18,7 @@ import { ClipLoader } from "react-spinners";
 import { IoMdClose } from "react-icons/io";
 import { IoMdAdd } from "react-icons/io";
 
-const socket = io('http://localhost:3000', {
-  withCredentials: true
-})
-
-const Chat = () => {
+const Chat = ({ socket }) => {
 
   const { isOpenMenu, setIsOpenMenu, setMessage, message } = useChatStore()
   const userId = useUserStore(state => state.userId)
@@ -69,7 +64,7 @@ const Chat = () => {
       socket.off('new-message'); // Elimina el evento al desmontar
       document.removeEventListener('click', handleClickOutside)
     }
-  }, [addMessage, setIsOpenMenu, id, handleClickOutside])
+  }, [addMessage, setIsOpenMenu, id, handleClickOutside, socket])
 
   useEffect(() => {
     scrollToBottom()
@@ -166,7 +161,8 @@ function scrollToBottom() {
 Chat.displayName = 'Chat'
 
 Chat.propTypes = {
-  chatSelected: PropTypes.bool
+  chatSelected: PropTypes.bool,
+  socket: PropTypes.object
 }
 
 export default Chat

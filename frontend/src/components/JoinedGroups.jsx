@@ -5,11 +5,25 @@ import { TbWorld } from "react-icons/tb";
 import LeaveGroupButton from "./LeaveGroupButton";
 import { useChatStore } from "../store/chatStore";
 import { toast } from "react-toastify";
+import { SlOptionsVertical } from "react-icons/sl";
+import { useEffect, useState } from "react";
 
 const JoinedGroups = ({ group, fetchUserData }) => {
 
   const { picture, name, visibility, members, _id } = group 
   const { setData, setIsChatMobileOpen, setLoader } = useChatStore()
+  const [openMenu, setOpenMenu] = useState(false)
+
+  useEffect(() => {
+        document.addEventListener('click', () => {
+          const menuOptions = document.getElementById('menu-join-options')
+          const menuOptionsButton = document.getElementById('menu-join-options-button')
+  
+          if (menuOptions && menuOptionsButton && !menuOptions.contains(event.target) && !menuOptionsButton.contains(event.target)) {
+            setOpenMenu(false)
+          }
+        })
+  }, [])
 
   async function openChat() {
     setLoader(true)
@@ -68,7 +82,12 @@ const JoinedGroups = ({ group, fetchUserData }) => {
       </div>
      <div className="flex items-center ml-auto gap-3">
       <span className="bg-blue-400 rounded-full p-1 ml-auto hidden" id={`chat-id-${_id}`}></span>
-      <LeaveGroupButton picture={picture} name={name} _id={_id} fetchUserData={fetchUserData} />
+      <button onClick={() => setOpenMenu(!openMenu)} id="menu-join-options-button">
+       <SlOptionsVertical className="dark:text-white"/>
+      </button>
+      <div id="menu-join-options" className={`transition-all ${!openMenu ? 'invisible opacity-0' : 'opacity-100'} flex flex-col gap-2 p-1 rounded-md absolute right-9 shadow-xl dark:bg-black dark:text-white min-w-28`}>
+        <LeaveGroupButton picture={picture} name={name} _id={_id} fetchUserData={fetchUserData}/>
+      </div>
      </div>
     </article>
   );

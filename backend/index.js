@@ -34,8 +34,17 @@ const io = new Server(server, {
   }
 })
 
+
 io.on('connection', socket => {
-  // console.log('Client connected')
+  console.log('Client connected', socket.id)
+
+  socket.on('loginUser', (userId) => {
+    socket.join(userId)
+  })
+
+  socket.on('updateUser', (userId) => {
+    io.to(userId).emit('update', (userId));
+  })
 
   // Recive message
   socket.on('message', async ({ message }) => {
@@ -43,8 +52,8 @@ io.on('connection', socket => {
     io.emit('new-message', { newMessage })
   })
 
-  socket.on('disconnected', () => {
-    console.log('Client disconnected')
+  socket.on('disconnect', () => {
+    console.log(`Socket id ${socket.id} disconnect`)
   })
 })
 

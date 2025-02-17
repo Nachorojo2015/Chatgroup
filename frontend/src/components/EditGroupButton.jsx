@@ -2,7 +2,7 @@ import { useRef } from "react"
 import EditGroupModal from "./EditGroupModal"
 import PropTypes from "prop-types"
 
-const EditGroupButton = ({ name, description, username, picture, _id, members, blockedUsers, visibility, fetchUserData }) => {
+const EditGroupButton = ({ name, description, username, picture, _id, members, blockedUsers, visibility, fetchUserData, socket }) => {
 
   const modalEditRef = useRef()
 
@@ -11,7 +11,7 @@ const EditGroupButton = ({ name, description, username, picture, _id, members, b
     <button aria-label="Edit group" onClick={() => modalEditRef.current.showModal()} className="text-sm transition hover:opacity-70">
         Edit Group
     </button>
-    <EditGroupModal ref={modalEditRef} name={name} description={description} username={username} picture={picture} _id={_id} members={members} blockedUsers={blockedUsers} visibility={visibility} fetchUserData={fetchUserData}/>
+    <EditGroupModal ref={modalEditRef} name={name} description={description} username={username} picture={picture} _id={_id} members={members} blockedUsers={blockedUsers} visibility={visibility} fetchUserData={fetchUserData} socket={socket}/>
     </>
   )
 }
@@ -27,7 +27,8 @@ EditGroupButton.propTypes = {
     members: PropTypes.array,
     visibility: PropTypes.string,
     fetchUserData: PropTypes.func,
-    blockedUsers: PropTypes.array
+    blockedUsers: PropTypes.array,
+    socket: PropTypes.object
 }
 
 export default EditGroupButton

@@ -9,9 +9,10 @@ import PrivateUsers from "./PrivateUsers";
 import { CiSearch } from "react-icons/ci";
 import { useChatStore } from "../store/chatStore";
 import CreateGroupButton from "./CreateGroupButton";
+import PropTypes from "prop-types";
 
 
-const Menu = () => {
+const Menu = ({ socket }) => {
 
   const { fullname, username, avatar, groups, privateUsers, fetchUserData, updateAvatar } = useUserStore()
   const isChatMobileOpen = useChatStore(state => state.isChatMobileOpen)
@@ -22,7 +23,7 @@ const Menu = () => {
   if (!username || !fullname || !avatar) return <ClipLoader cssOverride={{margin: 'auto'}}/>
 
   const Chats = {
-    'Groups': <ChatGroups groups={groups} username={username} valueSearch={valueSearch} fetchUserData={fetchUserData}/>,
+    'Groups': <ChatGroups groups={groups} username={username} valueSearch={valueSearch} fetchUserData={fetchUserData} socket={socket}/>,
     'Users': <PrivateUsers privateUsers={privateUsers} valueSearch={valueSearch} fetchUserData={fetchUserData} username={username}/>
   }
 
@@ -56,6 +57,10 @@ const Menu = () => {
       </section>
     </aside>
   )
+}
+
+Menu.propTypes = {
+  socket: PropTypes.object
 }
 
 export default Menu

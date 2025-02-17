@@ -6,8 +6,9 @@ import { useRef, useState } from "react"
 import { toast } from "react-toastify"
 import { IoMdClose } from "react-icons/io";
 import ClipLoader from 'react-spinners/ClipLoader'
+import PropTypes from "prop-types"
 
-const Login = () => {
+const Login = ({ socket }) => {
   const modalEmail = useRef()
 
   const [form, setForm] = useState({
@@ -27,8 +28,9 @@ const Login = () => {
 
   async function sendDataLogin(e) {
     e.preventDefault()
-    
     const { username, password } = form
+
+    const toastId = toast.loading('Login...')
 
     try {
       const response = await fetch("http://localhost:3000/auth/login", {
@@ -42,13 +44,25 @@ const Login = () => {
 
       if (!response.ok) {
         const errorMessage = await response.text()
-        return toast.error(`error to register user, ${errorMessage}`)
+        return toast.update(toastId, {
+          render: errorMessage,
+          type: 'error',
+          isLoading: false,
+          autoClose: 2000
+        })
       }
 
       const data = await response.json()
-      console.log(data)
 
-      toast.success("user login 👍")
+      toast.update(toastId, {
+        render: 'User login!',
+        type: 'success',
+        isLoading: false,
+        autoClose: 2000
+      })
+
+      socket.emit('loginUser', (data.user._id))
+
       setTimeout(() => {
         navigate('/')
       }, 3000)
@@ -183,6 +197,10 @@ const Login = () => {
       </dialog>
     </>
   )
+}
+
+Login.propTypes = {
+  socket: PropTypes.object
 }
 
 export default Login

@@ -6,7 +6,7 @@ import { MdGroups, MdOutlineGroup } from 'react-icons/md'
 import { TbLock } from "react-icons/tb";
 import { IoMdAdd } from "react-icons/io"
 
-const EditGroupModal = forwardRef(({ name, description, username, picture, _id, members, blockedUsers, visibility, fetchUserData }, ref) => {
+const EditGroupModal = forwardRef(({ name, description, username, picture, _id, members, blockedUsers, visibility, fetchUserData, socket }, ref) => {
 
   const nameGroupEditRef = useRef()
   const descriptionGroupEditRef = useRef()
@@ -106,6 +106,8 @@ const EditGroupModal = forwardRef(({ name, description, username, picture, _id, 
           autoClose: 2000
         })
 
+        socket.emit('updateUser', (idUser))
+
         fetchUserData()
       } catch (error) {
         console.log(error)
@@ -148,6 +150,8 @@ const EditGroupModal = forwardRef(({ name, description, username, picture, _id, 
           isLoading: false,
           autoClose: 2000
         })
+
+        socket.emit('updateUser', (idUser))
 
         fetchUserData()
       } catch (error) {
@@ -253,7 +257,8 @@ EditGroupModal.propTypes = {
     members: PropTypes.array,
     visibility: PropTypes.string,
     fetchUserData: PropTypes.func,
-    blockedUsers: PropTypes.array
+    blockedUsers: PropTypes.array,
+    socket: PropTypes.object
 }
 
 export default EditGroupModal

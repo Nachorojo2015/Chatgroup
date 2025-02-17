@@ -3,15 +3,20 @@ import Login from './components/Login'
 import Register from './components/Register'
 import UserPanel from './components/UserPanel'
 import ResetPassword from './components/ResetPassword'
+import { io } from 'socket.io-client'
+
+const socket = io('http://localhost:3000', {
+  withCredentials: true
+})
 
 function App() {
 
   return (
     <Routes>
-      <Route path='/login' element={<Login/>}></Route>
+      <Route path='/login' element={<Login socket={socket}/>}></Route>
       <Route path='/register' element={<Register/>}></Route>
       <Route path='/reset' element={<ResetPassword />}></Route>
-      <Route path='/' element={<UserPanel/>}></Route>
+      <Route path='/' element={<UserPanel socket={socket}/>}></Route>
     </Routes>
   )
 }
