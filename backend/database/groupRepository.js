@@ -8,6 +8,28 @@ import crypto from "crypto"
 import { InvalidLength } from "../errors/InvalidLength.js";
 
 export class GroupRepository {
+    static async getGroup({ _id }) {
+        if (!_id) throw new MissingFieldError('id must be include')
+
+        const group = await groupsModel.findById({ _id })
+        if (!group) throw new ValidateError('group dont exists')
+
+        return group.populate([
+            {
+                path: 'creator',
+                select: 'avatar username'
+            },
+            {
+                path: 'administrators',
+                select: 'avatar'
+            },
+            {
+                path: 'members',
+                select: 'avatar'
+            }
+        ])
+    }
+
     static async createGroup({ name, file, _id }) {
         const randomUUID = crypto.randomUUID()
         const fileType = file.mimetype.split('/').pop()

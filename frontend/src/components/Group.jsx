@@ -4,6 +4,7 @@ import { FaInfoCircle, FaUser } from "react-icons/fa"
 import { IoMdAddCircle } from "react-icons/io"
 import LeaveGroupButton from "./LeaveGroupButton"
 import { toast } from "react-toastify"
+import { Link } from "react-router-dom"
 
 const Group = forwardRef(({ groupSearch, username, fetchUserData }, ref) => {
 
@@ -60,9 +61,9 @@ const Group = forwardRef(({ groupSearch, username, fetchUserData }, ref) => {
                 <span className="ml-auto text-blue-500">Owner</span>
                 :
                 <div className="flex items-center gap-3 ml-auto">
-                  <button>
+                  <Link to={`/group/${groupSearch._id}`}>
                     <FaInfoCircle size={30} className="dark:text-white"/>
-                  </button>
+                  </Link>
                   {
                     isMember ? 
                     <LeaveGroupButton picture={groupSearch.picture} name={groupSearch.name} _id={groupSearch._id} fetchUserData={fetchUserData} />

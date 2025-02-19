@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { blockUser, createGroup, deleteGroup, editGroup, joinGroup, leaveGroup, searchGroupByName, unlockUser } from "../controllers/groupController.js";
+import { blockUser, createGroup, deleteGroup, editGroup, getGroup, joinGroup, leaveGroup, searchGroupByName, unlockUser } from "../controllers/groupController.js";
 import multer from "multer";
 import { storage } from "../config/multerConfig.js";
 
@@ -8,6 +8,7 @@ const upload = multer({ storage })
 const groupRouter = Router()
 
 groupRouter
+           .get('/:_id', getGroup)
            .post('/create/:name', upload.single('image'), createGroup)
            .get('/search/:name', searchGroupByName)
            .delete('/delete/:_id', deleteGroup)

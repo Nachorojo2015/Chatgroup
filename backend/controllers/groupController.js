@@ -1,5 +1,16 @@
 import { GroupRepository } from "../database/groupRepository.js"
 
+export const getGroup = async (req, res) => {
+  const { _id } = req.params
+
+  try {
+    const group = await GroupRepository.getGroup({ _id })
+    res.send({ group })
+  } catch (error) {
+    res.status(400).send(error.message)
+  }
+}
+
 export const createGroup = async (req, res) => {
     const file = req.file
     if (!file) return res.status(400).send('File not include')

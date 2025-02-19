@@ -70,7 +70,7 @@ const Login = ({ socket }) => {
       console.log(error.message)
       toast.update(toastId, {
         render: 'Error in server',
-        type: 'success',
+        type: 'error',
         isLoading: false,
         autoClose: 2000
       })
