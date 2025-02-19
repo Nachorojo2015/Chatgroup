@@ -117,7 +117,7 @@ function scrollToBottom() {
         <span className="dark:text-white">{name}</span>
       </header>
       <div className="relative flex flex-1 w-full">
-        <ul className="overflow-y-auto overflow-x-hidden absolute h-full w-full pb-3 [scrollbar-width:thin]" ref={chatContainer}>
+        <ul className="overflow-y-auto overflow-x-hidden absolute h-full w-full pb-3 pr-1 [scrollbar-width:thin]" ref={chatContainer}>
             {
               loader ? 
               <div className="grid place-content-center place-items-center mt-60">

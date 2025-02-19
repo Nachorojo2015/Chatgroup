@@ -2,6 +2,7 @@ import PropTypes from "prop-types";
 import SearchUsersButton from "./SearchUsersButton";
 import { useChatStore } from "../store/chatStore";
 import { toast } from "react-toastify";
+import { SlOptionsVertical } from "react-icons/sl";
 
 const PrivateUsers = ({ privateUsers, valueSearch, fetchUserData, username }) => {
 
@@ -42,19 +43,24 @@ const PrivateUsers = ({ privateUsers, valueSearch, fetchUserData, username }) =>
     <div className="w-full overflow-y-auto h-full absolute [scrollbar-width:thin]">
       {
         privateChats.map((privateChat, index) => (
-                <article className="flex items-center w-full gap-3 transition cursor-pointer hover:bg-slate-200 dark:hover:bg-opacity-20 p-3" key={index} onClick={() => openChat(privateChat._id, privateChat.user.avatar, privateChat.user.fullname)}>
+                <article className="flex items-center w-full gap-3 transition cursor-pointer hover:bg-slate-200 dark:hover:bg-opacity-20 p-3" key={index}>
                     <img
                     src={privateChat.user.avatar}
                     alt="avatar user"
                     className="w-16 h-16 rounded-full object-cover"
                     />
                     <div className="flex flex-col gap-1">
-                    <span className="dark:text-white">{privateChat.user.fullname}</span>
-                    <span className="text-sm font-semibold dark:text-white">
+                    <span className="dark:text-white font-bold transition hover:underline" onClick={() => openChat(privateChat._id, privateChat.user.avatar, privateChat.user.fullname)}>{privateChat.user.fullname}</span>
+                    <span className="text-sm dark:text-white">
                         {privateChat.user.username}
                     </span>
                     </div>
-                    <span className="ml-auto bg-blue-400 rounded-full p-1 hidden" id={`chat-id-${privateChat._id}`}></span>
+                    <div className="ml-auto flex items-center gap-3">
+                     <span className="ml-auto bg-blue-400 rounded-full p-1 hidden" id={`chat-id-${privateChat._id}`}></span>
+                     <button>
+                        <SlOptionsVertical className="dark:text-white"/>
+                      </button>
+                    </div>
                 </article>
         ))
        }

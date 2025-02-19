@@ -9,6 +9,7 @@ const Text = ({ userId, _id, content, username, avatar, isSameUser, time }) => {
     return (
     <li className={`flex justify-end ${isSameUser ? 'mt-1' : 'mt-3'}  mr-3 items-center relative`}>
       <span className={`pr-16 pl-3 text-sm bg-slate-200 p-2 rounded-md ${isSameUser ? '' : 'rounded-tr-none'}  dark:bg-gray-600 dark:text-white whitespace-pre-line break-words xl:max-w-96 max-w-56`}>{content}</span>
+      {isSameUser ? '' : <div className="absolute top-0 right-0 w-0 border-t-[10px] border-t-slate-200 dark:border-t-gray-600 border-r-[10px] border-r-transparent translate-x-2"></div>}
       <time className="text-[10px] mt-auto absolute bottom-0 right-1 cursor-pointer dark:text-gray-300">{time}</time>
     </li>
     )
@@ -21,6 +22,7 @@ const Text = ({ userId, _id, content, username, avatar, isSameUser, time }) => {
       <div className={`flex flex-col gap-1 rounded-md ${isSameUser ? 'ml-[42px]' : 'rounded-tl-none'} p-2 bg-slate-200 dark:bg-gray-600 relative`}>
         <span className={`text-sm font-bold dark:text-white ${isSameUser ? 'hidden' : ''}`}>{username}</span>
         <span className="pr-14 text-sm dark:text-white whitespace-pre-line break-words xl:max-w-96 max-w-56">{content}</span>
+        {isSameUser ? '' : <div className="absolute top-0 left-0 w-0 h-0 border-t-[10px] dark:border-t-gray-600 border-t-slate-200 border-r-[10px] border-r-transparent -translate-x-2 rotate-90"></div>}
         <time className="text-[10px] absolute bottom-0 right-1 dark:text-gray-300 cursor-pointer">{time}</time>
       </div>
     </li>
@@ -32,8 +34,9 @@ const Image = ({ userId, _id, content, username, avatar, isSameUser, time }) => 
   if (userId === _id) {
     return (
       <li className={`flex justify-end relative mr-3 ${isSameUser ? 'mt-1' : 'mt-3'}`}>
-        <div className={`xl:max-w-96 max-w-60 rounded-md border-t-8 border-b-[25px] border-l-8 border-r-8 border-slate-200 dark:border-gray-600 ${isSameUser ? '' : 'rounded-tr-none'}`}>
-          <img src={content} alt="user-image"/>
+        <div className={`xl:max-w-96 max-w-60 rounded-md bg-slate-200 dark:bg-gray-600 ${isSameUser ? '' : 'rounded-tr-none'}`}>
+          <img src={content} alt="user-image" className="p-2 pb-5 shadow"/>
+          {isSameUser ? '' : <div className="absolute top-0 right-0 w-0 border-t-[10px] border-t-slate-200 dark:border-t-gray-600 border-r-[10px] border-r-transparent translate-x-2"></div>}
         </div>
         <time className="text-[10px] mt-auto absolute bottom-0 right-2 dark:text-gray-300 cursor-pointer">{time}</time>
       </li>
@@ -45,8 +48,9 @@ const Image = ({ userId, _id, content, username, avatar, isSameUser, time }) => 
       <img className={`w-8 h-8 rounded-full object-cover ${isSameUser ? 'hidden' : ''}`} src={avatar} alt="user-avatar"/>
       <div className={`flex flex-col gap-1 ${isSameUser ? 'ml-[42px]' : ''} relative`}>
         <span className={`dark:text-white ${isSameUser ? 'hidden' : ''}`}>{username}</span>
-        <div className={`xl:max-w-96 max-w-60 rounded-md border-t-8 border-b-[25px] border-l-8 border-r-8 border-slate-200 dark:border-gray-600 ${isSameUser ? '' : 'rounded-tl-none'}`}>
-          <img src={content} alt="user-image" />
+        <div className={`xl:max-w-96 max-w-60 rounded-md bg-slate-200 dark:bg-gray-600 ${isSameUser ? '' : 'rounded-tl-none'} relative`}>
+          <img src={content} alt="user-image" className="p-2 pb-5 shadow"/>
+          {isSameUser ? '' : <div className="absolute top-0 left-0 w-0 h-0 border-t-[10px] dark:border-t-gray-600 border-t-slate-200 border-r-[10px] border-r-transparent -translate-x-2 rotate-90"></div>}
         </div>
         <time className="text-[10px] mt-auto absolute bottom-0 right-2 dark:text-gray-300 cursor-pointer">{time}</time>
       </div>
@@ -59,8 +63,9 @@ const Video = ({ userId, _id, content, username, avatar, isSameUser, time }) => 
   if (userId === _id) {
     return (
       <li className={`flex items-center mr-3 ${isSameUser ? 'mt-1' : 'mt-3'} relative`}>
-        <div className={`ml-auto xl:max-w-96 max-w-60 border-t-8 border-b-[25px] border-l-8 border-r-8 border-slate-200 dark:border-gray-600 rounded-md ${isSameUser ? '' : 'rounded-tr-none'}`}>
-          <video src={content} controls></video>
+        <div className={`ml-auto xl:max-w-96 max-w-60 rounded-md bg-slate-200 dark:bg-gray-600 ${isSameUser ? '' : 'rounded-tr-none'}`}>
+          <video src={content} controls className="p-2 pb-5 shadow"></video>
+          {isSameUser ? '' : <div className="absolute top-0 right-0 w-0 border-t-[10px] border-t-slate-200  dark:border-t-gray-600 border-r-[10px] border-r-transparent translate-x-2"></div>}
         </div>
         <time className="text-[10px] mt-auto absolute bottom-0 right-2 dark:text-gray-300 cursor-pointer">{time}</time>
       </li>
@@ -72,8 +77,9 @@ const Video = ({ userId, _id, content, username, avatar, isSameUser, time }) => 
       <img className={`w-8 h-8 rounded-full object-cover ${isSameUser ? 'hidden' : ''}`} src={avatar} alt="user-avatar"/>
       <div className={`flex flex-col gap-1 ${isSameUser ? 'ml-[42px]' : ''} relative`}>
         <span className={`dark:text-white ${isSameUser ? 'hidden' : ''}`}>{username}</span>
-        <div className={`xl:max-w-96 max-w-60 rounded-md border-t-8 border-b-[25px] border-l-8 border-r-8 border-slate-200 dark:border-gray-600 ${isSameUser ? '' : 'rounded-tl-none'}`}>
-          <video src={content} controls></video>
+        <div className={`xl:max-w-96 max-w-60 rounded-md bg-slate-200 dark:bg-gray-600 ${isSameUser ? '' : 'rounded-tl-none'} relative`}>
+          <video src={content} controls className="p-2 pb-5 shadow"></video>
+          {isSameUser ? '' : <div className="absolute top-0 left-0 w-0 h-0 border-t-[10px] dark:border-t-gray-600 border-t-slate-200 border-r-[10px] border-r-transparent -translate-x-2 rotate-90"></div>}
         </div>
         <time className="text-[10px] mt-auto absolute bottom-0 right-2 dark:text-gray-300 cursor-pointer">{time}</time>
       </div>
@@ -85,13 +91,14 @@ const Application = ({ userId, _id, content, username, avatar, isSameUser, time 
   // If is my user id
   if (userId === _id) {
     return (
-      <li className="flex xl:w-[16%] w-[45%] ml-auto items-center justify-end gap-3 mr-3 mt-3 p-2 pr-20 rounded-md relative bg-slate-200 dark:bg-gray-600 dark:text-white">
+      <li className={`flex xl:w-[16%] w-[45%] ml-auto items-center justify-end gap-3 mr-3 mt-3 p-2 pr-20 rounded-md ${isSameUser ? '' : 'rounded-tr-none'} relative bg-slate-200 dark:bg-gray-600 dark:text-white`}>
         <FaFileAlt />
         File
         <a href={content}>
           <FaDownload />
         </a>
-        <time className="text-[10px] mt-auto absolute bottom-0 right-2 font-bold dark:text-gray-300 cursor-pointer">{time}</time>
+        <time className="text-[10px] mt-auto absolute bottom-0 right-2 dark:text-gray-300 cursor-pointer">{time}</time>
+        {isSameUser ? '' : <div className="absolute top-0 right-0 w-0 border-t-[10px] border-t-slate-200  dark:border-t-gray-600 border-r-[10px] border-r-transparent translate-x-2"></div>}
       </li>
     )
   }
@@ -101,13 +108,14 @@ const Application = ({ userId, _id, content, username, avatar, isSameUser, time 
       <img className={`w-8 h-8 rounded-full object-cover ${isSameUser ? 'hidden' : ''}`} src={avatar} alt="user-avatar"/>
       <div className={`flex flex-col gap-1 ${isSameUser ? 'ml-10' : ''}`}>
         <span className={`dark:text-white ${isSameUser ? 'hidden' : ''}`}>{username}</span>
-        <div className="flex items-center gap-3 p-2 rounded-md relative pr-20 bg-slate-200 dark:bg-gray-600 dark:text-white">
+        <div className={`flex items-center gap-3 p-2 rounded-md ${isSameUser ? '' : 'rounded-tl-none'} relative pr-20 bg-slate-200 dark:bg-gray-600 dark:text-white`}>
           <FaFileAlt />
           File
           <a href={content}>
             <FaDownload />
          </a>
-         <time className="text-[10px] mt-auto absolute bottom-0 right-2 font-bold dark:text-gray-300 cursor-pointer">{time}</time>
+         <time className="text-[10px] mt-auto absolute bottom-0 right-2 dark:text-gray-300 cursor-pointer">{time}</time>
+         {isSameUser ? '' : <div className="absolute top-0 left-0 w-0 h-0 border-t-[10px] dark:border-t-gray-600 border-t-slate-200 border-r-[10px] border-r-transparent -translate-x-2 rotate-90"></div>}
         </div>
       </div>
     </li>
@@ -123,6 +131,7 @@ const Audio = ({ userId, _id, content, username, avatar, isSameUser, time }) => 
           <img src={avatar} alt="user-avatar" className="w-12 h-12 rounded-full object-cover"/>
           <Player audioURL={content}/>
         </div>
+        {isSameUser ? '' : <div className="absolute top-0 right-0 w-0 border-t-[10px] border-t-slate-200 dark:border-t-gray-600 border-r-[10px] border-r-transparent translate-x-2"></div>}
         <time className="text-[10px] mt-auto absolute bottom-0 right-2 dark:text-gray-300 cursor-pointer">{time}</time>
       </li>
     )
@@ -133,8 +142,9 @@ const Audio = ({ userId, _id, content, username, avatar, isSameUser, time }) => 
       <img className={`w-8 h-8 rounded-full object-cover ${isSameUser ? 'hidden' : ''}`} src={avatar} alt="user-avatar"/>
       <div className={`flex flex-col gap-1 ${isSameUser ? 'ml-[42px]' : ''} relative`}>
         <span className={`dark:text-white ${isSameUser ? 'hidden' : ''}`}>{username}</span>
-        <div className={`bg-slate-200 dark:bg-gray-600 p-4 rounded-md ${isSameUser ? '' : 'rounded-tl-none'}`}>
+        <div className={`bg-slate-200 dark:bg-gray-600 p-4 rounded-md ${isSameUser ? '' : 'rounded-tl-none'} relative`}>
           <Player audioURL={content}/>
+          {isSameUser ? '' : <div className="absolute top-0 left-0 w-0 h-0 border-t-[10px] dark:border-t-gray-600 border-t-slate-200 border-r-[10px] border-r-transparent -translate-x-2 rotate-90"></div>}
         </div>
         <time className="text-[10px] mt-auto absolute bottom-0 right-2 dark:text-gray-300 cursor-pointer">{time}</time>
       </div>

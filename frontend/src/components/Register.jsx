@@ -32,6 +32,8 @@ const Register = () => {
 
     if (!securePassword) return toast.error('Password is not secure')
 
+    const toastId = toast.loading('Register...')
+
     try {
       const response = await fetch('http://localhost:3000/auth/register', {
         method: 'POST',
@@ -43,19 +45,34 @@ const Register = () => {
   
       if (!response.ok) {
         const errorMessage = await response.text()
-        return toast.error(`error to register user ${errorMessage}`)
+        return toast.update(toastId, {
+          render: errorMessage,
+          type: 'error',
+          isLoading: false,
+          autoClose: 2000
+        })
       }
   
       const data = await response.json()
       console.log(data)
   
-      toast.success('user register 👌')
+      toast.update(toastId, {
+        render: 'User registered!',
+        type: 'success',
+        isLoading: false,
+        autoClose: 2000
+      })
       setTimeout(() => {
         navigate('/login')
       }, 3000)
     } catch (error) {
       console.log(error.message)
-      toast.error('error to register user, try again')
+      toast.update(toastId, {
+        render: 'Error in server',
+        type: 'error',
+        isLoading: false,
+        autoClose: 2000
+      })
     }
     
   }

@@ -68,6 +68,12 @@ const Login = ({ socket }) => {
       }, 3000)
     } catch (error) {
       console.log(error.message)
+      toast.update(toastId, {
+        render: 'Error in server',
+        type: 'success',
+        isLoading: false,
+        autoClose: 2000
+      })
     }
   }
 
