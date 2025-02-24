@@ -37,3 +37,12 @@ dialog::backdrop {
 .spin-icon {
   animation: spin 0.1s linear; /* 1s es la duración, puedes ajustarla */
 }
+
+.menu-message {
+  scale: 1;
+  transition: scale .1s ease-in-out;
+
+  @starting-style {
+    scale: 0;
+  }
+}

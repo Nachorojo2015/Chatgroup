@@ -8,8 +8,6 @@ export const useChatStore = create((set) => ({
 
     message: '',
 
-    isOpenMenu: false, // Media Upload Option menu
-
     isChatMobileOpen: false,
 
     activeMicro: false,
@@ -42,12 +40,6 @@ export const useChatStore = create((set) => ({
             name,
             id,
             messages
-        })
-    },
-
-    setIsOpenMenu: (open) => {
-        set({
-            isOpenMenu: open
         })
     },
 

@@ -113,9 +113,9 @@ const Microphone = ({ setActiveMicro, socket, id, userId }) => {
   }
 
   return (
-    <div className="ml-auto dark:text-white">
+    <div>
       {!isRecording ? (
-        <button onClick={startRecording} className={`${audioURL ? 'hidden' : ''}`}><FaMicrophone size={20}/></button>
+        <button onClick={startRecording} className={`${audioURL ? 'hidden' : 'mt-[5px]'}`}><FaMicrophone size={20}/></button>
       ) : (
         <div className="flex items-center gap-3">
          <span className="w-3 h-3 rounded-full bg-red-500 animate-blink"></span>

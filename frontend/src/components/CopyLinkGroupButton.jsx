@@ -12,7 +12,7 @@ const CopyLinkGroupButton = ({ _id }) => {
       .catch(() => {
         toast.error('Error to copy the link')
       })
-}  
+ }   
 
   return (
     <button aria-label="Copy group Link" className="flex items-center justify-center gap-2 text-sm transition hover:opacity-70" onClick={copyLinkGroup}>

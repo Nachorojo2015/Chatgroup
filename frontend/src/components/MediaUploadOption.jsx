@@ -2,7 +2,7 @@ import PropTypes from "prop-types"
 import { useChatStore } from "../store/chatStore"
 import { toast } from "react-toastify"
 
-const MediaUploadOption = ({ icon: Icon, typeFiles, extensions, socket, id, userId }) => {
+const MediaUploadOption = ({ icon: Icon, extensions, socket, id, userId }) => {
 
   const setIsOpenMenu = useChatStore(state => state.setIsOpenMenu)
 
@@ -54,7 +54,6 @@ const MediaUploadOption = ({ icon: Icon, typeFiles, extensions, socket, id, user
   return (
     <label className="flex items-center gap-3 transition hover:opacity-50 cursor-pointer mt-3 mb-3">
         <Icon size={20}/>
-        <span className="text-sm">{typeFiles}</span>
         <input type="file" hidden accept={extensions} onClick={() => setIsOpenMenu(false)} onChange={handleFile}/>
     </label>
   )
@@ -62,7 +61,6 @@ const MediaUploadOption = ({ icon: Icon, typeFiles, extensions, socket, id, user
 
 MediaUploadOption.propTypes = {
     icon: PropTypes.func,
-    typeFiles: PropTypes.string,
     extensions: PropTypes.string,
     socket: PropTypes.object,
     id: PropTypes.string,

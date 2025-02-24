@@ -51,15 +51,21 @@ io.on('connection', socket => {
     }
   })
 
+  socket.on('delete-message', async ({ messageId }) => {
+    try {
+      const messageDeleted = await MessagesRepository.deleteMessage({ messageId })
+      if (messageDeleted) {
+        io.emit('receive-message-deleted', { messageDeleted })
+      } else {
+        socket.emit('message-error', { error: 'The message could not be deleted'})
+      }
+    } catch (error) {
+      socket.emit('message-error', { error: 'The message could not be deleted'})
+    }
+  })
+
   socket.on('disconnect', () => {
     console.log('User Disconnect:', socket.id);
-    // Sacar al usuario de todas las salas
-    const rooms = Object.keys(socket.rooms);
-    rooms.forEach(room => {
-        if (room !== socket.id) { // Evitar salir de la sala propia del socket
-            socket.leave(room);
-        }
-    });
   })
 })
 

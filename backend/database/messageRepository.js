@@ -69,4 +69,9 @@ export class MessagesRepository {
 
         return message
     }
+
+    static async deleteMessage({ messageId }) {
+        const message = await messagesModel.findByIdAndDelete({ _id: messageId })
+        return message
+    }
 }
