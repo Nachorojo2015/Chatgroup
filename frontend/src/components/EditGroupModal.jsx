@@ -151,8 +151,6 @@ const EditGroupModal = forwardRef(({ name, description, username, picture, _id, 
           autoClose: 2000
         })
 
-        socket.emit('updateUser', (idUser))
-
         fetchUserData()
       } catch (error) {
         console.log(error)

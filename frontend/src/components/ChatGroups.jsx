@@ -36,7 +36,7 @@ const ChatGroups = ({ groups, username, fetchUserData, valueSearch, socket }) =>
 
       {
         joinedGroups.map((group, index) => (
-          <JoinedGroups key={index} group={group} fetchUserData={fetchUserData} />
+          <JoinedGroups key={index} group={group} fetchUserData={fetchUserData} socket={socket}/>
         ))
       }
 

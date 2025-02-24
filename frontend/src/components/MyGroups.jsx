@@ -13,8 +13,13 @@ import { useEffect, useState } from "react";
 const MyGroups = ({ group, fetchUserData, username, socket }) => {
 
   const { picture, name, visibility, members, blockedUsers, description, _id } = group
-  const { setData, setIsChatMobileOpen, setLoader } = useChatStore()
+  const { setData, setIsChatMobileOpen, setLoader, unSeen, setUnSeen } = useChatStore()
   const [openMenu, setOpenMenu] = useState(false)
+
+  const isUnSeen = unSeen.includes(_id)
+
+  console.log(isUnSeen, unSeen)
+  console.log(_id)
 
   useEffect(() => {
       document.addEventListener('click', () => {
@@ -30,6 +35,7 @@ const MyGroups = ({ group, fetchUserData, username, socket }) => {
 
   async function openChat() {
       setLoader(true)
+      setUnSeen(unSeen.filter(chatId => chatId !== _id))
       try {
         const response = await fetch(`http://localhost:3000/messages/${_id}`)
   
@@ -50,9 +56,9 @@ const MyGroups = ({ group, fetchUserData, username, socket }) => {
 
         setIsChatMobileOpen(true)
         setLoader(false)
-        document.getElementById(`chat-id-${_id}`).classList.add('hidden')
       } catch (error) {
         console.log(error)
+        setLoader(false)
       }
     }
 
@@ -85,11 +91,11 @@ const MyGroups = ({ group, fetchUserData, username, socket }) => {
       </div>
 
       <div className="flex items-center ml-auto gap-5 relative">
-        <span className="bg-blue-400 rounded-full p-1 hidden" id={`chat-id-${_id}`}></span>
+        {isUnSeen ? <span className="bg-blue-400 rounded-full p-1"></span> : ''}
         <button onClick={() => setOpenMenu(!openMenu)} id="menu-options-button">
           <SlOptionsVertical className="dark:text-white"/>
         </button>
-        <div id="menu-options" className={`transition-all ${!openMenu ? 'invisible opacity-0' : 'opacity-100'} flex flex-col gap-2 p-1 rounded-md absolute right-9 shadow-xl dark:bg-black dark:text-white min-w-28`}>
+        <div id="menu-options" className={`transition-all ${!openMenu ? 'invisible opacity-0' : 'opacity-100'} flex flex-col gap-2 p-1 rounded-md absolute right-9 shadow-xl dark:bg-black dark:text-white min-w-36`}>
           <CopyLinkGroupButton _id={_id} />
           <EditGroupButton _id={_id} name={name} description={description} username={username} picture={picture} members={members} blockedUsers={blockedUsers} visibility={visibility} fetchUserData={fetchUserData} socket={socket}/>
           <DeleteGroupButton picture={picture} name={name} _id={_id} fetchUserData={fetchUserData}/>

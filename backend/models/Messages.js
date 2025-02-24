@@ -19,10 +19,12 @@ const messagesSchema = new Schema({
         type: mongoose.Schema.ObjectId,
         ref: 'users'
     },
-    seen: {
-        type: Boolean,
-        default: false
-    }
+    seenBy: [
+        {
+            type: mongoose.Schema.ObjectId,
+            ref: 'users'
+        }
+    ]
 })
 
 export const messagesModel = model('messages', messagesSchema)

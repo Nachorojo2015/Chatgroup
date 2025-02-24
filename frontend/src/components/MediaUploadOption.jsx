@@ -33,7 +33,7 @@ const MediaUploadOption = ({ icon: Icon, typeFiles, extensions, socket, id, user
       const formatFile = file.type.split('/').shift()
       const fileUrl = data.fileUrl
 
-      socket.emit('message', { message: {
+      socket.emit('send-message', { message: {
         format: formatFile,
         content: fileUrl,
         chatId: id,

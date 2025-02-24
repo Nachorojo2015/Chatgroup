@@ -8,7 +8,7 @@ import { IoMdClose } from "react-icons/io";
 import ClipLoader from 'react-spinners/ClipLoader'
 import PropTypes from "prop-types"
 
-const Login = ({ socket }) => {
+const Login = () => {
   const modalEmail = useRef()
 
   const [form, setForm] = useState({
@@ -52,16 +52,12 @@ const Login = ({ socket }) => {
         })
       }
 
-      const data = await response.json()
-
       toast.update(toastId, {
         render: 'User login!',
         type: 'success',
         isLoading: false,
         autoClose: 2000
       })
-
-      socket.emit('loginUser', (data.user._id))
 
       setTimeout(() => {
         navigate('/')

@@ -16,6 +16,14 @@ export const useChatStore = create((set) => ({
 
     loader: false,
 
+    unSeen: [],
+
+    setUnSeen: (state) => {
+        set({
+            unSeen: state
+        })
+    },
+
     setLoader: (loader) => {
         set({
             loader
@@ -49,9 +57,9 @@ export const useChatStore = create((set) => ({
         })
     },
 
-    addMessage: (message) => {
-        set((state) => ({
-            messages: [...state.messages, message]
+    setMessages: (state) => {
+        set(({
+            messages: state
         }));
     },
 

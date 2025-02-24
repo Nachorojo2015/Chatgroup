@@ -38,22 +38,28 @@ const io = new Server(server, {
 io.on('connection', socket => {
   console.log('Client connected', socket.id)
 
-  socket.on('loginUser', (userId) => {
-    socket.join(userId)
-  })
-
-  socket.on('updateUser', (userId) => {
-    io.to(userId).emit('update', (userId));
-  })
-
-  // Recive message
-  socket.on('message', async ({ message }) => {
-    const newMessage = await MessagesRepository.createMessage({ message })
-    io.emit('new-message', { newMessage })
+  socket.on('send-message', async ({ message }) => {
+    try {
+      const newMessage = await MessagesRepository.createMessage({ message })
+      if (newMessage) {
+        io.emit('receive-message', { newMessage })
+      } else {
+        socket.emit('message-error', { error: 'The message could not be created' })
+      }
+    } catch (error) {
+      socket.emit('message-error', { error: 'The message could not be created'} )
+    }
   })
 
   socket.on('disconnect', () => {
-    console.log(`Socket id ${socket.id} disconnect`)
+    console.log('User Disconnect:', socket.id);
+    // Sacar al usuario de todas las salas
+    const rooms = Object.keys(socket.rooms);
+    rooms.forEach(room => {
+        if (room !== socket.id) { // Evitar salir de la sala propia del socket
+            socket.leave(room);
+        }
+    });
   })
 })
 

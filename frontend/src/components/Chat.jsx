@@ -2,7 +2,7 @@ import PropTypes from "prop-types"
 import { TbLock } from "react-icons/tb";
 import { FaMicrophone } from "react-icons/fa";
 import { IoSend } from "react-icons/io5";
-import { useCallback, useEffect } from "react";
+import { useEffect } from "react";
 import { AiFillPicture } from "react-icons/ai";
 import { LuFiles } from "react-icons/lu";
 import MediaUploadOption from "./MediaUploadOption";
@@ -17,6 +17,8 @@ import MessageInput from "./MessageInput";
 import { ClipLoader } from "react-spinners";
 import { IoMdClose } from "react-icons/io";
 import { IoMdAdd } from "react-icons/io";
+import { toast } from "react-toastify";
+import { CiLock } from "react-icons/ci";
 
 const Chat = ({ socket }) => {
 
@@ -27,48 +29,53 @@ const Chat = ({ socket }) => {
   const menuChatOptions = useRef(null)
   const menuChatOptionsButton = useRef(null)
   
-  const { image, name, messages, id, addMessage, isChatMobileOpen, setIsChatMobileOpen, activeMicro, setActiveMicro, setIdChat, loader } = useChatStore()
-
-  const formattedMessages = messages.map((message, index) => {
-    const prevMessage = messages[index - 1] ? messages[index - 1].user._id : ""
-
-    return {
-      ...message,
-      sequence: prevMessage !== message.user._id ? 1 : 0
-    }
-  })
-
-  const handleClickOutside = useCallback((event) => {
-    if (
-      menuChatOptions.current &&
-      menuChatOptionsButton.current &&
-      !menuChatOptions.current.contains(event.target) &&
-      !menuChatOptionsButton.current.contains(event.target)
-    ) {
-      setIsOpenMenu(false);
-    }
-  }, [setIsOpenMenu]); 
+  const { image, name, messages, id, setMessages, isChatMobileOpen, setIsChatMobileOpen, activeMicro, setActiveMicro, setIdChat, loader, setUnSeen, unSeen } = useChatStore()
 
   useEffect(() => {
-    document.addEventListener('click', handleClickOutside)
-
-    socket.on('new-message', ({ newMessage }) => {
+    const handleReceiveMessage = ({ newMessage }) => {
       const chatId = newMessage.chatId
-      if (chatId !== id) document.getElementById(`chat-id-${chatId}`).classList.remove('hidden')
-      if (chatId === id) {
-        addMessage(newMessage)
+      console.log(chatId)
+      if (chatId !== id && !unSeen.includes(chatId)) {
+        setUnSeen([...unSeen, chatId])
+      } else {
+        setMessages([...messages, newMessage])
       }
-    })
+    }
+
+    const handleErrorMessage = ({ error }) => {
+      toast.error(error)
+    }
+
+    socket.on('receive-message', handleReceiveMessage)
+    socket.on('message-error', handleErrorMessage)
 
     return () => {
-      socket.off('new-message'); // Elimina el evento al desmontar
-      document.removeEventListener('click', handleClickOutside)
+      socket.off('receive-message')
+      socket.off('message-error')
     }
-  }, [addMessage, setIsOpenMenu, id, handleClickOutside, socket])
+  }, [setMessages, socket, id, setUnSeen, unSeen, messages])
 
   useEffect(() => {
     scrollToBottom()
-  }, [messages])
+  }, [id])
+
+  useEffect(() => {
+    function handleMenuOptions(event) {
+      if (
+        menuChatOptions.current &&
+        menuChatOptionsButton.current &&
+        !menuChatOptions.current.contains(event.target) &&
+        !menuChatOptionsButton.current.contains(event.target)
+      ) {
+        setIsOpenMenu(false)
+      }
+    }
+    document.addEventListener('click', handleMenuOptions)
+
+    return () => {
+      document.removeEventListener('click', handleMenuOptions)
+    }
+  }, [setIsOpenMenu])
   
   if (!id) 
   return ( 
@@ -94,7 +101,7 @@ const Chat = ({ socket }) => {
     
     textareaMessageRef.current.value = ''
     setMessage('')
-}
+  }
 
 function closeChatMobile() {
   setIsChatMobileOpen(false)
@@ -113,20 +120,28 @@ function scrollToBottom() {
         <button onClick={closeChatMobile} className="xl:hidden">
            <FaArrowLeft className="dark:text-white"/>
         </button>
-        <img src={image} alt="picture-chat" className="w-16 h-16 rounded-full object-cover"/>
+        <img src={image} alt="picture-chat" className="w-14 h-14 rounded-full object-cover"/>
         <span className="dark:text-white">{name}</span>
       </header>
       <div className="relative flex flex-1 w-full">
-        <ul className="overflow-y-auto overflow-x-hidden absolute h-full w-full pb-3 pr-1 [scrollbar-width:thin]" ref={chatContainer}>
+        <ul className="overflow-y-auto overflow-x-hidden absolute h-full w-full pb-3 pr-1 [scrollbar-width:none]" ref={chatContainer}>
             {
               loader ? 
               <div className="grid place-content-center place-items-center mt-60">
                 <ClipLoader />
               </div>
               :
-              formattedMessages.map(message => (
-                <Message key={message._id} message={message} userId={userId} />
-              ))
+              <>
+              <article className="flex items-center gap-1 m-auto p-2 rounded-lg text-center mt-3 w-[80%] bg-yellow-200 bg-opacity-50">
+                <CiLock className="dark:text-white" size={20}/>
+                <p className="text-[10px] dark:text-white">Conversations in this chat are end-to-end encrypted to protect your privacy. Please avoid sharing sensitive information such as passwords, bank details or confidential personal information. Your security is our priority.</p>
+              </article>
+              {
+                messages.map((message, index) => (
+                  <Message key={message._id} message={message} userId={userId} isSameUser={messages[index - 1]?.user?._id === message?.user?._id}/>
+                ))
+              }
+              </>
             }
         </ul>
       </div>

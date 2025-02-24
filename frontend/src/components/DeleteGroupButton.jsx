@@ -1,6 +1,7 @@
 import DeleteGroupModal from "./DeleteGroupModal"
 import { useRef } from "react"
 import PropTypes from "prop-types"
+import { MdDelete } from "react-icons/md";
 
 const DeleteGroupButton = ({ picture, name, _id, fetchUserData }) => {
 
@@ -8,8 +9,9 @@ const DeleteGroupButton = ({ picture, name, _id, fetchUserData }) => {
     
   return (
     <>
-    <button aria-label="Delete Group" onClick={() => modalDeleteRef.current.showModal()} className="text-sm text-red-500 transition hover:opacity-70">
-      Delete Group
+    <button aria-label="Delete Group" onClick={() => modalDeleteRef.current.showModal()} className="flex items-center justify-center gap-2 text-sm text-red-500 transition hover:opacity-70">
+      <MdDelete />
+      <span>Delete Group</span>
     </button>
     <DeleteGroupModal ref={modalDeleteRef} picture={picture} name={name} _id={_id} fetchUserData={fetchUserData} />
     </>

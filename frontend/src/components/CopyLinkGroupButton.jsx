@@ -1,5 +1,6 @@
 import PropTypes from "prop-types"
 import { toast } from "react-toastify"
+import { TbCopyPlusFilled } from "react-icons/tb";
 
 const CopyLinkGroupButton = ({ _id }) => {
 
@@ -14,8 +15,9 @@ const CopyLinkGroupButton = ({ _id }) => {
 }  
 
   return (
-    <button aria-label="Copy group Link" className="text-sm transition hover:opacity-70" onClick={copyLinkGroup}>
-        Copy Link
+    <button aria-label="Copy group Link" className="flex items-center justify-center gap-2 text-sm transition hover:opacity-70" onClick={copyLinkGroup}>
+        <TbCopyPlusFilled />
+        <span>Copy Link</span>
     </button>
   )
 }

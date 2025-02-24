@@ -14,7 +14,7 @@ function App() {
 
   return (
     <Routes>
-      <Route path='/login' element={<Login socket={socket}/>}></Route>
+      <Route path='/login' element={<Login/>}></Route>
       <Route path='/register' element={<Register/>}></Route>
       <Route path='/reset' element={<ResetPassword />}></Route>
       <Route path='/' element={<UserPanel socket={socket}/>}></Route>

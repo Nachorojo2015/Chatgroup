@@ -21,11 +21,11 @@ export class GroupRepository {
             },
             {
                 path: 'administrators',
-                select: 'avatar'
+                select: 'avatar username'
             },
             {
                 path: 'members',
-                select: 'avatar'
+                select: 'avatar username'
             }
         ])
     }

@@ -10,7 +10,7 @@ const MessageInput = forwardRef(({ socket, userId, id }, ref) => {
       e.preventDefault()
       if (!message.trim()) return
   
-      socket.emit('message', { message: {
+      socket.emit('send-message', { message: {
         format: 'text',
         content: message,
         chatId: id,

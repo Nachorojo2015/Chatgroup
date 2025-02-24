@@ -9,13 +9,19 @@ import { SiPrivateinternetaccess } from "react-icons/si";
 import { FaRegEye } from "react-icons/fa";
 import { FaRegEyeSlash } from "react-icons/fa"
 import { MdHistory } from "react-icons/md";
+import { useUserStore } from "../store/userStore";
+import { CiLogout } from "react-icons/ci";
 
 const InfoGroup = () => {
 
   const { id } = useParams()
 
   const [group, setGroup] = useState(null)
+  const { username, fetchUserData } = useUserStore()
 
+  console.log('username:', username)
+
+  const isMember = group?.members.map(group => group.username).includes(username)
 
   function formateDate(fecha) {
     fecha = new Date(fecha)
@@ -25,6 +31,92 @@ const InfoGroup = () => {
     const fechaFormateada = `${dia} de ${mes} del ${año}`;
     return fechaFormateada
   }
+
+  async function copyLinkGroup() {
+    navigator.clipboard.writeText(`http://localhost:5173/group/${id}`)
+     .then(() => {
+        toast.success('Link group copied succesfull')
+      })
+      .catch(() => {
+        toast.error('Error to copy the link')
+      })
+    } 
+
+    async function joinGroup() {
+        const toastId = toast.loading('Join to group...')
+        
+        try {
+          const response = await fetch(`http://localhost:3000/group/join/${id}`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            credentials: 'include'
+          })
+    
+          if (!response.ok) {
+            const errorMessage = await response.text()
+            return toast.update(toastId, {
+              render: errorMessage,
+              type: 'error',
+              isLoading: false,
+              autoClose: 2000
+            })
+          }
+    
+          toast.update(toastId, {
+            render: 'Joined!',
+            type: 'success',
+            isLoading: false,
+            autoClose: 2000
+          })
+    
+          fetchUserData()
+        } catch (error) {
+          console.log(error.message)
+        }
+    }
+
+    async function leaveGroup() {
+      const toastId = toast.loading('Leaving group...')
+
+      try {
+        const response = await fetch(`http://localhost:3000/group/leave/${id}`, {
+          method: 'PUT',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          credentials: 'include'
+        })
+  
+        if (!response.ok) {
+          const errorMessage = await response.text()
+          return toast.update(toastId, {
+            render: errorMessage,
+            type: 'error',
+            isLoading: false,
+            autoClose: 2000
+          })
+        }
+  
+        toast.update(toastId, {
+          render: 'Leave group!',
+          type: 'success',
+          isLoading: false,
+          autoClose: 2000
+        })
+        fetchUserData()
+      } catch (error) {
+        console.log(error.message)
+        toast.update(toastId, {
+          render: 'Error in server',
+          type: 'error',
+          isLoading: false,
+          autoClose: 2000
+        })
+      } 
+
+    }
 
   useEffect(() => {
     async function getInfoGroup() {
@@ -44,8 +136,9 @@ const InfoGroup = () => {
         }
       }
     
-      getInfoGroup();
-  }, [id])
+      getInfoGroup()
+      fetchUserData()
+  }, [id, fetchUserData])
 
   if (!group) {
     return (
@@ -56,28 +149,36 @@ const InfoGroup = () => {
   }
   
   return (
-    <section className="bg-black bg-opacity-85">
+    <section className="bg-slate-500 dakr:bg-black dark:bg-opacity-85">
         <article className="bg-gray-900 bg-opacity-80 flex flex-col items-center">
-            <img src={group.picture} alt="picture-group" className="h-96 w-[80%] rounded-b-md object-cover"/>
-            <div className="flex justify-between w-[80%] mt-5 mb-5">
+            <img src={group.picture} alt="picture-group" className="h-96 xl:w-[80%] w-full rounded-b-md object-cover"/>
+            <div className="flex flex-wrap justify-center gap-3 xl:justify-between w-[80%] mt-5 mb-5">
                 <div className="flex flex-col">
                     <strong className="text-2xl text-white">{group.name}</strong>
                     <span className="font-semibold text-gray-400">{group.visibility} group | {group.members.length} members</span>
                 </div>
-                <div className="flex gap-3">
-                    <button className="flex items-center gap-3 px-6 rounded-md bg-blue-500 text-white">
-                        <MdGroups />
+                <div className="flex items-center gap-3">
+                    {
+                      isMember ?
+                      <button className="flex items-center gap-3 px-6 py-2 rounded-md bg-red-500 text-white" onClick={leaveGroup}>
+                        <CiLogout size={30}/>
+                        <strong>Leave group</strong>
+                      </button>
+                      :
+                      <button className="flex items-center gap-3 px-6 py-2 rounded-md bg-blue-500 text-white" onClick={joinGroup}>
+                        <MdGroups size={30}/>
                         <strong>Join to group</strong>
-                    </button>
-                    <button className="flex items-center gap-3 px-6 rounded-md bg-gray-600 text-white">
-                        <IoCopyOutline />
+                      </button>
+                    }
+                    <button className="flex items-center gap-3 px-6 py-3 rounded-md bg-gray-600 text-white" onClick={copyLinkGroup}>
+                        <IoCopyOutline size={20}/>
                         <strong>Copy Link</strong>
                     </button>
                 </div>
             </div>
         </article>
-        <section className="flex flex-col items-center gap-12 mt-12 text-white">
-            <article className="bg-gray-900 p-3 rounded-lg w-[50%]">
+        <section className="flex flex-col items-center gap-12 mt-12 text-white px-2">
+            <article className="bg-gray-900 p-3 rounded-lg xl:w-[50%] w-full">
                 <strong>Information about this group</strong>
                 <hr className="text-gray-600 mt-3"/>
                 <div className="mt-3 flex items-center gap-3">
@@ -102,7 +203,7 @@ const InfoGroup = () => {
                     </div>
                 </div>
             </article>
-            <article className="bg-gray-900 p-3 rounded-lg w-[50%]">
+            <article className="bg-gray-900 p-3 rounded-lg xl:w-[50%] w-full">
                 <strong>Members | {group.members.length}</strong>
                 <hr className="text-gray-600 mt-3"/>
                 <div className="mt-5 flex items-center gap-1">
@@ -122,7 +223,7 @@ const InfoGroup = () => {
                     }
                 </div>
             </article>
-            <article className="bg-gray-900 p-3 rounded-lg w-[50%] mb-5">
+            <article className="bg-gray-900 p-3 rounded-lg xl:w-[50%] w-full mb-5">
                 <strong>Description</strong>
                 <hr className="text-gray-600 mt-3"/>
                 <p className="whitespace-pre-wrap mt-3 break-words">{group.description}</p>

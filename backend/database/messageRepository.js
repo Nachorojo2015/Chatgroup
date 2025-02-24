@@ -58,4 +58,15 @@ export class MessagesRepository {
 
         return fileUrl
     }
+
+    static async markMessagesAsSeen({ messageId, userId }) {
+        const message = await messagesModel.findById({ _id: messageId })
+
+        if (!message.seenBy.includes(userId)) {
+            message.seenBy.push(userId)
+            await message.save()
+        }
+
+        return message
+    }
 }
