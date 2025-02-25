@@ -8,6 +8,7 @@ export const useUserStore = create((set) => ({
     avatar: '',
     groups: [],
     privateUsers: [],
+    blockedUsers: [],
 
     fetchUserData: async () => {
       try {
@@ -27,7 +28,7 @@ export const useUserStore = create((set) => ({
 
         const { user } = data
 
-        const { fullname, username, avatar, groups, privateUsers, _id } = user
+        const { fullname, username, avatar, groups, privateUsers, blockedUsers, _id } = user
 
         set({
           userId: _id,
@@ -35,7 +36,8 @@ export const useUserStore = create((set) => ({
           username, 
           avatar,
           groups,
-          privateUsers
+          privateUsers,
+          blockedUsers
         })
         
       } catch (error) {

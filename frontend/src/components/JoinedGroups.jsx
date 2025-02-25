@@ -16,9 +16,6 @@ const JoinedGroups = ({ group, fetchUserData }) => {
 
   const isUnSeen = unSeen.includes(_id)
 
-  console.log(isUnSeen, unSeen)
-  console.log(_id)
-
   useEffect(() => {
         document.addEventListener('click', () => {
           const menuOptions = document.getElementById('menu-join-options')

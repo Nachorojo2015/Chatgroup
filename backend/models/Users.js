@@ -34,6 +34,12 @@ const usersSchema = new Schema({
       type: mongoose.Schema.ObjectId,
       ref: 'privates'
     }
+  ],
+  blockedUsers: [
+    {
+      type: mongoose.Schema.ObjectId,
+      ref: 'users'
+    }
   ]
 })
 

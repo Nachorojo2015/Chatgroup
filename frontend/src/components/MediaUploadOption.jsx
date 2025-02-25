@@ -54,7 +54,7 @@ const MediaUploadOption = ({ icon: Icon, extensions, socket, id, userId }) => {
   return (
     <label className="flex items-center gap-3 transition hover:opacity-50 cursor-pointer mt-3 mb-3">
         <Icon size={20}/>
-        <input type="file" hidden accept={extensions} onClick={() => setIsOpenMenu(false)} onChange={handleFile}/>
+        <input type="file" disabled={ id === 'Block' } hidden accept={extensions} onClick={() => setIsOpenMenu(false)} onChange={handleFile}/>
     </label>
   )
 }

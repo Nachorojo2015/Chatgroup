@@ -3,7 +3,7 @@ import { privatesModel } from "../models/Private.js";
 import { usersModel } from "../models/Users.js";
 
 export class PrivateRepository {
-    static async createPrivateChat({ idUserPrivate, userId}) {
+    static async createPrivateChat({ idUserPrivate, userId }) {
         const user = await usersModel.findById({ _id: userId })
         if (!user) throw new ValidateError('user must exists')
 

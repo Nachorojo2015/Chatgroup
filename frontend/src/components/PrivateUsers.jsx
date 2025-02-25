@@ -12,9 +12,9 @@ const PrivateUsers = ({ privateUsers, valueSearch, fetchUserData, username }) =>
   
   return (
     <div className="w-full overflow-y-auto h-full absolute [scrollbar-width:thin]">
-      {
-        privateChats.map((privateChat, index) => (
-          <PrivateChat privateChat={privateChat} key={index}/>
+       {
+        privateChats.map(privateChat => (
+          <PrivateChat privateChat={privateChat} key={privateChat._id} fetchUserData={fetchUserData}/>
         ))
        }
        <SearchUsersButton fetchUserData={fetchUserData}/>

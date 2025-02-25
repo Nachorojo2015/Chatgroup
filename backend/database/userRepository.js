@@ -128,6 +128,7 @@ export class UserRepository {
                 avatar: 1,
                 groups: 1,
                 privateUsers: 1,
+                blockedUsers: 1,
                 _id: 1
             }
         )
@@ -152,7 +153,7 @@ export class UserRepository {
             path: 'privateUsers',
             populate: {
                 path: 'users',
-                select: 'avatar username fullname',
+                select: 'avatar username fullname blockedUsers',
             }
         })
 
@@ -184,5 +185,18 @@ export class UserRepository {
         if (!users.length) throw new InvalidLength('Not users found')
 
         return users
+    }
+
+    static async blockUser({ username, _id }) {
+        const myUser = await usersModel.findById(_id)
+        if (!myUser) throw new ValidateError('The user dont exists')
+        
+        const userToBlock = await usersModel.findOne({ username })
+        if (!userToBlock) throw new ValidateError('The user dont exists')
+            
+        myUser.blockedUsers.push(userToBlock._id)
+        await myUser.save()
+
+        return userToBlock.username
     }
 }
