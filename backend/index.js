@@ -64,6 +64,10 @@ io.on('connection', socket => {
     }
   })
 
+  socket.on('update-user', () => {
+    io.emit('update-user-data')
+  })
+
   socket.on('disconnect', () => {
     console.log('User Disconnect:', socket.id);
   })

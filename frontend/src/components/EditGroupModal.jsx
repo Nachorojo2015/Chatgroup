@@ -106,7 +106,7 @@ const EditGroupModal = forwardRef(({ name, description, username, picture, _id, 
           autoClose: 2000
         })
 
-        socket.emit('updateUser', (idUser))
+        socket.emit('update-user', ({ userId: idUser }))
 
         fetchUserData()
       } catch (error) {
@@ -150,6 +150,8 @@ const EditGroupModal = forwardRef(({ name, description, username, picture, _id, 
           isLoading: false,
           autoClose: 2000
         })
+
+        socket.emit('update-user', ({ userId: idUser }))
 
         fetchUserData()
       } catch (error) {

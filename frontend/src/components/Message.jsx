@@ -3,70 +3,24 @@ import { FaFileAlt } from "react-icons/fa";
 import { FaDownload } from "react-icons/fa6";
 import { FaCheck } from "react-icons/fa6";
 import Player from "./Player";
-import { forwardRef, useEffect, useRef, useState } from "react";
+import { forwardRef, useRef } from "react";
 import { MdContentCopy } from "react-icons/md";
 import { MdDelete } from "react-icons/md";
 import { toast } from "react-toastify";
+import { IoMdClose } from "react-icons/io";
 
-const Text = forwardRef(({ userId, _id, content, username, avatar, isSameUser, time, socket, messageId }, ref) => {
-
-  const [openMenu, setOpenMenu] = useState(false)
-
-  const menuRef = useRef()
-  const menuBtnRef = useRef()
-
-  useEffect(() => {
-    const handleMenu = (e) => {
-      if (menuRef.current && menuBtnRef.current && !menuRef.current.contains(e.target) && !menuBtnRef.current.contains(e.target)) {
-        setOpenMenu(false)
-      }
-    }
-
-    document.addEventListener('click', handleMenu)
-  }, [])
-
-  async function copyMessage() {
-      navigator.clipboard.writeText(content)
-       .then(() => {
-          toast.success('Message copied')
-        })
-        .catch(() => {
-          toast.error('Error to copy the message')
-        })
-
-    setOpenMenu(false)
-  }
-  
-  async function deleteMessage() {
-    socket.emit('delete-message', { messageId })
-  }
-
+const Text = forwardRef(({ userId, _id, content, username, avatar, isSameUser, time }, ref) => {
   // If is my user id
   if (userId === _id) {
     return (
-    <li className={`flex justify-end ${isSameUser ? 'mt-1' : 'mt-3'}  mr-3 items-center relative`} ref={ref}>
+      <li className={`flex justify-end ${isSameUser ? 'mt-1' : 'mt-3'}  mr-3 items-center relative`}>
         <span className={`pr-20 pl-3 text-sm bg-slate-200 p-2 rounded-md ${isSameUser ? '' : 'rounded-tr-none'}  dark:bg-gray-600 dark:text-white whitespace-pre-line break-words xl:max-w-96 max-w-56`}>{content}</span>
         {isSameUser ? '' : <div className="absolute top-0 right-0 w-0 border-t-[10px] border-t-slate-200 dark:border-t-gray-600 border-r-[10px] border-r-transparent translate-x-2"></div>}
-        <div className="absolute bottom-0 right-2 flex items-center gap-1 cursor-pointer" onClick={() => setOpenMenu(!openMenu)} ref={menuBtnRef}>
+        <div className="absolute bottom-0 right-2 flex items-center gap-1 cursor-pointer" onClick={() => ref.current.showModal()}>
           <time className="text-[10px] mt-auto dark:text-gray-300">{time}</time>
           <FaCheck size={10} className="dark:text-gray-300"/>
         </div>
-        {
-          openMenu ? 
-          <div className="flex flex-col gap-2 absolute right-1 bg-white dark:bg-black bg-opacity-60 shadow rounded-md p-2 z-[500] menu-message" ref={menuRef}>
-            <button className="flex items-center justify-center gap-2 transition hover:opacity-40 dark:text-white" onClick={copyMessage}>
-              <MdContentCopy />
-              <span>Copy</span>
-            </button>
-            <button className="flex items-center justify-center gap-2 transition hover:opacity-40 text-red-500" onClick={deleteMessage}>
-              <MdDelete />
-              <span>Delete</span>
-            </button>
-          </div>
-          :
-          ''
-        }
-    </li>
+      </li>
     )
   }
 
@@ -87,39 +41,7 @@ const Text = forwardRef(({ userId, _id, content, username, avatar, isSameUser, t
   )
 })
 
-const Image = forwardRef(({ userId, _id, content, username, avatar, isSameUser, time, socket, messageId }, ref) => {
-
-  const [openMenu, setOpenMenu] = useState(false)
-
-  const menuRef = useRef()
-  const menuBtnRef = useRef()
-
-  useEffect(() => {
-    const handleMenu = (e) => {
-      if (menuRef.current && menuBtnRef.current && !menuRef.current.contains(e.target) && !menuBtnRef.current.contains(e.target)) {
-        setOpenMenu(false)
-      }
-    }
-
-    document.addEventListener('click', handleMenu)
-  }, [])
-
-  async function copyMessage() {
-      navigator.clipboard.writeText(content)
-       .then(() => {
-          toast.success('Message copied')
-        })
-        .catch(() => {
-          toast.error('Error to copy the message')
-        })
-
-    setOpenMenu(false)
-  }
-  
-  async function deleteMessage() {
-    socket.emit('delete-message', { messageId })
-  }
-
+const Image = forwardRef(({ userId, _id, content, username, avatar, isSameUser, time }, ref) => {
   // If is my user id
   if (userId === _id) {
     return (
@@ -130,25 +52,10 @@ const Image = forwardRef(({ userId, _id, content, username, avatar, isSameUser, 
           </div>
           {isSameUser ? '' : <div className="absolute top-0 right-0 w-0 border-t-[10px] border-t-slate-200 dark:border-t-gray-600 border-r-[10px] border-r-transparent translate-x-2"></div>}
         </div>
-        <div className="absolute bottom-0 right-2 flex items-center gap-1 cursor-pointer" onClick={() => setOpenMenu(!openMenu)} ref={menuBtnRef}>
+        <div className="absolute bottom-0 right-2 flex items-center gap-1 cursor-pointer" onClick={() => ref.current.showModal()}>
           <time className="text-[10px] mt-auto dark:text-gray-300">{time}</time>
           <FaCheck size={10} className="dark:text-gray-300"/>
         </div>
-        {
-          openMenu ? 
-          <div className="flex flex-col gap-2 absolute right-1 bottom-0 bg-white dark:bg-black bg-opacity-60 shadow rounded-md p-2 z-[500] menu-message" ref={menuRef}>
-            <button className="flex items-center justify-center gap-2 transition hover:opacity-40 dark:text-white" onClick={copyMessage}>
-              <MdContentCopy />
-              <span>Copy</span>
-            </button>
-            <button className="flex items-center justify-center gap-2 transition hover:opacity-40 text-red-500" onClick={deleteMessage}>
-              <MdDelete />
-              <span>Delete</span>
-            </button>
-          </div>
-          :
-          ''
-        }
       </li>
     )
   }
@@ -173,39 +80,7 @@ const Image = forwardRef(({ userId, _id, content, username, avatar, isSameUser, 
   )
 })
 
-const Video = forwardRef(({ userId, _id, content, username, avatar, isSameUser, time, socket, messageId }, ref) => {
-
-  const [openMenu, setOpenMenu] = useState(false)
-
-  const menuRef = useRef()
-  const menuBtnRef = useRef()
-
-  useEffect(() => {
-    const handleMenu = (e) => {
-      if (menuRef.current && menuBtnRef.current && !menuRef.current.contains(e.target) && !menuBtnRef.current.contains(e.target)) {
-        setOpenMenu(false)
-      }
-    }
-
-    document.addEventListener('click', handleMenu)
-  }, [])
-
-  async function copyMessage() {
-      navigator.clipboard.writeText(content)
-       .then(() => {
-          toast.success('Message copied')
-        })
-        .catch(() => {
-          toast.error('Error to copy the message')
-        })
-
-    setOpenMenu(false)
-  }
-  
-  async function deleteMessage() {
-    socket.emit('delete-message', { messageId })
-  }
-
+const Video = forwardRef(({ userId, _id, content, username, avatar, isSameUser, time }, ref) => {
   // If is my user id
   if (userId === _id) {
     return (
@@ -216,25 +91,10 @@ const Video = forwardRef(({ userId, _id, content, username, avatar, isSameUser, 
           </div>
           {isSameUser ? '' : <div className="absolute top-0 right-0 w-0 border-t-[10px] border-t-slate-200  dark:border-t-gray-600 border-r-[10px] border-r-transparent translate-x-2"></div>}
         </div>
-        <div className="absolute bottom-0 right-2 flex items-center gap-1 cursor-pointer" onClick={() => setOpenMenu(!openMenu)} ref={menuBtnRef}>
+        <div className="absolute bottom-0 right-2 flex items-center gap-1 cursor-pointer" onClick={() => ref.current.showModal()}>
           <time className="text-[10px] mt-auto dark:text-gray-300">{time}</time>
           <FaCheck size={10} className="dark:text-gray-300"/>
         </div>
-        {
-          openMenu ? 
-          <div className="flex flex-col gap-2 absolute right-1 bottom-0 bg-white dark:bg-black bg-opacity-60 shadow rounded-md p-2 z-[500] menu-message" ref={menuRef}>
-            <button className="flex items-center justify-center gap-2 transition hover:opacity-40 dark:text-white" onClick={copyMessage}>
-              <MdContentCopy />
-              <span>Copy</span>
-            </button>
-            <button className="flex items-center justify-center gap-2 transition hover:opacity-40 text-red-500" onClick={deleteMessage}>
-              <MdDelete />
-              <span>Delete</span>
-            </button>
-          </div>
-          :
-          ''
-        }
       </li>
     )
   }
@@ -259,39 +119,7 @@ const Video = forwardRef(({ userId, _id, content, username, avatar, isSameUser, 
   )
 })
 
-const Application = forwardRef(({ userId, _id, content, username, avatar, isSameUser, time, socket, messageId }, ref) => {
-
-  const [openMenu, setOpenMenu] = useState(false)
-
-  const menuRef = useRef()
-  const menuBtnRef = useRef()
-
-  useEffect(() => {
-    const handleMenu = (e) => {
-      if (menuRef.current && menuBtnRef.current && !menuRef.current.contains(e.target) && !menuBtnRef.current.contains(e.target)) {
-        setOpenMenu(false)
-      }
-    }
-
-    document.addEventListener('click', handleMenu)
-  }, [])
-
-  async function copyMessage() {
-      navigator.clipboard.writeText(content)
-       .then(() => {
-          toast.success('Message copied')
-        })
-        .catch(() => {
-          toast.error('Error to copy the message')
-        })
-
-    setOpenMenu(false)
-  }
-  
-  async function deleteMessage() {
-    socket.emit('delete-message', { messageId })
-  }
-
+const Application = forwardRef(({ userId, _id, content, username, avatar, isSameUser, time }, ref) => {
   // If is my user id
   if (userId === _id) {
     return (
@@ -301,25 +129,10 @@ const Application = forwardRef(({ userId, _id, content, username, avatar, isSame
         <a href={content}>
           <FaDownload />
         </a>
-        <div className="absolute bottom-0 right-2 flex items-center gap-1 cursor-pointer" onClick={() => setOpenMenu(!openMenu)} ref={menuBtnRef}>
+        <div className="absolute bottom-0 right-2 flex items-center gap-1 cursor-pointer" onClick={() => ref.current.showModal()}>
           <time className="text-[10px] mt-auto dark:text-gray-300">{time}</time>
           <FaCheck size={10} className="dark:text-gray-300"/>
         </div>
-        {
-          openMenu ? 
-          <div className="flex flex-col gap-2 absolute right-1 bottom-0 bg-white dark:bg-black bg-opacity-60 shadow rounded-md p-2 z-[500] menu-message" ref={menuRef}>
-            <button className="flex items-center justify-center gap-2 transition hover:opacity-40 dark:text-white" onClick={copyMessage}>
-              <MdContentCopy />
-              <span>Copy</span>
-            </button>
-            <button className="flex items-center justify-center gap-2 transition hover:opacity-40 text-red-500" onClick={deleteMessage}>
-              <MdDelete />
-              <span>Delete</span>
-            </button>
-          </div>
-          :
-          ''
-        }
         {isSameUser ? '' : <div className="absolute top-0 right-0 w-0 border-t-[10px] border-t-slate-200  dark:border-t-gray-600 border-r-[10px] border-r-transparent translate-x-2"></div>}
       </li>
     )
@@ -347,39 +160,7 @@ const Application = forwardRef(({ userId, _id, content, username, avatar, isSame
   )
 })
 
-const Audio = forwardRef(({ userId, _id, content, username, avatar, isSameUser, time, socket, messageId }, ref) => {
-
-  const [openMenu, setOpenMenu] = useState(false)
-
-  const menuRef = useRef()
-  const menuBtnRef = useRef()
-
-  useEffect(() => {
-    const handleMenu = (e) => {
-      if (menuRef.current && menuBtnRef.current && !menuRef.current.contains(e.target) && !menuBtnRef.current.contains(e.target)) {
-        setOpenMenu(false)
-      }
-    }
-
-    document.addEventListener('click', handleMenu)
-  }, [])
-
-  async function copyMessage() {
-      navigator.clipboard.writeText(content)
-       .then(() => {
-          toast.success('Message copied')
-        })
-        .catch(() => {
-          toast.error('Error to copy the message')
-        })
-
-    setOpenMenu(false)
-  }
-  
-  async function deleteMessage() {
-    socket.emit('delete-message', { messageId })
-  }
-
+const Audio = forwardRef(({ userId, _id, content, username, avatar, isSameUser, time }, ref) => {
   // If is my user id
   if (userId === _id) {
     return (
@@ -389,25 +170,10 @@ const Audio = forwardRef(({ userId, _id, content, username, avatar, isSameUser, 
           <Player audioURL={content}/>
         </div>
         {isSameUser ? '' : <div className="absolute top-0 right-0 w-0 border-t-[10px] border-t-slate-200 dark:border-t-gray-600 border-r-[10px] border-r-transparent translate-x-2"></div>}
-        <div className="absolute bottom-0 right-2 flex items-center gap-1 cursor-pointer" onClick={() => setOpenMenu(!openMenu)} ref={menuBtnRef}>
+        <div className="absolute bottom-0 right-2 flex items-center gap-1 cursor-pointer" onClick={() => ref.current.showModal()}>
           <time className="text-[10px] mt-auto dark:text-gray-300">{time}</time>
           <FaCheck size={10} className="dark:text-gray-300"/>
         </div>
-        {
-          openMenu ? 
-          <div className="flex flex-col gap-2 absolute right-1 bottom-0 bg-white dark:bg-black bg-opacity-60 shadow rounded-md p-2 z-[500] menu-message" ref={menuRef}>
-            <button className="flex items-center justify-center gap-2 transition hover:opacity-40 dark:text-white" onClick={copyMessage}>
-              <MdContentCopy />
-              <span>Copy</span>
-            </button>
-            <button className="flex items-center justify-center gap-2 transition hover:opacity-40 text-red-500" onClick={deleteMessage}>
-              <MdDelete />
-              <span>Delete</span>
-            </button>
-          </div>
-          :
-          ''
-        }
       </li>
     )
   }
@@ -449,19 +215,50 @@ const Message = ({ message, userId, isSameUser, socket }) => {
     return time
   }
 
-  const messageRef = useRef(null)
+  async function copyMessage() {
+    messageModalRef.current.close()
+    navigator.clipboard.writeText(message.content)
+     .then(() => {
+        toast.success('Message copied')
+      })
+      .catch(() => {
+        toast.error('Error to copy the message')
+      })
+  }
+
+  async function deleteMessage() {
+    messageModalRef.current.close()
+    socket.emit('delete-message', { messageId: message._id })
+  }
+
+  const messageModalRef = useRef()
   
   const TypeMessage = {
-    'text': <Text userId={userId} _id={message.user._id} username={message.user.username} avatar={message.user.avatar} content={message.content} isSameUser={isSameUser} time={formatTime(message.date)} ref={messageRef} socket={socket} messageId={message._id}/>,
-    'image': <Image userId={userId} _id={message.user._id} username={message.user.username} avatar={message.user.avatar} content={message.content} isSameUser={isSameUser} time={formatTime(message.date)} ref={messageRef} socket={socket} messageId={message._id}/>,
-    'video': <Video userId={userId} _id={message.user._id} username={message.user.username} avatar={message.user.avatar} content={message.content} isSameUser={isSameUser} time={formatTime(message.date)} ref={messageRef} socket={socket} messageId={message._id}/>,
-    'application': <Application userId={userId} _id={message.user._id} username={message.user.username} avatar={message.user.avatar} content={message.content} isSameUser={isSameUser} time={formatTime(message.date)} ref={messageRef} socket={socket} messageId={message._id}/>,
-    'audio': <Audio userId={userId} _id={message.user._id} username={message.user.username} avatar={message.user.avatar} content={message.content} isSameUser={isSameUser} time={formatTime(message.date)} ref={messageRef} socket={socket} messageId={message._id}/>
+    'text': <Text userId={userId} _id={message.user._id} username={message.user.username} avatar={message.user.avatar} content={message.content} isSameUser={isSameUser} time={formatTime(message.date)} ref={messageModalRef}/>,
+    'image': <Image userId={userId} _id={message.user._id} username={message.user.username} avatar={message.user.avatar} content={message.content} isSameUser={isSameUser} time={formatTime(message.date)} ref={messageModalRef} />,
+    'video': <Video userId={userId} _id={message.user._id} username={message.user.username} avatar={message.user.avatar} content={message.content} isSameUser={isSameUser} time={formatTime(message.date)} ref={messageModalRef} />,
+    'application': <Application userId={userId} _id={message.user._id} username={message.user.username} avatar={message.user.avatar} content={message.content} isSameUser={isSameUser} time={formatTime(message.date)} ref={messageModalRef}/>,
+    'audio': <Audio userId={userId} _id={message.user._id} username={message.user.username} avatar={message.user.avatar} content={message.content} isSameUser={isSameUser} time={formatTime(message.date)} ref={messageModalRef}/>
   }
   
   return (
     <>
     {TypeMessage[message.format]}
+    <dialog className="p-3 rounded-md dark:bg-gray-700 dark:text-white" ref={messageModalRef}>
+      <button onClick={() => messageModalRef.current.close()}>
+        <IoMdClose size={20}/>
+      </button>
+      <div className="flex flex-col gap-1 justify-center mt-3">
+        <button className="flex items-center justify-center gap-2 transition hover:opacity-40 dark:text-white" onClick={copyMessage}>
+          <MdContentCopy />
+          <span>Copy</span>
+        </button>
+        <button className="flex items-center justify-center gap-2 transition hover:opacity-40 text-red-500" onClick={deleteMessage}>
+          <MdDelete />
+          <span>Delete</span>
+        </button>
+      </div>
+    </dialog>
     </>
   )
 }

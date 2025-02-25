@@ -21,7 +21,7 @@ import { IoMusicalNotesOutline } from "react-icons/io5";
 const Chat = ({ socket }) => {
 
   const { setMessage, message } = useChatStore()
-  const userId = useUserStore(state => state.userId)
+  const { userId, fetchUserData } = useUserStore()
   const chatContainer = useRef(null)
   const textareaMessageRef = useRef(null)
   
@@ -45,16 +45,22 @@ const Chat = ({ socket }) => {
       toast.error(error)
     }
 
+    const handleUpdateUserData = () => {
+      fetchUserData()
+    }
+
     socket.on('receive-message', handleReceiveMessage)
     socket.on('message-error', handleErrorMessage)
     socket.on('receive-message-deleted', handleReceiveDeleteMessage)
+    socket.on('update-user-data', handleUpdateUserData)
 
     return () => {
       socket.off('receive-message')
       socket.off('message-error')
       socket.off('receive-message-deleted')
+      socket.off('update-user-data')
     }
-  }, [setMessages, socket, id, setUnSeen, unSeen, messages])
+  }, [setMessages, socket, id, setUnSeen, unSeen, messages, fetchUserData])
 
   useEffect(() => {
     scrollToBottom()

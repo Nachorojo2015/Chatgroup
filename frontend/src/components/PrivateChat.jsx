@@ -20,12 +20,13 @@ const PrivateChat = ({ privateChat, fetchUserData }) => {
   const isUnSeen = unSeen.includes(privateChat._id)
 
   async function openChat() {
-    setLoader(false)
+    setLoader(true)
     setUnSeen(unSeen.filter(chatId => chatId !== privateChat._id))
     try {
       const response = await fetch(`http://localhost:3000/messages/${privateChat._id}`)
   
       if (!response.ok) {
+        setLoader(false)
         const errorMessage = await response.text()
         return toast.error(errorMessage)
       }
@@ -39,9 +40,11 @@ const PrivateChat = ({ privateChat, fetchUserData }) => {
         data.messages
       )
 
+      setLoader(false)
       setIsChatMobileOpen(true)
     } catch (error) {
       console.error(error)
+      setLoader(false)
     }
   } 
 
