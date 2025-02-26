@@ -8,7 +8,7 @@ import DeleteGroupButton from "./DeleteGroupButton";
 import { useChatStore } from "../store/chatStore";
 import { toast } from "react-toastify";
 import { SlOptionsVertical } from "react-icons/sl";
-import { useEffect, useState } from "react";
+import { useRef, useState } from "react";
 
 const MyGroups = ({ group, fetchUserData, username, socket }) => {
 
@@ -16,20 +16,10 @@ const MyGroups = ({ group, fetchUserData, username, socket }) => {
   const { setData, setIsChatMobileOpen, setLoader, unSeen, setUnSeen } = useChatStore()
   const [openMenu, setOpenMenu] = useState(false)
 
+  const pictureGroupModal = useRef()
+
   const isUnSeen = unSeen.includes(_id)
-
-  useEffect(() => {
-      document.addEventListener('click', () => {
-        const menuOptions = document.getElementById('menu-options')
-        const menuOptionsButton = document.getElementById('menu-options-button')
-
-        if (menuOptions && menuOptionsButton && !menuOptions.contains(event.target) && !menuOptionsButton.contains(event.target)) {
-          setOpenMenu(false)
-        }
-      })
-  }, [])
   
-
   async function openChat() {
       setLoader(true)
       setUnSeen(unSeen.filter(chatId => chatId !== _id))
@@ -67,6 +57,7 @@ const MyGroups = ({ group, fetchUserData, username, socket }) => {
         src={picture}
         alt="avatar user"
         className="w-16 h-16 rounded-full object-cover"
+        onClick={() => pictureGroupModal.current.showModal()}
       />
 
       <div className="flex flex-col gap-1">
@@ -89,15 +80,19 @@ const MyGroups = ({ group, fetchUserData, username, socket }) => {
 
       <div className="flex items-center ml-auto gap-5 relative">
         {isUnSeen ? <span className="bg-blue-400 rounded-full p-1"></span> : ''}
-        <button onClick={() => setOpenMenu(!openMenu)} id="menu-options-button">
+        <button onClick={() => setOpenMenu(!openMenu)}>
           <SlOptionsVertical className="dark:text-white"/>
         </button>
-        <div id="menu-options" className={`transition-all ${!openMenu ? 'invisible opacity-0' : 'opacity-100'} flex flex-col gap-2 p-1 rounded-md absolute right-9 shadow-xl dark:bg-black dark:text-white min-w-36`}>
+        <div className={`transition-all ${!openMenu ? 'invisible opacity-0' : 'opacity-100'} flex flex-col gap-2 p-1 rounded-md absolute right-9 shadow-xl dark:bg-black dark:text-white min-w-36`}>
           <CopyLinkGroupButton _id={_id} />
           <EditGroupButton _id={_id} name={name} description={description} username={username} picture={picture} members={members} blockedUsers={blockedUsers} visibility={visibility} fetchUserData={fetchUserData} socket={socket}/>
           <DeleteGroupButton picture={picture} name={name} _id={_id} fetchUserData={fetchUserData}/>
         </div>
       </div>
+
+      <dialog ref={pictureGroupModal} className="backdrop:bg-[rgba(0,0,0,.90)] xl:max-w-96 max-w-60 outline-none" onClick={() => pictureGroupModal.current.close()}>
+        <img src={picture} alt="picture-group" />
+      </dialog>
     </article>
   );
 };

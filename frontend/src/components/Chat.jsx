@@ -35,6 +35,10 @@ const Chat = ({ socket }) => {
       } else {
         setMessages([...messages, newMessage])
       }
+
+      setTimeout(() => {
+        scrollToBottom()
+      }, 500)
     }
 
     const handleReceiveDeleteMessage = ({ messageDeleted }) => {

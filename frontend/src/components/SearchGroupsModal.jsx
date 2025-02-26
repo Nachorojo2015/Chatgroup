@@ -54,7 +54,7 @@ const SearchGroupsModal = forwardRef(({ username, fetchUserData }, ref) => {
 
 
   return (
-    <dialog ref={ref} className="backdrop:bg-[rgba(0,0,0,.60)] dark:bg-gray-700 p-3 rounded-md shadow-md xl:min-w-[450px]">
+    <dialog ref={ref} className="backdrop:bg-[rgba(0,0,0,.60)] dark:bg-gray-700 p-3 rounded-md shadow-md xl:min-w-[450px]" onClick={closeSearchGroupsModal}>
         <button onClick={closeSearchGroupsModal}>
           <FaArrowLeftLong className="dark:text-white" size={22}/>
         </button>

@@ -87,7 +87,7 @@ const Microphone = ({ setActiveMicro, socket, id, userId }) => {
         const data = await response.json()
         const fileUrl = data.fileUrl
   
-        socket.emit('message', { message: {
+        socket.emit('send-message', { message: {
           format: 'audio',
           content: fileUrl,
           chatId: id,

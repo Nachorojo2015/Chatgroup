@@ -4,10 +4,7 @@ import { FaDownload } from "react-icons/fa6";
 import { FaCheck } from "react-icons/fa6";
 import Player from "./Player";
 import { forwardRef, useRef } from "react";
-import { MdContentCopy } from "react-icons/md";
-import { MdDelete } from "react-icons/md";
-import { toast } from "react-toastify";
-import { IoMdClose } from "react-icons/io";
+import MessageOptionsModal from "./MessageOptionsModal";
 
 const Text = forwardRef(({ userId, _id, content, username, avatar, isSameUser, time }, ref) => {
   // If is my user id
@@ -42,13 +39,16 @@ const Text = forwardRef(({ userId, _id, content, username, avatar, isSameUser, t
 })
 
 const Image = forwardRef(({ userId, _id, content, username, avatar, isSameUser, time }, ref) => {
+
+  const modalPictureRef = useRef()
+
   // If is my user id
   if (userId === _id) {
     return (
       <li className={`flex justify-end relative mr-3 ${isSameUser ? 'mt-1' : 'mt-3'}`} ref={ref}>
         <div className={`xl:max-w-96 max-w-60 rounded-md bg-slate-200 dark:bg-gray-600 ${isSameUser ? '' : 'rounded-tr-none'}`}>
           <div className="p-2 pb-5">
-            <img src={content} alt="user-image" className="rounded-md object-cover shadow"/>
+            <img src={content} alt="user-image" className="rounded-md object-cover shadow" onClick={() => modalPictureRef.current.showModal()}/>
           </div>
           {isSameUser ? '' : <div className="absolute top-0 right-0 w-0 border-t-[10px] border-t-slate-200 dark:border-t-gray-600 border-r-[10px] border-r-transparent translate-x-2"></div>}
         </div>
@@ -56,6 +56,9 @@ const Image = forwardRef(({ userId, _id, content, username, avatar, isSameUser, 
           <time className="text-[10px] mt-auto dark:text-gray-300">{time}</time>
           <FaCheck size={10} className="dark:text-gray-300"/>
         </div>
+        <dialog ref={modalPictureRef} className="backdrop:bg-[rgba(0,0,0,.90)] xl:max-w-96 max-w-60 outline-none" onClick={() => modalPictureRef.current.close()}>
+          <img src={content} alt="picture"/>
+        </dialog>
       </li>
     )
   }
@@ -67,7 +70,7 @@ const Image = forwardRef(({ userId, _id, content, username, avatar, isSameUser, 
         <span className={`dark:text-white ${isSameUser ? 'hidden' : ''}`}>{username}</span>
         <div className={`xl:max-w-96 max-w-60 rounded-md bg-slate-200 dark:bg-gray-600 ${isSameUser ? '' : 'rounded-tl-none'} relative`}>
           <div className="p-2 pb-5">
-            <img src={content} alt="user-image" className="rounded-md object-cover shadow"/>
+            <img src={content} alt="user-image" className="rounded-md object-cover shadow" onClick={() => modalPictureRef.current.showModal()}/>
           </div>
           {isSameUser ? '' : <div className="absolute top-0 left-0 w-0 h-0 border-t-[10px] dark:border-t-gray-600 border-t-slate-200 border-r-[10px] border-r-transparent -translate-x-2 rotate-90"></div>}
         </div>
@@ -76,6 +79,9 @@ const Image = forwardRef(({ userId, _id, content, username, avatar, isSameUser, 
           <FaCheck size={10} className="dark:text-gray-300"/>
         </div>
       </div>
+      <dialog ref={modalPictureRef} className="backdrop:bg-[rgba(0,0,0,.90)] xl:max-w-96 max-w-60 outline-none" onClick={() => modalPictureRef.current.close()}>
+        <img src={content} alt="picture" />
+      </dialog>
     </li>
   )
 })
@@ -183,8 +189,9 @@ const Audio = forwardRef(({ userId, _id, content, username, avatar, isSameUser, 
       <img className={`w-8 h-8 rounded-full object-cover ${isSameUser ? 'hidden' : ''}`} src={avatar} alt="user-avatar"/>
       <div className={`flex flex-col gap-1 ${isSameUser ? 'ml-[42px]' : ''} relative`}>
         <span className={`dark:text-white ${isSameUser ? 'hidden' : ''}`}>{username}</span>
-        <div className={`bg-slate-200 dark:bg-gray-600 p-4 rounded-md ${isSameUser ? '' : 'rounded-tl-none'} relative`}>
+        <div className={`flex items-center gap-5 bg-slate-200 dark:bg-gray-600 p-4 rounded-md ${isSameUser ? '' : 'rounded-tl-none'} relative`}>
           <Player audioURL={content}/>
+          <img src={avatar} alt="user-avatar" className="w-12 h-12 rounded-full object-cover"/>
           {isSameUser ? '' : <div className="absolute top-0 left-0 w-0 h-0 border-t-[10px] dark:border-t-gray-600 border-t-slate-200 border-r-[10px] border-r-transparent -translate-x-2 rotate-90"></div>}
         </div>
         <div className="absolute bottom-0 right-2 flex items-center gap-1 cursor-pointer">
@@ -215,22 +222,6 @@ const Message = ({ message, userId, isSameUser, socket }) => {
     return time
   }
 
-  async function copyMessage() {
-    messageModalRef.current.close()
-    navigator.clipboard.writeText(message.content)
-     .then(() => {
-        toast.success('Message copied')
-      })
-      .catch(() => {
-        toast.error('Error to copy the message')
-      })
-  }
-
-  async function deleteMessage() {
-    messageModalRef.current.close()
-    socket.emit('delete-message', { messageId: message._id })
-  }
-
   const messageModalRef = useRef()
   
   const TypeMessage = {
@@ -244,21 +235,7 @@ const Message = ({ message, userId, isSameUser, socket }) => {
   return (
     <>
     {TypeMessage[message.format]}
-    <dialog className="p-3 rounded-md dark:bg-gray-700 dark:text-white" ref={messageModalRef}>
-      <button onClick={() => messageModalRef.current.close()}>
-        <IoMdClose size={20}/>
-      </button>
-      <div className="flex flex-col gap-1 justify-center mt-3">
-        <button className="flex items-center justify-center gap-2 transition hover:opacity-40 dark:text-white" onClick={copyMessage}>
-          <MdContentCopy />
-          <span>Copy</span>
-        </button>
-        <button className="flex items-center justify-center gap-2 transition hover:opacity-40 text-red-500" onClick={deleteMessage}>
-          <MdDelete />
-          <span>Delete</span>
-        </button>
-      </div>
-    </dialog>
+    <MessageOptionsModal ref={messageModalRef} socket={socket} message={message}/>
     </>
   )
 }
@@ -284,9 +261,7 @@ Text.propTypes = {
   username: PropTypes.string,
   avatar: PropTypes.string,
   isSameUser: PropTypes.bool,
-  time: PropTypes.string,
-  socket: PropTypes.object,
-  messageId: PropTypes.string
+  time: PropTypes.string
 }
 
 Image.propTypes = {
@@ -296,9 +271,7 @@ Image.propTypes = {
   username: PropTypes.string,
   avatar: PropTypes.string,
   isSameUser: PropTypes.bool,
-  time: PropTypes.string,
-  socket: PropTypes.object,
-  messageId: PropTypes.string
+  time: PropTypes.string
 }
 
 Video.propTypes = {
@@ -308,9 +281,7 @@ Video.propTypes = {
   username: PropTypes.string,
   avatar: PropTypes.string,
   isSameUser: PropTypes.bool,
-  time: PropTypes.string,
-  socket: PropTypes.object,
-  messageId: PropTypes.string
+  time: PropTypes.string
 }
 
 Application.propTypes = {
@@ -320,9 +291,7 @@ Application.propTypes = {
   username: PropTypes.string,
   avatar: PropTypes.string,
   isSameUser: PropTypes.bool,
-  time: PropTypes.string,
-  socket: PropTypes.object,
-  messageId: PropTypes.string
+  time: PropTypes.string
 }
 
 Audio.propTypes = {
@@ -332,9 +301,7 @@ Audio.propTypes = {
   username: PropTypes.string,
   avatar: PropTypes.string,
   isSameUser: PropTypes.bool,
-  time: PropTypes.string,
-  socket: PropTypes.object,
-  messageId: PropTypes.string
+  time: PropTypes.string
 }
 
 export default Message

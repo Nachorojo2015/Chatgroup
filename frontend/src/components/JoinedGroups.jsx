@@ -6,7 +6,8 @@ import LeaveGroupButton from "./LeaveGroupButton";
 import { useChatStore } from "../store/chatStore";
 import { toast } from "react-toastify";
 import { SlOptionsVertical } from "react-icons/sl";
-import { useEffect, useState } from "react";
+import { useRef, useState } from "react";
+import CopyLinkGroupButton from "./CopyLinkGroupButton";
 
 const JoinedGroups = ({ group, fetchUserData }) => {
 
@@ -16,16 +17,7 @@ const JoinedGroups = ({ group, fetchUserData }) => {
 
   const isUnSeen = unSeen.includes(_id)
 
-  useEffect(() => {
-        document.addEventListener('click', () => {
-          const menuOptions = document.getElementById('menu-join-options')
-          const menuOptionsButton = document.getElementById('menu-join-options-button')
-  
-          if (menuOptions && menuOptionsButton && !menuOptions.contains(event.target) && !menuOptionsButton.contains(event.target)) {
-            setOpenMenu(false)
-          }
-        })
-  }, [])
+  const pictureGroupModal = useRef()
 
   async function openChat() {
     setLoader(true)
@@ -63,6 +55,7 @@ const JoinedGroups = ({ group, fetchUserData }) => {
         src={picture}
         alt="avatar user"
         className="w-16 h-16 rounded-full object-cover"
+        onClick={() => pictureGroupModal.current.showModal()}
       />
 
       <div className="flex flex-col gap-1">
@@ -84,13 +77,18 @@ const JoinedGroups = ({ group, fetchUserData }) => {
       </div>
      <div className="flex items-center ml-auto gap-3">
       {isUnSeen ? <span className="bg-blue-400 rounded-full p-1 ml-auto"></span> : ''}
-      <button onClick={() => setOpenMenu(!openMenu)} id="menu-join-options-button">
+      <button onClick={() => setOpenMenu(!openMenu)}>
        <SlOptionsVertical className="dark:text-white"/>
       </button>
-      <div id="menu-join-options" className={`transition-all ${!openMenu ? 'invisible opacity-0' : 'opacity-100'} flex flex-col gap-2 p-2 rounded-md absolute right-9 shadow-xl dark:bg-black dark:text-white min-w-32`}>
+      <div className={`transition-all ${!openMenu ? 'invisible opacity-0' : 'opacity-100'} flex flex-col gap-2 p-2 rounded-md absolute right-9 shadow-xl dark:bg-black dark:text-white min-w-32`}>
+        <CopyLinkGroupButton _id={_id}/>
         <LeaveGroupButton picture={picture} name={name} _id={_id} fetchUserData={fetchUserData}/>
       </div>
      </div>
+
+      <dialog ref={pictureGroupModal} className="backdrop:bg-[rgba(0,0,0,.90)] xl:max-w-96 max-w-60 outline-none" onClick={() => pictureGroupModal.current.close()}>
+        <img src={picture} alt="picture-group" />
+      </dialog>
     </article>
   );
 };
