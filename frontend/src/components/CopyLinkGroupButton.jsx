@@ -5,12 +5,19 @@ import { TbCopyPlusFilled } from "react-icons/tb";
 const CopyLinkGroupButton = ({ _id }) => {
 
  async function copyLinkGroup() {
+
+    const isDark = document.querySelector('html').className === 'dark'
+
     navigator.clipboard.writeText(`http://localhost:5173/group/${_id}`)
      .then(() => {
-        toast.success('Link group copied succesfull')
+        toast.success('Link group copied succesfull', {
+          theme: isDark ? 'dark' : 'light'
+        })
       })
       .catch(() => {
-        toast.error('Error to copy the link')
+        toast.error('Error to copy the link', {
+          theme: isDark ? 'dark' : 'light'
+        })
       })
  }   
 

@@ -34,7 +34,10 @@ const CreateGroupModal = forwardRef(({ fetchUserData }, ref) => {
         labelNameRef.current.innerText = ''
         ref.current.close()
         
-        const toastId = toast.loading('Creating group...')
+        const isDark = document.querySelector('html').className === 'dark'
+        const toastId = toast.loading('Creating group...', {
+          theme: isDark ? 'dark' : 'light'
+        })
 
         const formData = new FormData()
         formData.append('image', fileImageGroup)

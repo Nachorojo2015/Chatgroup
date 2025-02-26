@@ -14,7 +14,10 @@ const MediaUploadOption = ({ icon: Icon, extensions, socket, id, userId }) => {
     const formData = new FormData()
     formData.append('file', file)
 
-    const toastId = toast.loading('Sending file...')
+    const isDark = document.querySelector('html').className === 'dark'
+    const toastId = toast.loading('Sending file...', {
+      theme: isDark ? 'dark' : 'light'
+    })
 
     try {
       const response = await fetch('http://localhost:3000/messages/upload', {

@@ -16,7 +16,10 @@ const User = forwardRef(({ userSearch, fetchUserData }, ref) => {
       if (users.includes(userSearch._id)) return ref.current.close()
     }
 
-    const toastId = toast.loading('Creating private chat...')
+    const isDark = document.querySelector('html').className === 'dark'
+    const toastId = toast.loading('Creating private chat...', {
+      theme: isDark ? 'dark' : 'light'
+    })
 
     try {
       const response = await fetch(`http://localhost:3000/private/create/${userSearch._id}`, {

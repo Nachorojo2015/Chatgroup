@@ -7,19 +7,22 @@ import { toast } from "react-toastify"
 const MessageOptionsModal = forwardRef(({ socket, message }, ref) => {
 
   async function copyMessage() {
-      ref.current.close()
+      const isDark = document.querySelector('html').className === 'dark'
       navigator.clipboard.writeText(message.content)
        .then(() => {
-          toast.success('Message copied')
+          toast.success('Message copied', {
+            theme: isDark ? 'dark' : 'light'
+          })
         })
         .catch(() => {
-          toast.error('Error to copy the message')
+          toast.error('Error to copy the message', {
+            theme: isDark ? 'dark' : 'light'
+          })
         })
     }
     
     async function deleteMessage() {
-        ref.current.close()
-        socket.emit('delete-message', { messageId: message._id })
+      socket.emit('delete-message', { messageId: message._id })
     }
 
   return (

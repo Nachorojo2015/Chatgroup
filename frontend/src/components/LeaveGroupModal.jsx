@@ -11,6 +11,7 @@ const LeaveGroupModal = forwardRef(({ picture, name, _id, fetchUserData }, ref) 
 
   async function leaveGroup() {
     setLoader(true)
+    const isDark = document.querySelector('html').className === 'dark'
     try {
       const response = await fetch(`http://localhost:3000/group/leave/${_id}`, {
         method: 'PUT',
@@ -21,13 +22,17 @@ const LeaveGroupModal = forwardRef(({ picture, name, _id, fetchUserData }, ref) 
       })
 
       if (!response.ok) {
-        const errorMessage = await response.text()
         ref.current.close()
-        return toast.error(errorMessage)
+        const errorMessage = await response.text()
+        return toast.error(errorMessage, {
+          theme: isDark ? 'dark' : 'light'
+        })
       }
 
       ref.current.close()
-      toast.success('Leave group')
+      toast.success('Leave group', {
+        theme: isDark ? 'dark' : 'light'
+      })
       fetchUserData()
     } catch (error) {
       console.log(error.message)

@@ -1,9 +1,12 @@
 import { CiLogout } from "react-icons/ci";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const CloseSession = () => {
+  const navigate = useNavigate()
 
   async function closeSession() {
+    const isDark = document.querySelector('html').className === 'dark'
     try {
         const response = await fetch('http://localhost:3000/auth/logout', {
             method: 'POST',
@@ -15,15 +18,19 @@ const CloseSession = () => {
 
         if (!response.ok) {
             const errorMessage = await response.text()
-            return alert(errorMessage)
+            return toast.error(errorMessage, {
+              theme: isDark ? 'dark' : 'light'
+            })
         }
         
         const successMessage = await response.text()
         
-        toast.success(successMessage)
+        toast.success(successMessage, {
+          theme: isDark ? 'dark' : 'light'
+        })
 
         setTimeout(() => {
-            window.location.href = '/login'
+           navigate('/login')
         }, 2500)
     } catch (error) {
         alert(error.message)

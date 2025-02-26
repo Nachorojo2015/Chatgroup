@@ -12,7 +12,10 @@ const Group = forwardRef(({ groupSearch, username, fetchUserData }, ref) => {
 
   async function joinGroup() {
     ref.current.close()
-    const toastId = toast.loading('Join to group...')
+    const isDark = document.querySelector('html').className === 'dark'
+    const toastId = toast.loading('Join to group...', {
+      theme: isDark ? 'dark' : 'light'
+    })
     
     try {
       const response = await fetch(`http://localhost:3000/group/join/${groupSearch._id}`, {

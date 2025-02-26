@@ -19,8 +19,6 @@ const InfoGroup = () => {
   const [group, setGroup] = useState(null)
   const { username, fetchUserData } = useUserStore()
 
-  console.log('username:', username)
-
   const isMember = group?.members.map(group => group.username).includes(username)
 
   function formateDate(fecha) {
@@ -33,17 +31,25 @@ const InfoGroup = () => {
   }
 
   async function copyLinkGroup() {
+    const isDark = document.querySelector('html').className === 'dark'
     navigator.clipboard.writeText(`http://localhost:5173/group/${id}`)
      .then(() => {
-        toast.success('Link group copied succesfull')
+        toast.success('Link group copied succesfull', {
+          theme: isDark ? 'dark' : 'light'
+        })
       })
       .catch(() => {
-        toast.error('Error to copy the link')
+        toast.error('Error to copy the link', {
+          theme: isDark ? 'dark' : 'light'
+        })
       })
     } 
 
     async function joinGroup() {
-        const toastId = toast.loading('Join to group...')
+        const isDark = document.querySelector('html').className === 'dark'
+        const toastId = toast.loading('Join to group...', {
+          theme: isDark ? 'dark' : 'light'
+        })
         
         try {
           const response = await fetch(`http://localhost:3000/group/join/${id}`, {
@@ -78,7 +84,10 @@ const InfoGroup = () => {
     }
 
     async function leaveGroup() {
-      const toastId = toast.loading('Leaving group...')
+      const isDark = document.querySelector('html').className === 'dark'
+      const toastId = toast.loading('Leaving group...', {
+        theme: isDark ? 'dark' : 'light'
+      })
 
       try {
         const response = await fetch(`http://localhost:3000/group/leave/${id}`, {
@@ -129,7 +138,6 @@ const InfoGroup = () => {
           }
     
           const data = await response.json();
-          console.log(data.group)
           setGroup(data.group);
         } catch (error) {
           console.log(error);

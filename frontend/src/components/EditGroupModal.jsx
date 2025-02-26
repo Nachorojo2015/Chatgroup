@@ -32,7 +32,10 @@ const EditGroupModal = forwardRef(({ name, description, username, picture, _id, 
        const visibilityEdit = visibilityGroupEditRef.current.value
 
        ref.current.close()
-       const toastId = toast.loading('Editing group...')
+       const isDark = document.querySelector('html').className === 'dark'
+       const toastId = toast.loading('Editing group...', {
+        theme: isDark ? 'dark' : 'light'
+       })
 
        const formData = new FormData()
 
@@ -77,7 +80,10 @@ const EditGroupModal = forwardRef(({ name, description, username, picture, _id, 
 
     async function blockUserFromGroup(idUser) {
       ref.current.close()
-      const toastId = toast.loading('Removing user...')
+      const isDark = document.querySelector('html').className === 'dark'
+      const toastId = toast.loading('Removing user...', {
+        theme: isDark ? 'dark' : 'light'
+      })
       try {
         const response = await fetch(`http://localhost:3000/group/block/${_id}/${idUser}`, {
           method: 'PUT',
@@ -122,7 +128,10 @@ const EditGroupModal = forwardRef(({ name, description, username, picture, _id, 
 
     async function unlockUserFromGroup(idUser) {
       ref.current.close()
-      const toastId = toast.loading('Removing user...')
+      const isDark = document.querySelector('html').className === 'dark'
+      const toastId = toast.loading('Removing user...', {
+        theme: isDark ? 'dark' : 'light'
+      })
       try {
         const response = await fetch(`http://localhost:3000/group/unlock/${_id}/${idUser}`, {
           method: 'PUT',

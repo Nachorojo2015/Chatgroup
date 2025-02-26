@@ -65,7 +65,10 @@ const Microphone = ({ setActiveMicro, socket, id, userId }) => {
       const formData = new FormData();
       formData.append('file', audioBlob);
 
-      const toastId = toast.loading('Sending audio...')
+      const isDark = document.querySelector('html').className === 'dark'
+      const toastId = toast.loading('Sending audio...', {
+        theme: isDark ? 'dark' : 'light'
+      })
 
       try {
         const response = await fetch('http://localhost:3000/messages/upload', {
