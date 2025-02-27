@@ -199,4 +199,17 @@ export class UserRepository {
 
         return userToBlock.username
     }
+
+    static async unlockUser({ username, _id }) {
+        const myUser = await usersModel.findById(_id)
+        if (!myUser) throw new ValidateError('The user dont exists')
+        
+        const userToUnlock = await usersModel.findOne({ username })
+        if (!userToUnlock) throw new ValidateError('The user dont exists')
+            
+        myUser.blockedUsers = myUser.blockedUsers.filter(user => user._id.toString() !== userToUnlock._id.toString())
+        await myUser.save()
+
+        return userToUnlock.username
+    }
 }

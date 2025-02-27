@@ -24,7 +24,7 @@ const Menu = ({ socket }) => {
 
   const Chats = {
     'Groups': <ChatGroups groups={groups} username={username} valueSearch={valueSearch} fetchUserData={fetchUserData} socket={socket}/>,
-    'Users': <PrivateUsers privateUsers={privateUsers} valueSearch={valueSearch} fetchUserData={fetchUserData} username={username}/>
+    'Users': <PrivateUsers privateUsers={privateUsers} valueSearch={valueSearch} fetchUserData={fetchUserData} username={username} socket={socket}/>
   }
 
   return (

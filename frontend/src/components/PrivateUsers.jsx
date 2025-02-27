@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import SearchUsersButton from "./SearchUsersButton";
 import PrivateChat from "./PrivateChat";
 
-const PrivateUsers = ({ privateUsers, valueSearch, fetchUserData, username }) => {
+const PrivateUsers = ({ privateUsers, valueSearch, fetchUserData, username, socket }) => {
 
   let privateChats = privateUsers.map(privateChat => ({ user: privateChat.users.filter(user => user.username !== username)[0], _id: privateChat._id})).flat()
 
@@ -14,7 +14,7 @@ const PrivateUsers = ({ privateUsers, valueSearch, fetchUserData, username }) =>
     <div className="w-full overflow-y-auto h-full absolute [scrollbar-width:thin]">
        {
         privateChats.map(privateChat => (
-          <PrivateChat privateChat={privateChat} key={privateChat._id} fetchUserData={fetchUserData}/>
+          <PrivateChat key={privateChat._id} privateChat={privateChat} fetchUserData={fetchUserData} socket={socket}/>
         ))
        }
        <SearchUsersButton fetchUserData={fetchUserData}/>
@@ -28,7 +28,8 @@ PrivateUsers.propTypes = {
   privateUsers: PropTypes.array,
   valueSearch: PropTypes.string,
   fetchUserData: PropTypes.func,
-  username: PropTypes.string
+  username: PropTypes.string,
+  socket: PropTypes.object
 };
 
 export default PrivateUsers;

@@ -35,10 +35,6 @@ const Chat = ({ socket }) => {
       } else {
         setMessages([...messages, newMessage])
       }
-
-      setTimeout(() => {
-        scrollToBottom()
-      }, 500)
     }
 
     const handleReceiveDeleteMessage = ({ messageDeleted }) => {
@@ -58,6 +54,8 @@ const Chat = ({ socket }) => {
     socket.on('receive-message-deleted', handleReceiveDeleteMessage)
     socket.on('update-user-data', handleUpdateUserData)
 
+    scrollToBottom()
+
     return () => {
       socket.off('receive-message')
       socket.off('message-error')
@@ -65,10 +63,6 @@ const Chat = ({ socket }) => {
       socket.off('update-user-data')
     }
   }, [setMessages, socket, id, setUnSeen, unSeen, messages, fetchUserData])
-
-  useEffect(() => {
-    scrollToBottom()
-  }, [id])
   
   if (!id) 
   return ( 

@@ -112,7 +112,7 @@ const EditGroupModal = forwardRef(({ name, description, username, picture, _id, 
           autoClose: 2000
         })
 
-        socket.emit('update-user', ({ userId: idUser }))
+        socket.emit('update-user')
 
         fetchUserData()
       } catch (error) {
@@ -160,9 +160,7 @@ const EditGroupModal = forwardRef(({ name, description, username, picture, _id, 
           autoClose: 2000
         })
 
-        socket.emit('update-user', ({ userId: idUser }))
-
-        fetchUserData()
+        socket.emit('update-user')
       } catch (error) {
         console.log(error)
         toast.update(toastId, {

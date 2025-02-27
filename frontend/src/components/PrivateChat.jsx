@@ -2,12 +2,12 @@ import { SlOptionsVertical } from "react-icons/sl";
 import { toast } from "react-toastify";
 import { useChatStore } from "../store/chatStore";
 import PropTypes from "prop-types";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import BlockUserButton from "./BlockUserButton";
 import { useUserStore } from "../store/userStore";
 import UnlockUserButton from "./UnlockUserButton";
 
-const PrivateChat = ({ privateChat, fetchUserData }) => {
+const PrivateChat = ({ privateChat, fetchUserData, socket }) => {
 
   const { setIsChatMobileOpen, setData, unSeen, setUnSeen, setLoader} = useChatStore()
   const { blockedUsers, userId } = useUserStore()
@@ -22,6 +22,7 @@ const PrivateChat = ({ privateChat, fetchUserData }) => {
   const pictureUserModal = useRef()
 
   async function openChat() {
+    setOpenMenu(false)
     setLoader(true)
     setUnSeen(unSeen.filter(chatId => chatId !== privateChat._id))
     try {
@@ -50,17 +51,6 @@ const PrivateChat = ({ privateChat, fetchUserData }) => {
     }
   } 
 
-  useEffect(() => {
-      document.addEventListener('click', () => {
-        const menuOptions = document.getElementById('menu-users-option')
-        const menuOptionsButton = document.getElementById('menu-users-option-btn')
-    
-        if (menuOptions && menuOptionsButton && !menuOptions.contains(event.target) && !menuOptionsButton.contains(event.target)) {
-          setOpenMenu(false)
-        }
-      })
-  }, [])
-
   return (
     <article className="flex items-center w-full gap-3 transition cursor-pointer hover:bg-slate-200 dark:hover:bg-opacity-20 p-3">
         <img
@@ -76,10 +66,10 @@ const PrivateChat = ({ privateChat, fetchUserData }) => {
          </span>
         </div>
         <div className="ml-auto flex items-center gap-3">
-          {isUnSeen ? <span className="ml-auto bg-blue-400 rounded-full p-1"></span> : ''}
+           {isUnSeen ? <span className="ml-auto bg-blue-400 rounded-full p-1"></span> : ''}
            {
-            isBlocked && !isMyUserBlocked ? 
-              <button onClick={() => setOpenMenu(!openMenu)} id="menu-users-option-btn">
+              isBlocked || !isMyUserBlocked ? 
+              <button onClick={() => setOpenMenu(!openMenu)}>
                 <SlOptionsVertical className="dark:text-white"/>
               </button>
               :
@@ -88,9 +78,9 @@ const PrivateChat = ({ privateChat, fetchUserData }) => {
           <div className={`transition-all ${!openMenu ? 'invisible opacity-0' : 'opacity-100'} flex flex-col gap-2 p-2 rounded-md absolute right-9 shadow-xl dark:bg-black dark:text-white min-w-32`} id="menu-users-option">
             {
              isBlocked && !isMyUserBlocked ? 
-             <UnlockUserButton />
+             <UnlockUserButton avatar={privateChat.user.avatar} username={privateChat.user.username} fetchUserData={fetchUserData} socket={socket} privateChatId={privateChat._id}/>
              :
-             <BlockUserButton avatar={privateChat.user.avatar} username={privateChat.user.username} fetchUserData={fetchUserData}/>
+             <BlockUserButton avatar={privateChat.user.avatar} username={privateChat.user.username} fetchUserData={fetchUserData} socket={socket} privateChatId={privateChat._id}/>
             }
           </div>
           </div>
@@ -103,7 +93,8 @@ const PrivateChat = ({ privateChat, fetchUserData }) => {
 
 PrivateChat.propTypes = {
   privateChat: PropTypes.object,
-  fetchUserData: PropTypes.func
+  fetchUserData: PropTypes.func,
+  socket: PropTypes.object
 }
 
 export default PrivateChat

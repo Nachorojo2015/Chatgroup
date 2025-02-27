@@ -64,3 +64,19 @@ export const blockUser = async (req, res) => {
       res.status(400).send(error.message)
     }
 }
+
+export const unlockUser = async (req, res) => {
+  const { user } = req.session
+
+  if (!user) return res.status(401).send('User not authorized')
+
+  const { username } = req.params
+  const { _id } = user
+
+  try {
+    const userUnlock = await UserRepository.unlockUser({ username, _id })
+    res.send({ userUnlock })
+  } catch (error) {
+    res.status(400).send(error.message)
+  }
+}

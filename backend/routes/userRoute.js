@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { blockUser, getUser, searchUsersByUsername, updateAvatar } from "../controllers/userController.js";
+import { blockUser, getUser, searchUsersByUsername, unlockUser, updateAvatar } from "../controllers/userController.js";
 import multer from "multer";
 import { storage } from "../config/multerConfig.js";
 
@@ -12,6 +12,7 @@ userRouter
          .put('/avatar', upload.single('avatar'), updateAvatar)
          .get('/:username', searchUsersByUsername)
          .post('/block/:username', blockUser)
+         .post('/unlock/:username', unlockUser)
 
 
 export { userRouter }
