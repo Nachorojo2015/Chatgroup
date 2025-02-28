@@ -28,7 +28,7 @@ const Menu = ({ socket }) => {
   }
 
   return (
-    <aside className={`flex flex-col items-center ${isChatMobileOpen ? 'hidden xl:flex' : 'xl:flex'}`}>
+    <aside className={`flex flex-col items-center ${isChatMobileOpen ? 'hidden xl:flex' : 'xl:flex'} xl:w-[30%] w-full`}>
       <section className="flex flex-col items-center w-full">
         <div className="flex justify-between w-[90%] mt-2">
           <DarkMode />

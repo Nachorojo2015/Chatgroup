@@ -66,7 +66,7 @@ const Chat = ({ socket }) => {
   
   if (!id) 
   return ( 
-    <div className="hidden xl:grid place-content-center place-items-center border-black dark:border-white xl:border-l">
+    <div className="hidden xl:grid place-content-center place-items-center border-black dark:border-white xl:border-l w-[70%]">
       <img src="/chat.svg" alt="brand-app-logue" className="w-52 h-52"/> 
       <p className="text-3xl dark:text-white">Init a conversation</p>
       <div className="flex items-center gap-3 mt-3 dark:text-white">
@@ -102,7 +102,7 @@ function scrollToBottom() {
 }
 
   return (
-    <section className={`xl:border-l border-black dark:border-white flex flex-col ${!isChatMobileOpen ? 'hidden xl:flex' : ''}`}>
+    <section className={`xl:border-l border-black dark:border-white flex flex-col ${!isChatMobileOpen ? 'hidden xl:flex' : ''} xl:w-[70%] w-full`}>
       <header className="p-3 flex items-center gap-3 border-b border-black dark:border-white">
         <button onClick={closeChatMobile} className="xl:hidden">
            <FaArrowLeft className="dark:text-white"/>
@@ -110,8 +110,8 @@ function scrollToBottom() {
         <img src={image} alt="picture-chat" className="w-14 h-14 rounded-full object-cover"/>
         <span className="dark:text-white">{name}</span>
       </header>
-      <div className="relative flex flex-1 w-full">
-        <ul className="overflow-y-auto overflow-x-hidden absolute h-full w-full pb-3 pr-1" ref={chatContainer}>
+      <div className="relative flex flex-1">
+        <ul className="overflow-y-auto overflow-x-hidden absolute h-full w-full pb-3" ref={chatContainer}>
             {
               loader ? 
               <div className="grid place-content-center place-items-center mt-60">
@@ -132,7 +132,7 @@ function scrollToBottom() {
             }
         </ul>
       </div>
-      <footer className="flex items-center gap-3 mt-auto border-black p-3 dark:border-white relative">
+      <footer className="flex justify-center items-center gap-3 border-black p-3 dark:border-white relative">
         <ul className="flex items-center absolute right-10 dark:text-white">
             {
               message && !activeMicro ? 

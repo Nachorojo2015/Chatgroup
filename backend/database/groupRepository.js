@@ -180,11 +180,7 @@ export class GroupRepository {
         if (!group.members.includes(idUser)) throw new Error('The user is not into the group')
 
         group.blockedUsers.push(idUser)
-        group.members = group.members.filter(id => id.toString() !== idUser)
         await group.save()
-
-        user.groups = user.groups.filter(id => id.toString() !== _id)
-        await user.save()
 
         return user.username
     }
@@ -199,11 +195,7 @@ export class GroupRepository {
         if (!group.blockedUsers.includes(idUser)) throw new Error('The user is not block')
 
         group.blockedUsers = group.blockedUsers.filter(id => id.toString() !== idUser)
-        group.members.push(idUser)
         await group.save()
-
-        user.groups.push(_id)
-        await user.save()
 
         return user.username
     }

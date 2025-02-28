@@ -2,7 +2,6 @@ import PropTypes from "prop-types"
 import MyGroups from "./MyGroups"
 import JoinedGroups from "./JoinedGroups"
 import SearchGroupsButton from "./SearchGroupsButton"
-import { useEffect } from "react"
 
 
 const ChatGroups = ({ groups, username, fetchUserData, valueSearch, socket }) => { 
@@ -13,14 +12,6 @@ const ChatGroups = ({ groups, username, fetchUserData, valueSearch, socket }) =>
     myGroups = groups.filter(group => group.creator.username === username && group.name.toLowerCase().includes(valueSearch.toLowerCase()))
     joinedGroups = groups.filter(group => group.creator.username !== username && group.name.toLowerCase().includes(valueSearch.toLowerCase()))
   }
-
-  useEffect(() => {
-    socket.on('update', (socketId) => {
-      console.log('Recibido el socket id', socketId)
-      fetchUserData()
-    })
-  }, [socket, fetchUserData])
-  
 
   return (
     <div className="w-full overflow-y-auto h-full absolute [scrollbar-width:thin]">

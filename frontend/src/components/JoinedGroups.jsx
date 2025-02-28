@@ -6,20 +6,34 @@ import LeaveGroupButton from "./LeaveGroupButton";
 import { useChatStore } from "../store/chatStore";
 import { toast } from "react-toastify";
 import { SlOptionsVertical } from "react-icons/sl";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import CopyLinkGroupButton from "./CopyLinkGroupButton";
+import { useUserStore } from "../store/userStore";
 
 const JoinedGroups = ({ group, fetchUserData }) => {
 
   const { picture, name, visibility, members, _id } = group 
-  const { setData, setIsChatMobileOpen, setLoader, unSeen, setUnSeen } = useChatStore()
+  const { setData, setIsChatMobileOpen, setLoader, unSeen, setUnSeen, setIdChat, id } = useChatStore()
+  const userId = useUserStore(state => state.userId)
   const [openMenu, setOpenMenu] = useState(false)
 
   const isUnSeen = unSeen.includes(_id)
 
   const pictureGroupModal = useRef()
 
+  console.log(id === _id)
+
+  console.log(group.blockedUsers)
+
+  const isBlock = group.blockedUsers.includes(userId)
+
+  useEffect(() => {
+    if (isBlock && id === _id) setIdChat('Block')
+  }, [isBlock, setIdChat, _id, id])
+  
+
   async function openChat() {
+    if (isBlock) setIdChat('Block')
     setLoader(true)
     setUnSeen(unSeen.filter(chatId => chatId !== _id))
     try {
@@ -54,7 +68,7 @@ const JoinedGroups = ({ group, fetchUserData }) => {
       <img
         src={picture}
         alt="avatar user"
-        className="w-16 h-16 rounded-full object-cover"
+        className={`w-16 h-16 rounded-full object-cover ${isBlock ? 'opacity-20' : ''}`}
         onClick={() => pictureGroupModal.current.showModal()}
       />
 
@@ -77,17 +91,21 @@ const JoinedGroups = ({ group, fetchUserData }) => {
       </div>
      <div className="flex items-center ml-auto gap-3">
       {isUnSeen ? <span className="bg-blue-400 rounded-full p-1 ml-auto"></span> : ''}
+      <span className="dark:text-white">{isBlock ? 'Blocked' : ''}</span>
       <button onClick={() => setOpenMenu(!openMenu)}>
        <SlOptionsVertical className="dark:text-white"/>
       </button>
-      <div className={`transition-all ${!openMenu ? 'invisible opacity-0' : 'opacity-100'} flex flex-col gap-2 p-2 rounded-md absolute right-9 shadow-xl dark:bg-black dark:text-white min-w-32`}>
+      <div className={`transition-all ${!openMenu ? 'invisible opacity-0' : 'opacity-100'} flex flex-col gap-2 p-2 rounded-md absolute right-9 shadow-xl dark:bg-black bg-white dark:text-white min-w-32`}>
         <CopyLinkGroupButton _id={_id}/>
         <LeaveGroupButton picture={picture} name={name} _id={_id} fetchUserData={fetchUserData}/>
       </div>
      </div>
 
       <dialog ref={pictureGroupModal} className="backdrop:bg-[rgba(0,0,0,.90)] xl:max-w-96 max-w-60 outline-none" onClick={() => pictureGroupModal.current.close()}>
-        <img src={picture} alt="picture-group" />
+        <div>
+          <span className="absolute w-full bg-black p-2 text-white bg-opacity-40">{name}</span>
+          <img src={picture} alt="picture-group" className="object-cover"/>
+        </div>
       </dialog>
     </article>
   );

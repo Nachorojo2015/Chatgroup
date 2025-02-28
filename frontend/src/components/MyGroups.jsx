@@ -91,7 +91,10 @@ const MyGroups = ({ group, fetchUserData, username, socket }) => {
       </div>
 
       <dialog ref={pictureGroupModal} className="backdrop:bg-[rgba(0,0,0,.90)] xl:max-w-96 max-w-60 outline-none" onClick={() => pictureGroupModal.current.close()}>
-        <img src={picture} alt="picture-group" />
+        <div>
+          <span className="absolute w-full bg-black p-2 text-white bg-opacity-40">{name}</span>
+          <img src={picture} alt="picture-group" className="object-cover"/>
+        </div>
       </dialog>
     </article>
   );

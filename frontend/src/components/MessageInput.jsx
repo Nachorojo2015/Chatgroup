@@ -22,13 +22,20 @@ const MessageInput = forwardRef(({ socket, userId, id }, ref) => {
   }
 
   return (
-    <textarea placeholder={`${id === 'Block' ? 'Blocked' : 'Write a message...'}`} disabled={ activeMicro || id === 'Block' } className="[field-sizing:content] pr-16 rounded-3xl p-3 w-full dark:bg-black bg-white shadow-md dark:text-white indent-1 resize-none h-auto outline-none max-h-48" ref={ref} onChange={(e) => {
-      setMessage(e.target.value)
-    }} onKeyDown={(e) => {
-       if (e.key === 'Enter' && !e.shiftKey) {
-          sendMessage(e)
+  <textarea
+  placeholder={`${id === 'Block' ? 'Blocked' : 'Write a message...'}`}
+  disabled={activeMicro || id === 'Block'}
+  className="[field-sizing:content] pr-16 rounded-3xl p-3 w-full dark:bg-black bg-white shadow-md dark:text-white resize-none h-auto outline-none max-h-48"
+  ref={ref}
+  onChange={(e) => {
+    setMessage(e.target.value);
+  }}
+  onKeyDown={(e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      sendMessage(e);
     }
-    }}/>
+  }}
+/>
   )
 })
 

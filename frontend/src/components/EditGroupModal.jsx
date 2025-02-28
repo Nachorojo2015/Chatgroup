@@ -3,7 +3,6 @@ import { FaArrowLeftLong } from "react-icons/fa6"
 import { toast } from "react-toastify"
 import PropTypes from "prop-types"
 import { MdGroups, MdOutlineGroup } from 'react-icons/md'
-import { TbLock } from "react-icons/tb";
 import { IoMdAdd } from "react-icons/io"
 
 const EditGroupModal = forwardRef(({ name, description, username, picture, _id, members, blockedUsers, visibility, fetchUserData, socket }, ref) => {
@@ -113,8 +112,6 @@ const EditGroupModal = forwardRef(({ name, description, username, picture, _id, 
         })
 
         socket.emit('update-user')
-
-        fetchUserData()
       } catch (error) {
         console.log(error)
         toast.update(toastId, {
@@ -213,40 +210,24 @@ const EditGroupModal = forwardRef(({ name, description, username, picture, _id, 
           <details>
             <summary>Members <MdGroups className="inline mb-1 ml-2" size={30}/></summary>
                 {
-                members.map((member, index) => (
-                  <article className="flex items-center gap-3 mt-3" key={index}>
+                members.map(member => (
+                  <article className="flex items-center gap-3 mt-3" key={member._id}>
                     <img src={member.avatar} alt="avatar-user" className="w-16 h-16 align-middle rounded-full"/>
                     <span>{member.username}</span>
                     {
-                    member.username === username ? <span className="ml-auto text-blue-500">Owner</span> : <button className="block ml-auto focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900" onClick={() => blockUserFromGroup(member._id)}>Block</button>
+                    member.username === username ? <span className="ml-auto text-blue-500">Owner</span> : 
+                    blockedUsers.includes(member._id) ? 
+                    <button className="block ml-auto focus:outline-none text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-900" onClick={() => unlockUserFromGroup(member._id)}>Unlock</button>
+                    :
+                    <button className="block ml-auto focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900" onClick={() => blockUserFromGroup(member._id)}>Block</button>
                     }
                   </article>
-                    ))
+                  ))
                 }
             </details>
         </div>
         
         <hr className="mt-3 border-gray-500"/>
-
-        <div className="mt-5">
-          <details>
-            <summary>Users Blocked <TbLock className="inline mb-1 ml-2" size={30}/></summary>
-                {
-                blockedUsers.map((member, index) => (
-                  <article className="flex items-center gap-3 mt-3" key={index}>
-                    <img src={member.avatar} alt="avatar-user" className="w-16 h-16 align-middle rounded-full"/>
-                    <span>{member.username}</span>
-                    {
-                    member.username === username ? <span className="ml-auto text-blue-500">Owner</span> : <button className="block ml-auto focus:outline-none text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-900" onClick={() => unlockUserFromGroup(member._id)}>Unlock</button>
-                    }
-                  </article>
-                    ))
-                }
-            </details>
-        </div>
-
-        <hr className="mt-5 border-gray-500"/>
-
         
         <button onClick={editGroup} type="button" className="text-white block m-auto mt-5 w-full bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-purple-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-900">Edit</button>
     </dialog>

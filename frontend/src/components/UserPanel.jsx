@@ -15,7 +15,7 @@ const UserPanel = ({ socket }) => {
   
 
   return (
-    <section className="grid xl:grid-cols-[30%,70%] h-screen overflow-hidden">
+    <section className="flex h-screen overflow-hidden">
         <Menu socket={socket}/>
         <Chat socket={socket}/>
     </section>

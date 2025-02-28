@@ -189,7 +189,7 @@ const Audio = forwardRef(({ userId, _id, content, username, avatar, isSameUser, 
       <img className={`w-8 h-8 rounded-full object-cover ${isSameUser ? 'hidden' : ''}`} src={avatar} alt="user-avatar"/>
       <div className={`flex flex-col gap-1 ${isSameUser ? 'ml-[42px]' : ''} relative`}>
         <span className={`dark:text-white ${isSameUser ? 'hidden' : ''}`}>{username}</span>
-        <div className={`flex items-center gap-5 bg-slate-200 dark:bg-gray-600 p-4 rounded-md ${isSameUser ? '' : 'rounded-tl-none'} relative`}>
+        <div className={`flex items-center gap-5 bg-slate-200 dark:bg-gray-600 p-2 px-3 rounded-md ${isSameUser ? '' : 'rounded-tl-none'} relative`}>
           <Player audioURL={content}/>
           <img src={avatar} alt="user-avatar" className="w-12 h-12 rounded-full object-cover"/>
           {isSameUser ? '' : <div className="absolute top-0 left-0 w-0 h-0 border-t-[10px] dark:border-t-gray-600 border-t-slate-200 border-r-[10px] border-r-transparent -translate-x-2 rotate-90"></div>}

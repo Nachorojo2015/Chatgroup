@@ -11,6 +11,7 @@ import { FaRegEyeSlash } from "react-icons/fa"
 import { MdHistory } from "react-icons/md";
 import { useUserStore } from "../store/userStore";
 import { CiLogout } from "react-icons/ci";
+import DarkMode from "./DarkMode";
 
 const InfoGroup = () => {
 
@@ -20,6 +21,8 @@ const InfoGroup = () => {
   const { username, fetchUserData } = useUserStore()
 
   const isMember = group?.members.map(group => group.username).includes(username)
+
+  console.log(group)
 
   function formateDate(fecha) {
     fecha = new Date(fecha)
@@ -157,15 +160,15 @@ const InfoGroup = () => {
   }
   
   return (
-    <section className="bg-slate-500 dakr:bg-black dark:bg-opacity-85">
-        <article className="bg-gray-900 bg-opacity-80 flex flex-col items-center">
-            <img src={group.picture} alt="picture-group" className="h-96 xl:w-[80%] w-full rounded-b-md object-cover"/>
+    <section className="dark:bg-black bg-white dark:bg-opacity-10">
+        <article className="dark:bg-gray-900 bg-slate-200 bg-opacity-80 flex flex-col items-center">
+            <img src={group.picture} alt="picture-group" className="h-96 xl:w-[80%] shadow-md w-full rounded-b-md object-cover"/>
             <div className="flex flex-wrap justify-center gap-3 xl:justify-between w-[80%] mt-5 mb-5">
                 <div className="flex flex-col">
-                    <strong className="text-2xl text-white">{group.name}</strong>
-                    <span className="font-semibold text-gray-400">{group.visibility} group | {group.members.length} members</span>
+                    <strong className="text-2xl dark:text-white">{group.name}</strong>
+                    <span className="font-semibold dark:text-gray-400">{group.visibility} group | {group.members.length} members</span>
                 </div>
-                <div className="flex items-center gap-3">
+                <div className="flex flex-wrap items-center justify-center gap-3">
                     {
                       isMember ?
                       <button className="flex items-center gap-3 px-6 py-2 rounded-md bg-red-500 text-white" onClick={leaveGroup}>
@@ -180,15 +183,16 @@ const InfoGroup = () => {
                     }
                     <button className="flex items-center gap-3 px-6 py-3 rounded-md bg-gray-600 text-white" onClick={copyLinkGroup}>
                         <IoCopyOutline size={20}/>
-                        <strong>Copy Link</strong>
+                        <strong>Copy Link group</strong>
                     </button>
-                </div>
+                    <DarkMode />
+                 </div>
             </div>
         </article>
-        <section className="flex flex-col items-center gap-12 mt-12 text-white px-2">
-            <article className="bg-gray-900 p-3 rounded-lg xl:w-[50%] w-full">
+        <section className="flex flex-col items-center gap-12 mt-12 dark:text-white px-2">
+            <article className="dark:bg-gray-900 border shadow-md p-3 rounded-lg xl:w-[50%] w-full">
                 <strong>Information about this group</strong>
-                <hr className="text-gray-600 mt-3"/>
+                <hr className="dark:text-gray-600 mt-3"/>
                 <div className="mt-3 flex items-center gap-3">
                     {group.visibility === 'Public' ? <BiWorld size={30}/> : <SiPrivateinternetaccess size={30}/>}
                     <div>
@@ -211,9 +215,9 @@ const InfoGroup = () => {
                     </div>
                 </div>
             </article>
-            <article className="bg-gray-900 p-3 rounded-lg xl:w-[50%] w-full">
+            <article className="dark:bg-gray-900 border shadow-md p-3 rounded-lg xl:w-[50%] w-full">
                 <strong>Members | {group.members.length}</strong>
-                <hr className="text-gray-600 mt-3"/>
+                <hr className="dark:text-gray-600 mt-3"/>
                 <div className="mt-5 flex items-center gap-1">
                     {
                         group.members.map((member, index) => (
@@ -221,7 +225,7 @@ const InfoGroup = () => {
                         ))
                     }
                 </div>
-                <hr className="text-gray-600 mt-5 mb-3"/>
+                <hr className="dark:text-gray-600 mt-5 mb-3"/>
                 <strong>Administrators | {group.administrators.length}</strong>
                 <div className="mt-5 flex items-center gap-1">
                     {
@@ -231,9 +235,9 @@ const InfoGroup = () => {
                     }
                 </div>
             </article>
-            <article className="bg-gray-900 p-3 rounded-lg xl:w-[50%] w-full mb-5">
+            <article className="dark:bg-gray-900 border shadow-md p-3 rounded-lg xl:w-[50%] w-full mb-5">
                 <strong>Description</strong>
-                <hr className="text-gray-600 mt-3"/>
+                <hr className="dark:text-gray-600 mt-3"/>
                 <p className="whitespace-pre-wrap mt-3 break-words">{group.description}</p>
             </article>
         </section>

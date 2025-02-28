@@ -27,7 +27,7 @@ const MessageOptionsModal = forwardRef(({ socket, message }, ref) => {
 
   return (
      <dialog className="min-w-32 p-2 rounded-md dark:bg-gray-700 dark:text-white" ref={ref} onClick={() => ref.current.close()}>
-          <button onClick={() => ref.current.close()}>
+          <button>
             <IoMdClose size={20}/>
           </button>
           <div className="flex flex-col gap-1 justify-center mt-2">
