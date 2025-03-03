@@ -5,6 +5,8 @@ import { toast } from 'react-toastify'
 import { useUserStore } from "../store/userStore"
 import { IoMdAdd } from "react-icons/io"
 
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
+
 const UserImage = ({ avatar }) => {
 
   const [loader, setLoader] = useState(false)
@@ -20,7 +22,7 @@ const UserImage = ({ avatar }) => {
     formaData.append('avatar', avatarFile)
 
     try {
-      const response = await fetch('http://localhost:3000/user/avatar', {
+      const response = await fetch(`${BACKEND_URL}/user/avatar`, {
         method: 'PUT',
         body: formaData,
         credentials: 'include'

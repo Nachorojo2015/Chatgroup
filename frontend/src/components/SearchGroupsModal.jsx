@@ -5,6 +5,8 @@ import { ClipLoader } from "react-spinners"
 import PropTypes from "prop-types"
 import Group from "./Group"
 
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
+
 const SearchGroupsModal = forwardRef(({ username, fetchUserData }, ref) => {
 
   const [loader, setLoader] = useState(false)
@@ -25,7 +27,7 @@ const SearchGroupsModal = forwardRef(({ username, fetchUserData }, ref) => {
       setLoader(true)
     
       try {
-        const response = await fetch(`http://localhost:3000/group/search/${valueSearch}`, {
+        const response = await fetch(`${BACKEND_URL}/group/search/${valueSearch}`, {
           credentials: 'include'
         })
     

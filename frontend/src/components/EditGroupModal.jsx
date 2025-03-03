@@ -5,6 +5,8 @@ import PropTypes from "prop-types"
 import { MdGroups, MdOutlineGroup } from 'react-icons/md'
 import { IoMdAdd } from "react-icons/io"
 
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
+
 const EditGroupModal = forwardRef(({ name, description, username, picture, _id, members, blockedUsers, visibility, fetchUserData, socket }, ref) => {
 
   const nameGroupEditRef = useRef()
@@ -47,7 +49,7 @@ const EditGroupModal = forwardRef(({ name, description, username, picture, _id, 
        formData.append('description', descriptionEdit)
 
        try {
-         const response = await fetch(`http://localhost:3000/group/edit/${_id}`, {
+         const response = await fetch(`${BACKEND_URL}/group/edit/${_id}`, {
            method: 'PUT',
            body: formData,
            credentials: 'include'
@@ -84,7 +86,7 @@ const EditGroupModal = forwardRef(({ name, description, username, picture, _id, 
         theme: isDark ? 'dark' : 'light'
       })
       try {
-        const response = await fetch(`http://localhost:3000/group/block/${_id}/${idUser}`, {
+        const response = await fetch(`${BACKEND_URL}/group/block/${_id}/${idUser}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json'
@@ -130,7 +132,7 @@ const EditGroupModal = forwardRef(({ name, description, username, picture, _id, 
         theme: isDark ? 'dark' : 'light'
       })
       try {
-        const response = await fetch(`http://localhost:3000/group/unlock/${_id}/${idUser}`, {
+        const response = await fetch(`${BACKEND_URL}/group/unlock/${_id}/${idUser}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json'

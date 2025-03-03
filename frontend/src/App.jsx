@@ -6,7 +6,9 @@ import ResetPassword from './components/ResetPassword'
 import { io } from 'socket.io-client'
 import InfoGroup from './components/InfoGroup'
 
-const socket = io('http://localhost:3000', {
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
+
+const socket = io(BACKEND_URL, {
   withCredentials: true
 })
 

@@ -4,6 +4,8 @@ import { LuEyeClosed } from "react-icons/lu";
 import { useState } from "react";
 import { toast } from 'react-toastify';
 
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
+
 const Register = () => {
 
   const [form, setForm] = useState({
@@ -35,7 +37,7 @@ const Register = () => {
     const toastId = toast.loading('Register...')
 
     try {
-      const response = await fetch('http://localhost:3000/auth/register', {
+      const response = await fetch(`${BACKEND_URL}/auth/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

@@ -11,7 +11,6 @@ import { useChatStore } from "../store/chatStore";
 import CreateGroupButton from "./CreateGroupButton";
 import PropTypes from "prop-types";
 
-
 const Menu = ({ socket }) => {
 
   const { fullname, username, avatar, groups, privateUsers, fetchUserData, updateAvatar } = useUserStore()

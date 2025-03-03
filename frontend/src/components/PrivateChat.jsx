@@ -7,6 +7,8 @@ import BlockUserButton from "./BlockUserButton";
 import { useUserStore } from "../store/userStore";
 import UnlockUserButton from "./UnlockUserButton";
 
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
+
 const PrivateChat = ({ privateChat, fetchUserData, socket }) => {
 
   const { setIsChatMobileOpen, setData, unSeen, setUnSeen, setLoader} = useChatStore()
@@ -26,7 +28,7 @@ const PrivateChat = ({ privateChat, fetchUserData, socket }) => {
     setLoader(true)
     setUnSeen(unSeen.filter(chatId => chatId !== privateChat._id))
     try {
-      const response = await fetch(`http://localhost:3000/messages/${privateChat._id}`)
+      const response = await fetch(`${BACKEND_URL}/messages/${privateChat._id}`)
   
       if (!response.ok) {
         setLoader(false)

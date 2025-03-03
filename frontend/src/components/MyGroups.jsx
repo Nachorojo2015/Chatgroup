@@ -10,6 +10,8 @@ import { toast } from "react-toastify";
 import { SlOptionsVertical } from "react-icons/sl";
 import { useRef, useState } from "react";
 
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
+
 const MyGroups = ({ group, fetchUserData, username, socket }) => {
 
   const { picture, name, visibility, members, blockedUsers, description, _id } = group
@@ -24,7 +26,7 @@ const MyGroups = ({ group, fetchUserData, username, socket }) => {
       setLoader(true)
       setUnSeen(unSeen.filter(chatId => chatId !== _id))
       try {
-        const response = await fetch(`http://localhost:3000/messages/${_id}`)
+        const response = await fetch(`${BACKEND_URL}/messages/${_id}`)
   
         if (!response.ok) {
           setLoader(false)

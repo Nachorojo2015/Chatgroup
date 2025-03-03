@@ -6,14 +6,14 @@ import LeaveGroupButton from "./LeaveGroupButton";
 import { useChatStore } from "../store/chatStore";
 import { toast } from "react-toastify";
 import { SlOptionsVertical } from "react-icons/sl";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import CopyLinkGroupButton from "./CopyLinkGroupButton";
 import { useUserStore } from "../store/userStore";
 
 const JoinedGroups = ({ group, fetchUserData }) => {
 
   const { picture, name, visibility, members, _id } = group 
-  const { setData, setIsChatMobileOpen, setLoader, unSeen, setUnSeen, setIdChat, id } = useChatStore()
+  const { setData, setIsChatMobileOpen, setLoader, unSeen, setUnSeen } = useChatStore()
   const userId = useUserStore(state => state.userId)
   const [openMenu, setOpenMenu] = useState(false)
 
@@ -21,19 +21,9 @@ const JoinedGroups = ({ group, fetchUserData }) => {
 
   const pictureGroupModal = useRef()
 
-  console.log(id === _id)
-
-  console.log(group.blockedUsers)
-
   const isBlock = group.blockedUsers.includes(userId)
 
-  useEffect(() => {
-    if (isBlock && id === _id) setIdChat('Block')
-  }, [isBlock, setIdChat, _id, id])
-  
-
   async function openChat() {
-    if (isBlock) setIdChat('Block')
     setLoader(true)
     setUnSeen(unSeen.filter(chatId => chatId !== _id))
     try {
@@ -50,7 +40,7 @@ const JoinedGroups = ({ group, fetchUserData }) => {
       setData(
         picture, 
         name,
-        _id,
+        isBlock ? 'Block' : _id,
         data.messages
       )
 

@@ -7,6 +7,8 @@ import { IoSend } from "react-icons/io5";
 import { toast } from "react-toastify";
 import Player from "./Player";
 
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
+
 const Microphone = ({ setActiveMicro, socket, id, userId }) => {
 
   const [isRecording, setIsRecording] = useState(false);
@@ -71,7 +73,7 @@ const Microphone = ({ setActiveMicro, socket, id, userId }) => {
       })
 
       try {
-        const response = await fetch('http://localhost:3000/messages/upload', {
+        const response = await fetch(`${BACKEND_URL}/messages/upload`, {
           method: 'POST',
           body: formData,
           credentials: 'include'

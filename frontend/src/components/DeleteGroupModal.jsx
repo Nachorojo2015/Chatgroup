@@ -3,6 +3,8 @@ import { FaArrowLeftLong } from "react-icons/fa6"
 import { toast } from "react-toastify"
 import PropTypes from "prop-types"
 
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
+
 const DeleteGroupModal = forwardRef(({ picture, name, _id, fetchUserData }, ref) => {
 
   async function deleteGroup() {
@@ -12,7 +14,7 @@ const DeleteGroupModal = forwardRef(({ picture, name, _id, fetchUserData }, ref)
         theme: isDark ? 'dark' : 'light'
       })
       try {
-        const response = await fetch(`http://localhost:3000/group/delete/${_id}`, {
+        const response = await fetch(`${BACKEND_URL}/group/delete/${_id}`, {
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json'

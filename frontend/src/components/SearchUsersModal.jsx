@@ -5,6 +5,8 @@ import { ClipLoader } from 'react-spinners'
 import User from './User'
 import PropTypes from 'prop-types'
 
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
+
 const SearchUsersModal = forwardRef(({ fetchUserData }, ref) => {
 
     const [usersSearch, setUsersSearch] = useState([])
@@ -26,7 +28,7 @@ const SearchUsersModal = forwardRef(({ fetchUserData }, ref) => {
         setLoader(true)
     
         try {
-          const response = await fetch(`http://localhost:3000/user/${valueSearch}`, {
+          const response = await fetch(`${BACKEND_URL}/user/${valueSearch}`, {
             credentials: 'include'
           })
     

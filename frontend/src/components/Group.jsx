@@ -6,6 +6,8 @@ import LeaveGroupButton from "./LeaveGroupButton"
 import { toast } from "react-toastify"
 import { Link } from "react-router-dom"
 
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
+
 const Group = forwardRef(({ groupSearch, username, fetchUserData }, ref) => {
 
   const isMember = groupSearch.members.map(group => group.username).includes(username)
@@ -18,7 +20,7 @@ const Group = forwardRef(({ groupSearch, username, fetchUserData }, ref) => {
     })
     
     try {
-      const response = await fetch(`http://localhost:3000/group/join/${groupSearch._id}`, {
+      const response = await fetch(`${BACKEND_URL}/group/join/${groupSearch._id}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

@@ -13,6 +13,8 @@ import { useUserStore } from "../store/userStore";
 import { CiLogout } from "react-icons/ci";
 import DarkMode from "./DarkMode";
 
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
+
 const InfoGroup = () => {
 
   const { id } = useParams()
@@ -21,8 +23,6 @@ const InfoGroup = () => {
   const { username, fetchUserData } = useUserStore()
 
   const isMember = group?.members.map(group => group.username).includes(username)
-
-  console.log(group)
 
   function formateDate(fecha) {
     fecha = new Date(fecha)
@@ -35,7 +35,7 @@ const InfoGroup = () => {
 
   async function copyLinkGroup() {
     const isDark = document.querySelector('html').className === 'dark'
-    navigator.clipboard.writeText(`http://localhost:5173/group/${id}`)
+    navigator.clipboard.writeText(`${window.location}group/${id}`)
      .then(() => {
         toast.success('Link group copied succesfull', {
           theme: isDark ? 'dark' : 'light'
@@ -55,7 +55,7 @@ const InfoGroup = () => {
         })
         
         try {
-          const response = await fetch(`http://localhost:3000/group/join/${id}`, {
+          const response = await fetch(`${BACKEND_URL}/group/join/${id}`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'
@@ -93,7 +93,7 @@ const InfoGroup = () => {
       })
 
       try {
-        const response = await fetch(`http://localhost:3000/group/leave/${id}`, {
+        const response = await fetch(`${BACKEND_URL}/group/leave/${id}`, {
           method: 'PUT',
           headers: {
               'Content-Type': 'application/json'
@@ -133,7 +133,7 @@ const InfoGroup = () => {
   useEffect(() => {
     async function getInfoGroup() {
         try {
-          const response = await fetch(`http://localhost:3000/group/${id}`);
+          const response = await fetch(`${BACKEND_URL}/group/${id}`);
     
           if (!response.ok) {
             const errorMessage = await response.text();

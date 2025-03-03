@@ -4,6 +4,8 @@ import { toast } from "react-toastify"
 import { useUserStore } from "../store/userStore"
 import { forwardRef } from "react"
 
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
+
 const User = forwardRef(({ userSearch, fetchUserData }, ref) => {
   const { setData, setIsChatMobileOpen } = useChatStore()
 
@@ -22,7 +24,7 @@ const User = forwardRef(({ userSearch, fetchUserData }, ref) => {
     })
 
     try {
-      const response = await fetch(`http://localhost:3000/private/create/${userSearch._id}`, {
+      const response = await fetch(`${BACKEND_URL}/private/create/${userSearch._id}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

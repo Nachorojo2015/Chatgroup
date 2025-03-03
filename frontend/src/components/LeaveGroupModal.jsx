@@ -4,6 +4,7 @@ import { FaArrowLeftLong } from "react-icons/fa6"
 import { ClipLoader } from "react-spinners"
 import { toast } from "react-toastify"
 
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
 
 const LeaveGroupModal = forwardRef(({ picture, name, _id, fetchUserData }, ref) => {
 
@@ -13,7 +14,7 @@ const LeaveGroupModal = forwardRef(({ picture, name, _id, fetchUserData }, ref) 
     setLoader(true)
     const isDark = document.querySelector('html').className === 'dark'
     try {
-      const response = await fetch(`http://localhost:3000/group/leave/${_id}`, {
+      const response = await fetch(`${BACKEND_URL}/group/leave/${_id}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'

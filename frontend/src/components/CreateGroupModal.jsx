@@ -4,6 +4,8 @@ import { toast } from 'react-toastify'
 import PropTypes from 'prop-types'
 import { IoMdAdd } from 'react-icons/io'
 
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
+
 const CreateGroupModal = forwardRef(({ fetchUserData }, ref) => {
 
     const [imageGroup, setImageGroup] = useState('/camera.png')
@@ -43,7 +45,7 @@ const CreateGroupModal = forwardRef(({ fetchUserData }, ref) => {
         formData.append('image', fileImageGroup)
 
         try {
-          const response = await fetch(`http://localhost:3000/group/create/${groupName}`, {
+          const response = await fetch(`${BACKEND_URL}/group/create/${groupName}`, {
             method: 'POST',
             body: formData,
             credentials: 'include'

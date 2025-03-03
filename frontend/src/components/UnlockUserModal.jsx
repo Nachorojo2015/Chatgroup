@@ -5,6 +5,8 @@ import { ClipLoader } from "react-spinners"
 import { toast } from "react-toastify"
 import { useChatStore } from "../store/chatStore"
 
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
+
 const UnlockUserModal = forwardRef(({ avatar, username, socket, privateChatId }, ref) => {
 
   const [loader, setLoader] = useState(false)
@@ -14,7 +16,7 @@ const UnlockUserModal = forwardRef(({ avatar, username, socket, privateChatId },
     setLoader(true)
     const isDark = document.querySelector('html').className === 'dark'
     try {
-      const response = await fetch(`http://localhost:3000/user/unlock/${username}`, {
+      const response = await fetch(`${BACKEND_URL}/user/unlock/${username}`, {
         method: 'POST',
         credentials: 'include'
       })

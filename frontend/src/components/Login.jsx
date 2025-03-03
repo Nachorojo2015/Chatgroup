@@ -8,6 +8,8 @@ import { IoMdClose } from "react-icons/io";
 import ClipLoader from 'react-spinners/ClipLoader'
 import PropTypes from "prop-types"
 
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
+
 const Login = () => {
   const modalEmail = useRef()
 
@@ -33,7 +35,7 @@ const Login = () => {
     const toastId = toast.loading('Login...')
 
     try {
-      const response = await fetch("http://localhost:3000/auth/login", {
+      const response = await fetch(`${BACKEND_URL}/auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -81,7 +83,7 @@ const Login = () => {
     setLoading(true) // Activa el estado que marca la carga
 
     try {
-      const response = await fetch('http://localhost:3000/auth/email/forgot-password', {
+      const response = await fetch(`${BACKEND_URL}/auth/email/forgot-password`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

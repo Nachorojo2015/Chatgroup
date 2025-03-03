@@ -8,7 +8,7 @@ const CopyLinkGroupButton = ({ _id }) => {
 
     const isDark = document.querySelector('html').className === 'dark'
 
-    navigator.clipboard.writeText(`http://localhost:5173/group/${_id}`)
+    navigator.clipboard.writeText(`${window.location}group/${_id}`)
      .then(() => {
         toast.success('Link group copied succesfull', {
           theme: isDark ? 'dark' : 'light'

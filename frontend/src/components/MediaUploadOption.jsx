@@ -1,15 +1,18 @@
 import PropTypes from "prop-types"
-import { useChatStore } from "../store/chatStore"
 import { toast } from "react-toastify"
 
-const MediaUploadOption = ({ icon: Icon, extensions, socket, id, userId }) => {
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
 
-  const setIsOpenMenu = useChatStore(state => state.setIsOpenMenu)
+const MediaUploadOption = ({ icon: Icon, extensions, socket, id, userId }) => {
 
   async function handleFile(e) {
     const file = e.target.files[0]
 
     if (!file) return
+
+    const fileSizeInMb = file.size / 1024 / 1024
+
+    if (fileSizeInMb > 10) return toast.error('The file size is greater than 10mb')
 
     const formData = new FormData()
     formData.append('file', file)
@@ -20,7 +23,7 @@ const MediaUploadOption = ({ icon: Icon, extensions, socket, id, userId }) => {
     })
 
     try {
-      const response = await fetch('http://localhost:3000/messages/upload', {
+      const response = await fetch(`${BACKEND_URL}/messages/upload`, {
         method: 'POST',
         body: formData,
         credentials: 'include'
@@ -57,7 +60,7 @@ const MediaUploadOption = ({ icon: Icon, extensions, socket, id, userId }) => {
   return (
     <label className="flex items-center gap-3 transition hover:opacity-50 cursor-pointer mt-3 mb-3">
         <Icon size={20}/>
-        <input type="file" disabled={ id === 'Block' } hidden accept={extensions} onClick={() => setIsOpenMenu(false)} onChange={handleFile}/>
+        <input type="file" disabled={ id === 'Block' } hidden accept={extensions} onChange={handleFile}/>
     </label>
   )
 }
