@@ -1,13 +1,13 @@
 import mongoose from "mongoose";
-import { DATABASE } from "./variables.js";
+import { MONGO_URI } from "./variables.js";
 import { config } from "dotenv";
 
 config()
 
-mongoose.connect(DATABASE)
+mongoose.connect(MONGO_URI)
 
 mongoose.connection.once('open', () => {
-  console.log('Database is connected to', DATABASE)
+  console.log('Database is connected to', MONGO_URI)
 })
 
 mongoose.connection.on('error', (error) => {

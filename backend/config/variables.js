@@ -3,8 +3,8 @@ import { config } from "dotenv"
 config()
 
 export const {
-  PORT,
-  DATABASE,
+  PORT = 3000,
+  MONGO_URI = "mongodb://127.0.0.1:27017/Chat",
   SALT_ROUNDS,
   SECRET_JWT_KEY,
   FRONTEND_DOMAIN,
