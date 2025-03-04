@@ -49,7 +49,7 @@ const LeaveGroupModal = forwardRef(({ picture, name, _id, fetchUserData }, ref) 
       </button>
 
       <img src={picture} alt="picture-group" className="w-36 h-36 rounded-full m-auto"/>
-      <p className="text-center mt-3 font-bold">{name}</p>
+      <p className="text-center mt-3 font-bold whitespace-nowrap overflow-hidden text-ellipsis">{name}</p>
       <h1 className="text-center">¿Leave Group?</h1>
 
       <button onClick={leaveGroup} className="text-white mt-3 w-full bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">{loader ? <ClipLoader size={20} color="white"/> : 'Leave'}</button>

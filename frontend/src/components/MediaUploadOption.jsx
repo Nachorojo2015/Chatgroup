@@ -12,12 +12,14 @@ const MediaUploadOption = ({ icon: Icon, extensions, socket, id, userId }) => {
 
     const fileSizeInMb = file.size / 1024 / 1024
 
-    if (fileSizeInMb > 10) return toast.error('The file size is greater than 10mb')
+    const isDark = document.querySelector('html').className === 'dark'
+    if (fileSizeInMb > 10) return toast.error('The file size is greater than 10mb', {
+      theme: isDark ? 'dark' : 'light'
+    })
 
     const formData = new FormData()
     formData.append('file', file)
 
-    const isDark = document.querySelector('html').className === 'dark'
     const toastId = toast.loading('Sending file...', {
       theme: isDark ? 'dark' : 'light'
     })

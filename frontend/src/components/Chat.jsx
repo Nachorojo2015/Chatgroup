@@ -108,7 +108,7 @@ function scrollToBottom() {
            <FaArrowLeft className="dark:text-white"/>
         </button>
         <img src={image} alt="picture-chat" className="w-14 h-14 rounded-full object-cover"/>
-        <span className="dark:text-white">{name}</span>
+        <span className="dark:text-white whitespace-nowrap overflow-hidden text-ellipsis">{name}</span>
       </header>
       <div className="relative flex flex-1">
         <ul className="overflow-y-auto overflow-x-hidden absolute h-full w-full pb-3" ref={chatContainer}>

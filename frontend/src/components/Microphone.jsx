@@ -63,11 +63,16 @@ const Microphone = ({ setActiveMicro, socket, id, userId }) => {
     if (audioChunksRef.current.length > 0) {
       const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/wav' });
 
-      // Crear un FormData para enviar el archivo al servidor
+      const isDark = document.querySelector('html').className === 'dark'
+      const audioSizeInMb = audioBlob.size / 1024 / 1024
+
+      if (audioSizeInMb > 10) return toast.error('Audio size is greater than 10mb', {
+        theme: isDark ? 'dark' : 'light'
+      })
+
       const formData = new FormData();
       formData.append('file', audioBlob);
-
-      const isDark = document.querySelector('html').className === 'dark'
+      
       const toastId = toast.loading('Sending audio...', {
         theme: isDark ? 'dark' : 'light'
       })

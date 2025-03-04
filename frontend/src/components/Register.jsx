@@ -124,6 +124,7 @@ const Register = () => {
                 placeholder="Fullname"
                 required={true}
                 onChange={handleChange}
+                maxLength={50}
               />
             </div>
             <div>
@@ -133,6 +134,7 @@ const Register = () => {
                 placeholder="Username"
                 required={true}
                 onChange={handleChange}
+                max={50}
               />
             </div>
             <div className="flex items-center relative">
@@ -166,7 +168,7 @@ const Register = () => {
                   aria-describedby="terms"
                   type="checkbox"
                   className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"
-                  required=""
+                  required={true}
                 />
               </div>
               <div className="ml-3 text-sm">

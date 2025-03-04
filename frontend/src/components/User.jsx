@@ -70,8 +70,8 @@ const User = forwardRef(({ userSearch, fetchUserData }, ref) => {
     <article className="flex items-center gap-5 p-2 transition hover:opacity-65 w-full cursor-pointer" onClick={createPrivateChat}>
         <img src={userSearch.avatar} alt="user-avatar" className="w-16 h-16 rounded-full object-cover"/>
         <div className="dark:text-white">
-          <p className="font-semibold">{userSearch.fullname}</p>
-          <p>{userSearch.username}</p>
+          <p className="font-semibold whitespace-nowrap overflow-hidden text-ellipsis w-40">{userSearch.fullname}</p>
+          <p className="whitespace-nowrap overflow-hidden text-ellipsis w-40">{userSearch.username}</p>
         </div>
     </article>
   )

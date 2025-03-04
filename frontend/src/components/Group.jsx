@@ -52,10 +52,10 @@ const Group = forwardRef(({ groupSearch, username, fetchUserData }, ref) => {
   }
 
   return (
-    <article className="flex items-center gap-5 p-2 transition hover:opacity-65 w-full">
+    <article className="flex items-center gap-3 p-2 transition hover:opacity-65 w-full">
         <img src={groupSearch.picture} alt="picture-group" className="w-16 h-16 rounded-full object-cover"/>
           <div className="dark:text-white">
-            <p className="font-semibold ">{groupSearch.name}</p>
+            <p className="font-semibold whitespace-nowrap overflow-hidden text-ellipsis xl:w-60 w-32">{groupSearch.name}</p>
             <p className="flex items-center gap-3 mt-2">
              <span>{groupSearch.members?.length}</span>
              <FaUser />
@@ -65,7 +65,7 @@ const Group = forwardRef(({ groupSearch, username, fetchUserData }, ref) => {
                 groupSearch.creator.username === username ? 
                 <span className="ml-auto text-blue-500">Owner</span>
                 :
-                <div className="flex items-center gap-3 ml-auto">
+                <div className="flex items-center gap-3">
                   <Link to={`/group/${groupSearch._id}`}>
                     <FaInfoCircle size={30} className="dark:text-white"/>
                   </Link>

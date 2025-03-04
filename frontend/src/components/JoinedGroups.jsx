@@ -63,7 +63,7 @@ const JoinedGroups = ({ group, fetchUserData }) => {
       />
 
       <div className="flex flex-col gap-1">
-        <span className="dark:text-white font-bold hover:underline cursor-pointer" onClick={openChat}>{name}</span>
+        <span className="dark:text-white font-bold whitespace-nowrap overflow-hidden text-ellipsis w-52 hover:underline cursor-pointer" onClick={openChat}>{name}</span>
         <div>
           <span className="border-r-2 border-black dark:border-white pr-2 dark:text-white">
             {visibility}

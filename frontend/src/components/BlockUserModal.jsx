@@ -52,7 +52,7 @@ const BlockUserModal = forwardRef(({ avatar, username, socket, privateChatId }, 
       </button>
 
       <img src={avatar} alt="picture-group" className="w-36 h-36 rounded-full m-auto"/>
-      <p className="text-center mt-3 font-bold">{username}</p>
+      <p className="text-center mt-3 font-bold whitespace-nowrap overflow-hidden text-ellipsis">{username}</p>
       <h1 className="text-center">¿Block User?</h1>
 
       <button onClick={blockUser} className="text-white mt-3 w-full bg-red-700 hover:bg-red-800 rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:bg-red-600">{loader ? <ClipLoader size={20} color="white"/> : 'Block'}</button>

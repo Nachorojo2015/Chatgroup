@@ -165,7 +165,7 @@ const InfoGroup = () => {
             <img src={group.picture} alt="picture-group" className="h-96 xl:w-[80%] shadow-md w-full rounded-b-md object-cover"/>
             <div className="flex flex-wrap justify-center gap-3 xl:justify-between w-[80%] mt-5 mb-5">
                 <div className="flex flex-col">
-                    <strong className="text-2xl dark:text-white">{group.name}</strong>
+                    <strong className="text-2xl whitespace-nowrap overflow-hidden text-ellipsis w-72 dark:text-white">{group.name}</strong>
                     <span className="font-semibold dark:text-gray-400">{group.visibility} group | {group.members.length} members</span>
                 </div>
                 <div className="flex flex-wrap items-center justify-center gap-3">

@@ -63,7 +63,7 @@ const MyGroups = ({ group, fetchUserData, username, socket }) => {
       />
 
       <div className="flex flex-col gap-1">
-        <span className="dark:text-white font-bold hover:underline cursor-pointer" onClick={openChat}>{name}</span>
+        <span className="dark:text-white font-bold whitespace-nowrap overflow-hidden text-ellipsis w-52 hover:underline cursor-pointer" onClick={openChat}>{name}</span>
         <div>
           <span className="border-r-2 border-black dark:border-white pr-2 dark:text-white">
             {visibility}
@@ -85,7 +85,7 @@ const MyGroups = ({ group, fetchUserData, username, socket }) => {
         <button onClick={() => setOpenMenu(!openMenu)}>
           <SlOptionsVertical className="dark:text-white"/>
         </button>
-        <div className={`transition-all ${!openMenu ? 'invisible opacity-0' : 'opacity-100'} flex flex-col gap-2 p-1 rounded-md absolute right-9 shadow-xl dark:bg-black dark:text-white min-w-36`}>
+        <div className={`transition-all ${!openMenu ? 'invisible opacity-0' : 'opacity-100'} flex flex-col gap-2 p-1 rounded-md absolute right-7 shadow-xl bg-white dark:bg-black dark:text-white min-w-36`}>
           <CopyLinkGroupButton _id={_id} />
           <EditGroupButton _id={_id} name={name} description={description} username={username} picture={picture} members={members} blockedUsers={blockedUsers} visibility={visibility} fetchUserData={fetchUserData} socket={socket}/>
           <DeleteGroupButton picture={picture} name={name} _id={_id} fetchUserData={fetchUserData}/>
@@ -94,7 +94,7 @@ const MyGroups = ({ group, fetchUserData, username, socket }) => {
 
       <dialog ref={pictureGroupModal} className="backdrop:bg-[rgba(0,0,0,.90)] xl:max-w-96 max-w-60 outline-none" onClick={() => pictureGroupModal.current.close()}>
         <div>
-          <span className="absolute w-full bg-black p-2 text-white bg-opacity-40">{name}</span>
+          <span className="absolute whitespace-nowrap overflow-hidden text-ellipsis bg-black p-2 w-full text-white bg-opacity-40">{name}</span>
           <img src={picture} alt="picture-group" className="object-cover"/>
         </div>
       </dialog>

@@ -189,7 +189,7 @@ const EditGroupModal = forwardRef(({ name, description, username, picture, _id, 
           <input type="file" hidden id="picture" name="picture" accept=".jpg, .png, .webp" onChange={handlePicture}/>
         </label>
         
-        <input placeholder="Group name" defaultValue={name} ref={nameGroupEditRef} className="dark:bg-gray-700 m-auto block mt-3 border p-3 rounded-md border-black outline-none"/>
+        <input placeholder="Group name" defaultValue={name} ref={nameGroupEditRef} maxLength={50} className="dark:bg-gray-700 m-auto block mt-3 border p-3 rounded-md border-black outline-none"/>
         
         <textarea placeholder="Description" defaultValue={description} ref={descriptionGroupEditRef} maxLength={255} className="[field-sizing:content] dark:bg-gray-700 resize-none mt-5 rounded-md p-3 border border-black w-full outline-none max-h-48 max-w-[430px]"/>
                 
