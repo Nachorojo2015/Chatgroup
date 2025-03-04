@@ -4,7 +4,7 @@ import JoinedGroups from "./JoinedGroups"
 import SearchGroupsButton from "./SearchGroupsButton"
 
 
-const ChatGroups = ({ groups, username, fetchUserData, valueSearch, socket }) => { 
+const ChatGroups = ({ groups, username, fetchUserData, valueSearch, socket, BACKEND_URL }) => { 
   let myGroups = groups.filter(group => group.creator.username === username) // Grupos creados por el usuario
   let joinedGroups = groups.filter(group => group.creator.username !== username) // Grupos en los que el usuario esta unido
 
@@ -19,7 +19,7 @@ const ChatGroups = ({ groups, username, fetchUserData, valueSearch, socket }) =>
 
       {
         myGroups.map((group, index) => (
-          <MyGroups key={index} group={group} fetchUserData={fetchUserData} username={username} socket={socket}/>
+          <MyGroups key={index} group={group} fetchUserData={fetchUserData} username={username} socket={socket} BACKEND_URL={BACKEND_URL}/>
         ))
       }
 
@@ -27,11 +27,11 @@ const ChatGroups = ({ groups, username, fetchUserData, valueSearch, socket }) =>
 
       {
         joinedGroups.map((group, index) => (
-          <JoinedGroups key={index} group={group} fetchUserData={fetchUserData} socket={socket}/>
+          <JoinedGroups key={index} group={group} fetchUserData={fetchUserData} BACKEND_URL={BACKEND_URL}/>
         ))
       }
 
-      <SearchGroupsButton username={username} fetchUserData={fetchUserData} />
+      <SearchGroupsButton username={username} fetchUserData={fetchUserData} BACKEND_URL={BACKEND_URL}/>
     </div>
   )
 }
@@ -43,7 +43,8 @@ ChatGroups.propTypes = {
     username: PropTypes.string,
     fetchUserData: PropTypes.func,
     valueSearch: PropTypes.string,
-    socket: PropTypes.object
+    socket: PropTypes.object,
+    BACKEND_URL: PropTypes.string
 }
 
 export default ChatGroups

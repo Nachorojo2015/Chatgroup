@@ -3,7 +3,7 @@ import { useRef } from "react"
 import PropTypes from "prop-types"
 import { MdDelete } from "react-icons/md";
 
-const DeleteGroupButton = ({ picture, name, _id, fetchUserData }) => {
+const DeleteGroupButton = ({ picture, name, _id, socket, BACKEND_URL }) => {
 
   const modalDeleteRef = useRef() 
     
@@ -13,7 +13,7 @@ const DeleteGroupButton = ({ picture, name, _id, fetchUserData }) => {
       <MdDelete />
       <span>Delete Group</span>
     </button>
-    <DeleteGroupModal ref={modalDeleteRef} picture={picture} name={name} _id={_id} fetchUserData={fetchUserData} />
+    <DeleteGroupModal ref={modalDeleteRef} picture={picture} name={name} _id={_id} socket={socket} BACKEND_URL={BACKEND_URL}/>
     </>
   )
 }
@@ -24,7 +24,8 @@ DeleteGroupButton.propTypes = {
     picture: PropTypes.string,
     name: PropTypes.string,
     _id: PropTypes.string,
-    fetchUserData: PropTypes.func
+    socket: PropTypes.object,
+    BACKEND_URL: PropTypes.string
 }
 
 export default DeleteGroupButton

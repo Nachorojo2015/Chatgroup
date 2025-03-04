@@ -4,9 +4,7 @@ import { toast } from "react-toastify"
 import { useUserStore } from "../store/userStore"
 import { forwardRef } from "react"
 
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
-
-const User = forwardRef(({ userSearch, fetchUserData }, ref) => {
+const User = forwardRef(({ userSearch, fetchUserData, BACKEND_URL }, ref) => {
   const { setData, setIsChatMobileOpen } = useChatStore()
 
   const { privateUsers } = useUserStore()
@@ -81,7 +79,8 @@ User.displayName = 'User'
 
 User.propTypes = {
     userSearch: PropTypes.object,
-    fetchUserData: PropTypes.func
+    fetchUserData: PropTypes.func,
+    BACKEND_URL: PropTypes.string
 }
 
 export default User

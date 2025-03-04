@@ -18,7 +18,7 @@ import { toast } from "react-toastify";
 import { CiLock } from "react-icons/ci";
 import { IoMusicalNotesOutline } from "react-icons/io5";
 
-const Chat = ({ socket }) => {
+const Chat = ({ socket, BACKEND_URL }) => {
 
   const { setMessage, message } = useChatStore()
   const { userId, fetchUserData } = useUserStore()
@@ -143,15 +143,15 @@ function scrollToBottom() {
               <div className="flex items-center gap-3">
                 {!activeMicro ? 
                 <>
-                <MediaUploadOption icon={IoImageOutline} extensions={'.jpg, .png, .webp'} socket={socket} id={id} userId={userId}/>
-                <MediaUploadOption icon={FiVideo} extensions={'.mp4'} socket={socket} id={id} userId={userId}/>
-                <MediaUploadOption icon={LuFiles} extensions={'.pdf, .docx'} socket={socket} id={id} userId={userId}/>
-                <MediaUploadOption icon={IoMusicalNotesOutline} extensions={'.mp3'} socket={socket} id={id} userId={userId}/>
+                <MediaUploadOption icon={IoImageOutline} extensions={'.jpg, .png, .webp'} socket={socket} id={id} userId={userId} BACKEND_URL={BACKEND_URL}/>
+                <MediaUploadOption icon={FiVideo} extensions={'.mp4'} socket={socket} id={id} userId={userId} BACKEND_URL={BACKEND_URL}/>
+                <MediaUploadOption icon={LuFiles} extensions={'.pdf, .docx'} socket={socket} id={id} userId={userId} BACKEND_URL={BACKEND_URL}/>
+                <MediaUploadOption icon={IoMusicalNotesOutline} extensions={'.mp3'} socket={socket} id={id} userId={userId} BACKEND_URL={BACKEND_URL}/>
                 </>
                 :
                 ''
                 }
-                <Microphone activeMicro={activeMicro} setActiveMicro={setActiveMicro} socket={socket} id={id} userId={userId}/>
+                <Microphone activeMicro={activeMicro} setActiveMicro={setActiveMicro} socket={socket} id={id} userId={userId} BACKEND_URL={BACKEND_URL}/>
               </div>
             }
         </ul>
@@ -166,7 +166,8 @@ Chat.displayName = 'Chat'
 
 Chat.propTypes = {
   chatSelected: PropTypes.bool,
-  socket: PropTypes.object
+  socket: PropTypes.object,
+  BACKEND_URL: PropTypes.string
 }
 
 export default Chat

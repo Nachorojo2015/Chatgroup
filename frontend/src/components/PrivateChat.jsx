@@ -7,9 +7,7 @@ import BlockUserButton from "./BlockUserButton";
 import { useUserStore } from "../store/userStore";
 import UnlockUserButton from "./UnlockUserButton";
 
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
-
-const PrivateChat = ({ privateChat, fetchUserData, socket }) => {
+const PrivateChat = ({ privateChat, fetchUserData, socket, BACKEND_URL }) => {
 
   const { setIsChatMobileOpen, setData, unSeen, setUnSeen, setLoader} = useChatStore()
   const { blockedUsers, userId } = useUserStore()
@@ -49,6 +47,7 @@ const PrivateChat = ({ privateChat, fetchUserData, socket }) => {
       setIsChatMobileOpen(true)
     } catch (error) {
       console.error(error)
+      toast.error('Error in server')
       setLoader(false)
     }
   } 
@@ -80,9 +79,9 @@ const PrivateChat = ({ privateChat, fetchUserData, socket }) => {
           <div className={`transition-all ${!openMenu ? 'invisible opacity-0' : 'opacity-100'} flex flex-col gap-2 p-2 rounded-md absolute right-9 shadow-xl dark:bg-black dark:text-white min-w-32`} id="menu-users-option">
             {
              isBlocked && !isMyUserBlocked ? 
-             <UnlockUserButton avatar={privateChat.user.avatar} username={privateChat.user.username} fetchUserData={fetchUserData} socket={socket} privateChatId={privateChat._id}/>
+             <UnlockUserButton avatar={privateChat.user.avatar} username={privateChat.user.username} fetchUserData={fetchUserData} socket={socket} privateChatId={privateChat._id} BACKEND_URL={BACKEND_URL}/>
              :
-             <BlockUserButton avatar={privateChat.user.avatar} username={privateChat.user.username} fetchUserData={fetchUserData} socket={socket} privateChatId={privateChat._id}/>
+             <BlockUserButton avatar={privateChat.user.avatar} username={privateChat.user.username} fetchUserData={fetchUserData} socket={socket} privateChatId={privateChat._id} BACKEND_URL={BACKEND_URL}/>
             }
           </div>
           </div>
@@ -99,7 +98,8 @@ const PrivateChat = ({ privateChat, fetchUserData, socket }) => {
 PrivateChat.propTypes = {
   privateChat: PropTypes.object,
   fetchUserData: PropTypes.func,
-  socket: PropTypes.object
+  socket: PropTypes.object,
+  BACKEND_URL: PropTypes.string
 }
 
 export default PrivateChat

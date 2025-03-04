@@ -12,10 +12,9 @@ import { MdHistory } from "react-icons/md";
 import { useUserStore } from "../store/userStore";
 import { CiLogout } from "react-icons/ci";
 import DarkMode from "./DarkMode";
+import PropTypes from "prop-types";
 
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
-
-const InfoGroup = () => {
+const InfoGroup = ({ BACKEND_URL }) => {
 
   const { id } = useParams()
 
@@ -149,7 +148,7 @@ const InfoGroup = () => {
     
       getInfoGroup()
       fetchUserData()
-  }, [id, fetchUserData])
+  }, [id, fetchUserData, BACKEND_URL])
 
   if (!group) {
     return (
@@ -243,6 +242,10 @@ const InfoGroup = () => {
         </section>
     </section>
   )
+}
+
+InfoGroup.propTypes = {
+  BACKEND_URL: PropTypes.string
 }
 
 export default InfoGroup

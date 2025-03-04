@@ -16,11 +16,11 @@ function App() {
 
   return (
     <Routes>
-      <Route path='/login' element={<Login/>}></Route>
-      <Route path='/register' element={<Register/>}></Route>
-      <Route path='/reset' element={<ResetPassword />}></Route>
-      <Route path='/' element={<UserPanel socket={socket}/>}></Route>
-      <Route path='/group/:id' element={<InfoGroup />}></Route>
+      <Route path='/login' element={<Login BACKEND_URL={BACKEND_URL}/>}></Route>
+      <Route path='/register' element={<Register BACKEND_URL={BACKEND_URL}/>}></Route>
+      <Route path='/reset' element={<ResetPassword BACKEND_URL={BACKEND_URL}/>}></Route>
+      <Route path='/' element={<UserPanel socket={socket} BACKEND_URL={BACKEND_URL}/>}></Route>
+      <Route path='/group/:id' element={<InfoGroup BACKEND_URL={BACKEND_URL}/>}></Route>
     </Routes>
   )
 }

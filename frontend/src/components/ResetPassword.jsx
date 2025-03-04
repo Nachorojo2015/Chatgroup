@@ -1,11 +1,10 @@
+import PropTypes from "prop-types"
 import { useRef, useState } from "react"
 import { FaEye } from "react-icons/fa"
 import { LuEyeClosed } from "react-icons/lu"
 import { toast } from "react-toastify"
 
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
-
-const ResetPassword = () => {
+const ResetPassword = ({ BACKEND_URL }) => {
 
   const newPasswordRef = useRef()
 
@@ -63,6 +62,10 @@ const ResetPassword = () => {
     </section>
     
   )
+}
+
+ResetPassword.propTypes = {
+  BACKEND_URL: PropTypes.string
 }
 
 export default ResetPassword

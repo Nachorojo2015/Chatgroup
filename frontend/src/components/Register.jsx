@@ -3,10 +3,9 @@ import { FaEye } from "react-icons/fa";
 import { LuEyeClosed } from "react-icons/lu";
 import { useState } from "react";
 import { toast } from 'react-toastify';
+import PropTypes from "prop-types";
 
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
-
-const Register = () => {
+const Register = ({ BACKEND_URL }) => {
 
   const [form, setForm] = useState({
     email: '',
@@ -207,5 +206,9 @@ const Register = () => {
     </section>
   );
 };
+
+Register.propTypes = {
+  BACKEND_URL: PropTypes.string
+}
 
 export default Register;

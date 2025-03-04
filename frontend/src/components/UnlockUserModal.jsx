@@ -5,9 +5,7 @@ import { ClipLoader } from "react-spinners"
 import { toast } from "react-toastify"
 import { useChatStore } from "../store/chatStore"
 
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
-
-const UnlockUserModal = forwardRef(({ avatar, username, socket, privateChatId }, ref) => {
+const UnlockUserModal = forwardRef(({ avatar, username, socket, privateChatId, BACKEND_URL }, ref) => {
 
   const [loader, setLoader] = useState(false)
   const setIdChat = useChatStore(state => state.setIdChat)
@@ -70,7 +68,8 @@ UnlockUserModal.propTypes = {
     avatar: PropTypes.string,
     username: PropTypes.string,
     socket: PropTypes.object,
-    privateChatId: PropTypes.string
+    privateChatId: PropTypes.string,
+    BACKEND_URL: PropTypes.string
 }
 
 export default UnlockUserModal

@@ -5,9 +5,7 @@ import { ClipLoader } from 'react-spinners'
 import User from './User'
 import PropTypes from 'prop-types'
 
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
-
-const SearchUsersModal = forwardRef(({ fetchUserData }, ref) => {
+const SearchUsersModal = forwardRef(({ fetchUserData, BACKEND_URL }, ref) => {
 
     const [usersSearch, setUsersSearch] = useState([])
     const [loader, setLoader] = useState(false)
@@ -43,6 +41,7 @@ const SearchUsersModal = forwardRef(({ fetchUserData }, ref) => {
           setUsersSearch(data.users)
         } catch (error) {
           console.log(error.message)
+          labelInputSearchRef.current.innerText = 'Error in server'
         }
         setLoader(false)
       }  
@@ -74,7 +73,7 @@ const SearchUsersModal = forwardRef(({ fetchUserData }, ref) => {
               <ClipLoader /> 
                : 
               usersSearch.map((userSearch, index) => (
-              <User key={index} userSearch={userSearch} fetchUserData={fetchUserData} ref={ref}/>
+              <User key={index} userSearch={userSearch} fetchUserData={fetchUserData} BACKEND_URL={BACKEND_URL} ref={ref}/>
               ))
             }
           </section>
@@ -85,7 +84,8 @@ const SearchUsersModal = forwardRef(({ fetchUserData }, ref) => {
 SearchUsersModal.displayName = 'SearchUsersModal'
 
 SearchUsersModal.propTypes = {
-  fetchUserData: PropTypes.func
+  fetchUserData: PropTypes.func,
+  BACKEND_URL: PropTypes.string
 }
 
 export default SearchUsersModal

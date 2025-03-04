@@ -3,7 +3,7 @@ import { MdBlock } from "react-icons/md";
 import BlockUserModal from "./BlockUserModal";
 import PropTypes from "prop-types";
 
-const BlockUserButton = ({ avatar, username, fetchUserData, socket, privateChatId }) => {
+const BlockUserButton = ({ avatar, username, fetchUserData, socket, privateChatId, BACKEND_URL }) => {
 
   const blockUserModalRef = useRef()
 
@@ -13,7 +13,7 @@ const BlockUserButton = ({ avatar, username, fetchUserData, socket, privateChatI
       <MdBlock size={20}/>
       <span>Block User</span>
     </button>
-    <BlockUserModal ref={blockUserModalRef} avatar={avatar} username={username} fetchUserData={fetchUserData} socket={socket} privateChatId={privateChatId}/>
+    <BlockUserModal ref={blockUserModalRef} avatar={avatar} username={username} fetchUserData={fetchUserData} socket={socket} privateChatId={privateChatId} BACKEND_URL={BACKEND_URL}/>
     </>
   )
 }
@@ -23,7 +23,8 @@ BlockUserButton.propTypes = {
     username: PropTypes.string,
     fetchUserData: PropTypes.func,
     socket: PropTypes.object,
-    privateChatId: PropTypes.string
+    privateChatId: PropTypes.string,
+    BACKEND_URL: PropTypes.string
 }
 
 export default BlockUserButton

@@ -3,7 +3,7 @@ import { MdGroups } from "react-icons/md"
 import CreateGroupModal from "./CreateGroupModal"
 import PropTypes from "prop-types"
 
-const CreateGroupButton = ({ fetchUserData }) => {
+const CreateGroupButton = ({ fetchUserData, BACKEND_URL }) => {
 
   const modalCreateGroupRef = useRef()
 
@@ -13,13 +13,14 @@ const CreateGroupButton = ({ fetchUserData }) => {
       Create new Group
       <MdGroups size={30}/>
     </button>
-    <CreateGroupModal ref={modalCreateGroupRef} fetchUserData={fetchUserData}/>
+    <CreateGroupModal ref={modalCreateGroupRef} fetchUserData={fetchUserData} BACKEND_URL={BACKEND_URL}/>
     </>
   )
 }
 
 CreateGroupButton.propTypes = {
-    fetchUserData: PropTypes.func
+    fetchUserData: PropTypes.func,
+    BACKEND_URL: PropTypes.string
 }
 
 export default CreateGroupButton

@@ -6,9 +6,7 @@ import LeaveGroupButton from "./LeaveGroupButton"
 import { toast } from "react-toastify"
 import { Link } from "react-router-dom"
 
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
-
-const Group = forwardRef(({ groupSearch, username, fetchUserData }, ref) => {
+const Group = forwardRef(({ groupSearch, username, fetchUserData, BACKEND_URL }, ref) => {
 
   const isMember = groupSearch.members.map(group => group.username).includes(username)
 
@@ -48,6 +46,12 @@ const Group = forwardRef(({ groupSearch, username, fetchUserData }, ref) => {
       fetchUserData()
     } catch (error) {
       console.log(error.message)
+      toast.update(toastId, {
+        render: 'Error in server',
+        type: 'error',
+        isLoading: false,
+        autoClose: 1500
+      })
     }
   }
 
@@ -71,7 +75,7 @@ const Group = forwardRef(({ groupSearch, username, fetchUserData }, ref) => {
                   </Link>
                   {
                     isMember ? 
-                    <LeaveGroupButton picture={groupSearch.picture} name={groupSearch.name} _id={groupSearch._id} fetchUserData={fetchUserData} />
+                    <LeaveGroupButton picture={groupSearch.picture} name={groupSearch.name} _id={groupSearch._id} fetchUserData={fetchUserData} BACKEND_URL={BACKEND_URL}/>
                     :
                     <button onClick={joinGroup}>
                       <IoMdAddCircle size={35} className="dark:text-white"/>
@@ -88,7 +92,8 @@ Group.displayName = 'Group'
 Group.propTypes = {
     groupSearch: PropTypes.object,
     username: PropTypes.string,
-    fetchUserData: PropTypes.func
+    fetchUserData: PropTypes.func,
+    BACKEND_URL: PropTypes.string
 }
 
 export default Group

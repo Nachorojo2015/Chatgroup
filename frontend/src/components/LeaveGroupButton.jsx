@@ -3,7 +3,7 @@ import { useRef } from "react"
 import PropTypes from "prop-types"
 import { CgLogOut } from "react-icons/cg";
 
-const LeaveGroupButton = ({ picture, name, _id, fetchUserData }) => {
+const LeaveGroupButton = ({ picture, name, _id, fetchUserData, BACKEND_URL }) => {
 
   const modalLeaveGroup = useRef()
 
@@ -13,7 +13,7 @@ const LeaveGroupButton = ({ picture, name, _id, fetchUserData }) => {
       <CgLogOut size={20}/>
       <span>Leave group</span>
     </button>
-    <LeaveGroupModal ref={modalLeaveGroup} picture={picture} name={name} _id={_id} fetchUserData={fetchUserData} />
+    <LeaveGroupModal ref={modalLeaveGroup} picture={picture} name={name} _id={_id} fetchUserData={fetchUserData} BACKEND_URL={BACKEND_URL} />
     </>
   )
 }
@@ -22,7 +22,8 @@ LeaveGroupButton.propTypes = {
     picture: PropTypes.string,
     name: PropTypes.string,
     _id: PropTypes.string,
-    fetchUserData: PropTypes.func
+    fetchUserData: PropTypes.func,
+    BACKEND_URL: PropTypes.string
 }
 
 export default LeaveGroupButton

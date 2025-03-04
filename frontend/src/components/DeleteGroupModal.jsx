@@ -3,9 +3,7 @@ import { FaArrowLeftLong } from "react-icons/fa6"
 import { toast } from "react-toastify"
 import PropTypes from "prop-types"
 
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
-
-const DeleteGroupModal = forwardRef(({ picture, name, _id, fetchUserData }, ref) => {
+const DeleteGroupModal = forwardRef(({ picture, name, _id ,socket, BACKEND_URL }, ref) => {
 
   async function deleteGroup() {
       ref.current.close()
@@ -34,7 +32,7 @@ const DeleteGroupModal = forwardRef(({ picture, name, _id, fetchUserData }, ref)
           autoClose: 2000
         })
   
-        fetchUserData()
+        socket.emit('update-user')
       } catch (error) {
         console.log(error.message)
       }
@@ -64,7 +62,8 @@ DeleteGroupModal.propTypes = {
     picture: PropTypes.string,
     name: PropTypes.string,
     _id: PropTypes.string,
-    fetchUserData: PropTypes.func
+    socket: PropTypes.object,
+    BACKEND_URL: PropTypes.string
 }
 
 export default DeleteGroupModal

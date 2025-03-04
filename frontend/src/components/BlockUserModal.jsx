@@ -5,7 +5,7 @@ import { ClipLoader } from "react-spinners"
 import { toast } from "react-toastify"
 import { useChatStore } from "../store/chatStore"
 
-const BlockUserModal = forwardRef(({ avatar, username, socket, privateChatId }, ref) => {
+const BlockUserModal = forwardRef(({ avatar, username, socket, privateChatId, BACKEND_URL }, ref) => {
 
   const [loader, setLoader] = useState(false)
   const { setIdChat, id } = useChatStore()
@@ -14,7 +14,7 @@ const BlockUserModal = forwardRef(({ avatar, username, socket, privateChatId }, 
     const isDark = document.querySelector('html').className === 'dark'
     setLoader(true)
     try {
-      const response = await fetch(`http://localhost:3000/user/block/${username}`, {
+      const response = await fetch(`${BACKEND_URL}/user/block/${username}`, {
         method: 'POST',
         credentials: 'include'
       })
@@ -66,7 +66,8 @@ BlockUserModal.propTypes = {
     avatar: PropTypes.string,
     username: PropTypes.string,
     socket: PropTypes.object,
-    privateChatId: PropTypes.string
+    privateChatId: PropTypes.string,
+    BACKEND_URL: PropTypes.string
 }
 
 export default BlockUserModal

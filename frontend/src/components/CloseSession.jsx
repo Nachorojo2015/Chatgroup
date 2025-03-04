@@ -1,14 +1,15 @@
+import PropTypes from "prop-types";
 import { CiLogout } from "react-icons/ci";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
-const CloseSession = () => {
+const CloseSession = ({ BACKEND_URL }) => {
   const navigate = useNavigate()
 
   async function closeSession() {
     const isDark = document.querySelector('html').className === 'dark'
     try {
-        const response = await fetch('http://localhost:3000/auth/logout', {
+        const response = await fetch(`${BACKEND_URL}/auth/logout`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -40,6 +41,10 @@ const CloseSession = () => {
   return (
     <CiLogout className="cursor-pointer dark:text-white" size={20} onClick={closeSession}/>
   )
+}
+
+CloseSession.propTypes = {
+  BACKEND_URL: PropTypes.string
 }
 
 export default CloseSession

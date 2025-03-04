@@ -4,9 +4,7 @@ import { toast } from 'react-toastify'
 import PropTypes from 'prop-types'
 import { IoMdAdd } from 'react-icons/io'
 
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
-
-const CreateGroupModal = forwardRef(({ fetchUserData }, ref) => {
+const CreateGroupModal = forwardRef(({ fetchUserData, BACKEND_URL }, ref) => {
 
     const [imageGroup, setImageGroup] = useState('/camera.png')
     const [fileImageGroup, setFileImageGroup] = useState(null)
@@ -74,6 +72,12 @@ const CreateGroupModal = forwardRef(({ fetchUserData }, ref) => {
           fetchUserData()
         } catch (error) {
           console.log(error)
+          toast.update(toastId, {
+            render: 'Error in server',
+            type: 'error',
+            isLoading: false,
+            autoClose: 1500
+          })
         }
     }
 
@@ -109,7 +113,8 @@ const CreateGroupModal = forwardRef(({ fetchUserData }, ref) => {
 CreateGroupModal.displayName = 'CreateGroupModal'
 
 CreateGroupModal.propTypes = {
-    fetchUserData: PropTypes.func
+    fetchUserData: PropTypes.func,
+    BACKEND_URL: PropTypes.string
 }
 
 export default CreateGroupModal

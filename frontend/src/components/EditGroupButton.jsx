@@ -3,7 +3,7 @@ import EditGroupModal from "./EditGroupModal"
 import PropTypes from "prop-types"
 import { BiSolidPencil } from "react-icons/bi";
 
-const EditGroupButton = ({ name, description, username, picture, _id, members, blockedUsers, visibility, fetchUserData, socket }) => {
+const EditGroupButton = ({ name, description, username, picture, _id, members, blockedUsers, visibility, fetchUserData, socket, BACKEND_URL }) => {
 
   const modalEditRef = useRef()
 
@@ -13,7 +13,7 @@ const EditGroupButton = ({ name, description, username, picture, _id, members, b
         <BiSolidPencil />
         <span>Edit Group</span>
     </button>
-    <EditGroupModal ref={modalEditRef} name={name} description={description} username={username} picture={picture} _id={_id} members={members} blockedUsers={blockedUsers} visibility={visibility} fetchUserData={fetchUserData} socket={socket}/>
+    <EditGroupModal ref={modalEditRef} name={name} description={description} username={username} picture={picture} _id={_id} members={members} blockedUsers={blockedUsers} visibility={visibility} fetchUserData={fetchUserData} socket={socket} BACKEND_URL={BACKEND_URL}/>
     </>
   )
 }
@@ -30,7 +30,8 @@ EditGroupButton.propTypes = {
     visibility: PropTypes.string,
     fetchUserData: PropTypes.func,
     blockedUsers: PropTypes.array,
-    socket: PropTypes.object
+    socket: PropTypes.object,
+    BACKEND_URL: PropTypes.string
 }
 
 export default EditGroupButton

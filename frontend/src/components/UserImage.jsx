@@ -5,9 +5,7 @@ import { toast } from 'react-toastify'
 import { useUserStore } from "../store/userStore"
 import { IoMdAdd } from "react-icons/io"
 
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
-
-const UserImage = ({ avatar }) => {
+const UserImage = ({ avatar, BACKEND_URL }) => {
 
   const [loader, setLoader] = useState(false)
   const fetchUserData = useUserStore(state => state.fetchUserData)
@@ -47,7 +45,7 @@ const UserImage = ({ avatar }) => {
   return (
     <label>
         {loader ? 
-        <BeatLoader cssOverride={{height: '144px', margin: 'auto', color: 'gray'}} className="dark:text-white"/> 
+        <BeatLoader cssOverride={{height: '144px', margin: 'auto', color: 'white'}} className="dark:text-white"/> 
         : 
         <div className="relative flex items-center justify-center group">
           <IoMdAdd className="absolute dark:text-white opacity-0 transition group-hover:opacity-100" size={80} />
@@ -63,6 +61,7 @@ UserImage.displayName = 'UserImage'
 
 UserImage.propTypes = {
   avatar: PropTypes.string,
+  BACKEND_URL: PropTypes.string
 }
 
 export default UserImage

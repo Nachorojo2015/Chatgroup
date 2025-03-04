@@ -10,7 +10,7 @@ import { useRef, useState } from "react";
 import CopyLinkGroupButton from "./CopyLinkGroupButton";
 import { useUserStore } from "../store/userStore";
 
-const JoinedGroups = ({ group, fetchUserData }) => {
+const JoinedGroups = ({ group, fetchUserData, BACKEND_URL }) => {
 
   const { picture, name, visibility, members, _id } = group 
   const { setData, setIsChatMobileOpen, setLoader, unSeen, setUnSeen } = useChatStore()
@@ -24,10 +24,11 @@ const JoinedGroups = ({ group, fetchUserData }) => {
   const isBlock = group.blockedUsers.includes(userId)
 
   async function openChat() {
+    setOpenMenu(false)
     setLoader(true)
     setUnSeen(unSeen.filter(chatId => chatId !== _id))
     try {
-      const response = await fetch(`http://localhost:3000/messages/${_id}`)
+      const response = await fetch(`${BACKEND_URL}/messages/${_id}`)
 
       if (!response.ok) {
         setLoader(false)
@@ -48,6 +49,7 @@ const JoinedGroups = ({ group, fetchUserData }) => {
       setLoader(false)
     } catch (error) {
       console.log(error)
+      toast.error('Error in server')
     }
   }
 
@@ -87,7 +89,7 @@ const JoinedGroups = ({ group, fetchUserData }) => {
       </button>
       <div className={`transition-all ${!openMenu ? 'invisible opacity-0' : 'opacity-100'} flex flex-col gap-2 p-2 rounded-md absolute right-9 shadow-xl dark:bg-black bg-white dark:text-white min-w-32`}>
         <CopyLinkGroupButton _id={_id}/>
-        <LeaveGroupButton picture={picture} name={name} _id={_id} fetchUserData={fetchUserData}/>
+        <LeaveGroupButton picture={picture} name={name} _id={_id} fetchUserData={fetchUserData} BACKEND_URL={BACKEND_URL}/>
       </div>
      </div>
 
@@ -106,6 +108,7 @@ JoinedGroups.displayName = 'JoinedGroups'
 JoinedGroups.propTypes = {
   group: PropTypes.object,
   fetchUserData: PropTypes.func,
+  BACKEND_URL: PropTypes.string
 }
 
 export default JoinedGroups;

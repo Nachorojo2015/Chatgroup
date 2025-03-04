@@ -3,7 +3,7 @@ import UnlockUserModal from "./UnlockUserModal";
 import PropTypes from "prop-types";
 import { useRef } from "react";
 
-const UnlockUserButton = ({ avatar, username, fetchUserData, socket, privateChatId }) => {
+const UnlockUserButton = ({ avatar, username, fetchUserData, socket, privateChatId, BACKEND_URL }) => {
 
   const unlockUserModalRef = useRef()
 
@@ -13,7 +13,7 @@ const UnlockUserButton = ({ avatar, username, fetchUserData, socket, privateChat
         <FaUnlock />
         <span>Unlock User</span>
     </button>
-    <UnlockUserModal ref={unlockUserModalRef} avatar={avatar} username={username} fetchUserData={fetchUserData} socket={socket} privateChatId={privateChatId}/>
+    <UnlockUserModal ref={unlockUserModalRef} avatar={avatar} username={username} fetchUserData={fetchUserData} socket={socket} privateChatId={privateChatId} BACKEND_URL={BACKEND_URL}/>
     </>
   )
 }
@@ -23,7 +23,8 @@ UnlockUserButton.propTypes = {
   username: PropTypes.string,
   fetchUserData: PropTypes.func,
   socket: PropTypes.object,
-  privateChatId: PropTypes.string
+  privateChatId: PropTypes.string,
+  BACKEND_URL: PropTypes.string
 }
 
 export default UnlockUserButton

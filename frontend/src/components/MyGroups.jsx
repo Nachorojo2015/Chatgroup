@@ -10,9 +10,7 @@ import { toast } from "react-toastify";
 import { SlOptionsVertical } from "react-icons/sl";
 import { useRef, useState } from "react";
 
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
-
-const MyGroups = ({ group, fetchUserData, username, socket }) => {
+const MyGroups = ({ group, fetchUserData, username, socket, BACKEND_URL }) => {
 
   const { picture, name, visibility, members, blockedUsers, description, _id } = group
   const { setData, setIsChatMobileOpen, setLoader, unSeen, setUnSeen } = useChatStore()
@@ -23,6 +21,7 @@ const MyGroups = ({ group, fetchUserData, username, socket }) => {
   const isUnSeen = unSeen.includes(_id)
   
   async function openChat() {
+      setOpenMenu(false)
       setLoader(true)
       setUnSeen(unSeen.filter(chatId => chatId !== _id))
       try {
@@ -47,6 +46,7 @@ const MyGroups = ({ group, fetchUserData, username, socket }) => {
         setLoader(false)
       } catch (error) {
         console.log(error)
+        toast.error('Error in server')
         setLoader(false)
       }
     }
@@ -87,8 +87,8 @@ const MyGroups = ({ group, fetchUserData, username, socket }) => {
         </button>
         <div className={`transition-all ${!openMenu ? 'invisible opacity-0' : 'opacity-100'} flex flex-col gap-2 p-1 rounded-md absolute right-7 shadow-xl bg-white dark:bg-black dark:text-white min-w-36`}>
           <CopyLinkGroupButton _id={_id} />
-          <EditGroupButton _id={_id} name={name} description={description} username={username} picture={picture} members={members} blockedUsers={blockedUsers} visibility={visibility} fetchUserData={fetchUserData} socket={socket}/>
-          <DeleteGroupButton picture={picture} name={name} _id={_id} fetchUserData={fetchUserData}/>
+          <EditGroupButton _id={_id} name={name} description={description} username={username} picture={picture} members={members} blockedUsers={blockedUsers} visibility={visibility} fetchUserData={fetchUserData} socket={socket} BACKEND_URL={BACKEND_URL}/>
+          <DeleteGroupButton picture={picture} name={name} _id={_id} socket={socket} BACKEND_URL={BACKEND_URL}/>
         </div>
       </div>
 
@@ -108,7 +108,8 @@ MyGroups.propTypes = {
     group: PropTypes.object,
     fetchUserData: PropTypes.func,
     username: PropTypes.string,
-    socket: PropTypes.object
+    socket: PropTypes.object,
+    BACKEND_URL: PropTypes.string
 }
 
 export default MyGroups;

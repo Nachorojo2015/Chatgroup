@@ -1,9 +1,7 @@
 import PropTypes from "prop-types"
 import { toast } from "react-toastify"
 
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
-
-const MediaUploadOption = ({ icon: Icon, extensions, socket, id, userId }) => {
+const MediaUploadOption = ({ icon: Icon, extensions, socket, id, userId, BACKEND_URL }) => {
 
   async function handleFile(e) {
     const file = e.target.files[0]
@@ -72,7 +70,8 @@ MediaUploadOption.propTypes = {
     extensions: PropTypes.string,
     socket: PropTypes.object,
     id: PropTypes.string,
-    userId: PropTypes.string
+    userId: PropTypes.string,
+    BACKEND_URL: PropTypes.string
 }
 
 export default MediaUploadOption

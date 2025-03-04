@@ -8,9 +8,7 @@ import { IoMdClose } from "react-icons/io";
 import ClipLoader from 'react-spinners/ClipLoader'
 import PropTypes from "prop-types"
 
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
-
-const Login = () => {
+const Login = ({ BACKEND_URL }) => {
   const modalEmail = useRef()
 
   const [form, setForm] = useState({
@@ -204,7 +202,8 @@ const Login = () => {
 }
 
 Login.propTypes = {
-  socket: PropTypes.object
+  socket: PropTypes.object,
+  BACKEND_URL: PropTypes.string
 }
 
 export default Login

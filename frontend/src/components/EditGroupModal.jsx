@@ -5,9 +5,7 @@ import PropTypes from "prop-types"
 import { MdGroups, MdOutlineGroup } from 'react-icons/md'
 import { IoMdAdd } from "react-icons/io"
 
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
-
-const EditGroupModal = forwardRef(({ name, description, username, picture, _id, members, blockedUsers, visibility, fetchUserData, socket }, ref) => {
+const EditGroupModal = forwardRef(({ name, description, username, picture, _id, members, blockedUsers, visibility, fetchUserData, socket, BACKEND_URL }, ref) => {
 
   const nameGroupEditRef = useRef()
   const descriptionGroupEditRef = useRef()
@@ -248,7 +246,8 @@ EditGroupModal.propTypes = {
     visibility: PropTypes.string,
     fetchUserData: PropTypes.func,
     blockedUsers: PropTypes.array,
-    socket: PropTypes.object
+    socket: PropTypes.object,
+    BACKEND_URL: PropTypes.string
 }
 
 export default EditGroupModal

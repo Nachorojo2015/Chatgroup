@@ -7,9 +7,7 @@ import { IoSend } from "react-icons/io5";
 import { toast } from "react-toastify";
 import Player from "./Player";
 
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
-
-const Microphone = ({ setActiveMicro, socket, id, userId }) => {
+const Microphone = ({ setActiveMicro, socket, id, userId, BACKEND_URL }) => {
 
   const [isRecording, setIsRecording] = useState(false);
   const [audioURL, setAudioURL] = useState('');
@@ -148,7 +146,8 @@ Microphone.propTypes = {
   setActiveMicro: PropTypes.func,
   socket: PropTypes.object,
   id: PropTypes.string,
-  userId: PropTypes.string
+  userId: PropTypes.string,
+  BACKEND_URL: PropTypes.string
 }
 
 export default Microphone

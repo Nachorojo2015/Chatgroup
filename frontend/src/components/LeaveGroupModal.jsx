@@ -4,9 +4,7 @@ import { FaArrowLeftLong } from "react-icons/fa6"
 import { ClipLoader } from "react-spinners"
 import { toast } from "react-toastify"
 
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
-
-const LeaveGroupModal = forwardRef(({ picture, name, _id, fetchUserData }, ref) => {
+const LeaveGroupModal = forwardRef(({ picture, name, _id, fetchUserData, BACKEND_URL }, ref) => {
 
   const [loader, setLoader] = useState(false)
 
@@ -63,7 +61,8 @@ LeaveGroupModal.propTypes = {
     picture: PropTypes.string,
     name: PropTypes.string,
     _id: PropTypes.string,
-    fetchUserData: PropTypes.func
+    fetchUserData: PropTypes.func,
+    BACKEND_URL: PropTypes.string
 }
 
 export default LeaveGroupModal
