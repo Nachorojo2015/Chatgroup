@@ -27,12 +27,7 @@ app.use('/private', privateRouter)
 
 const server = http.createServer(app)
 
-const io = new Server(server, {
-  cors: {
-    origin: FRONTEND_DOMAIN,
-    credentials: true
-  }
-})
+const io = new Server(server)
 
 
 io.on('connection', socket => {
