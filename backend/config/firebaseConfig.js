@@ -5,7 +5,7 @@ const CREDENTIALS = {
     type: FIREBASE_TYPE,
     project_id: FIREBASE_PROJECT_ID,
     private_key_id: FIREBASE_PRIVATE_KEY_ID,
-    private_key: FIREBASE_PRIVATE_KEY,
+    private_key: FIREBASE_PRIVATE_KEY.split(String.raw`\n`).join('\n'),
     client_email: FIREBASE_CLIENT_EMAIL,
     client_id: FIREBASE_CLIENT_ID,
     auth_uri: FIREBASE_AUTH_URI,
