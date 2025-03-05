@@ -25,7 +25,8 @@ export const createGroup = async (req, res) => {
       const idGroup = await GroupRepository.createGroup({ name, file, _id })
       res.send({ idGroup })
     } catch (error) {
-        res.status(400).send(error.message)
+      console.log(error)
+      res.status(400).send(error.message)
     }
 }
 

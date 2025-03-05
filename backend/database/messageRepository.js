@@ -54,7 +54,7 @@ export class MessagesRepository {
         
         const fileUrl = await getFileUrl(destination);
     
-        await fs.unlink(file.path)
+        fs.unlinkSync(file.path)
     
         return fileUrl;
     }

@@ -31,7 +31,12 @@ const MediaUploadOption = ({ icon: Icon, extensions, socket, id, userId, BACKEND
 
       if (!response.ok) {
         const errorMessage = await response.text()
-        toast.error(errorMessage)
+        toast.update(toastId, {
+          render: errorMessage,
+          type: 'error',
+          isLoading: false,
+          autoClose: 1500
+        })
       }
 
       const data = await response.json()
