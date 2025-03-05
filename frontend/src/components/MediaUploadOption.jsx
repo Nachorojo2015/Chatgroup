@@ -39,6 +39,13 @@ const MediaUploadOption = ({ icon: Icon, extensions, socket, id, userId, BACKEND
       const formatFile = file.type.split('/').shift()
       const fileUrl = data.fileUrl
 
+      if (!fileUrl) return toast.update(toastId, {
+        render: 'Error to upload file',
+        type: 'error',
+        isLoading: false,
+        autoClose: 1500
+      })
+
       socket.emit('send-message', { message: {
         format: formatFile,
         content: fileUrl,
@@ -54,6 +61,12 @@ const MediaUploadOption = ({ icon: Icon, extensions, socket, id, userId, BACKEND
       })
     } catch (error) {
       console.log(error)
+      toast.update(toastId, {
+        render: 'Error in server',
+        type: 'error',
+        isLoading: false,
+        autoClose: 1500
+      })
     }
   }
 

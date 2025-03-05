@@ -8,8 +8,8 @@ const upload = multer({ storage })
 const messageRouter = Router()
 
 messageRouter
-            .get('/:id', getMessages)
             .post('/upload', upload.single('file'), uploadFile)
             .post('/markAsSeen/:id', markAsSeen)
+            .get('/:id', getMessages)
 
 export { messageRouter }
