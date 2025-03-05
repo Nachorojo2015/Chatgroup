@@ -1,11 +1,9 @@
 import PropTypes from "prop-types"
-import { useChatStore } from "../store/chatStore"
 import { toast } from "react-toastify"
 import { useUserStore } from "../store/userStore"
 import { forwardRef } from "react"
 
 const User = forwardRef(({ userSearch, socket, BACKEND_URL }, ref) => {
-  const { setData, setIsChatMobileOpen } = useChatStore()
 
   const { privateUsers } = useUserStore()
 
@@ -40,17 +38,6 @@ const User = forwardRef(({ userSearch, socket, BACKEND_URL }, ref) => {
         })
       }
 
-      const data = await response.json()
-
-      setData(
-        userSearch.avatar,
-        userSearch.name,
-        data.idPrivateChat,
-        []
-      )
-
-      setIsChatMobileOpen(true)
-
       toast.update(toastId, {
         render: 'Private chat created',
         type: 'success',
@@ -58,6 +45,7 @@ const User = forwardRef(({ userSearch, socket, BACKEND_URL }, ref) => {
         autoClose: 2000
       })
 
+      ref.current.close()
       socket.emit('update-user')
     } catch (error) {
       console.error(error)
