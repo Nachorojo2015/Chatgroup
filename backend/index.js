@@ -14,7 +14,7 @@ import { privateRouter } from './routes/privateRoute.js'
 import { MessagesRepository } from './database/messageRepository.js'
 
 const app = express()
-app.use(cors())
+app.use(cors({ origin: [FRONTEND_DOMAIN], credentials: true }))
 app.use(express.json())
 app.use(cookieParser())
 app.use(verifyToken)
@@ -29,7 +29,8 @@ const server = http.createServer(app)
 
 const io = new Server(server, {
   cors: {
-    origin: '*'
+    origin: FRONTEND_DOMAIN,
+    credentials: true
   }
 })
 
