@@ -76,7 +76,7 @@ const Microphone = ({ setActiveMicro, socket, id, userId, BACKEND_URL }) => {
       })
 
       try {
-        const response = await fetch(`${BACKEND_URL}/messages/upload`, {
+        const response = await fetch(`${BACKEND_URL}/messages/upload/file`, {
           method: 'POST',
           body: formData,
           credentials: 'include'
