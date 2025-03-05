@@ -17,7 +17,7 @@ const PrivateUsers = ({ privateUsers, valueSearch, fetchUserData, username, sock
           <PrivateChat key={privateChat._id} privateChat={privateChat} fetchUserData={fetchUserData} socket={socket} BACKEND_URL={BACKEND_URL}/>
         ))
        }
-       <SearchUsersButton fetchUserData={fetchUserData} BACKEND_URL={BACKEND_URL}/>
+       <SearchUsersButton socket={socket} BACKEND_URL={BACKEND_URL}/>
     </div>
   );
 };

@@ -5,7 +5,7 @@ import { ClipLoader } from 'react-spinners'
 import User from './User'
 import PropTypes from 'prop-types'
 
-const SearchUsersModal = forwardRef(({ fetchUserData, BACKEND_URL }, ref) => {
+const SearchUsersModal = forwardRef(({ socket, BACKEND_URL }, ref) => {
 
     const [usersSearch, setUsersSearch] = useState([])
     const [loader, setLoader] = useState(false)
@@ -73,7 +73,7 @@ const SearchUsersModal = forwardRef(({ fetchUserData, BACKEND_URL }, ref) => {
               <ClipLoader /> 
                : 
               usersSearch.map((userSearch, index) => (
-              <User key={index} userSearch={userSearch} fetchUserData={fetchUserData} BACKEND_URL={BACKEND_URL} ref={ref}/>
+              <User key={index} userSearch={userSearch} socket={socket} BACKEND_URL={BACKEND_URL} ref={ref}/>
               ))
             }
           </section>
@@ -84,7 +84,7 @@ const SearchUsersModal = forwardRef(({ fetchUserData, BACKEND_URL }, ref) => {
 SearchUsersModal.displayName = 'SearchUsersModal'
 
 SearchUsersModal.propTypes = {
-  fetchUserData: PropTypes.func,
+  socket: PropTypes.object,
   BACKEND_URL: PropTypes.string
 }
 

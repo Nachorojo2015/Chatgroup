@@ -4,7 +4,7 @@ import { toast } from "react-toastify"
 import { useUserStore } from "../store/userStore"
 import { forwardRef } from "react"
 
-const User = forwardRef(({ userSearch, fetchUserData, BACKEND_URL }, ref) => {
+const User = forwardRef(({ userSearch, socket, BACKEND_URL }, ref) => {
   const { setData, setIsChatMobileOpen } = useChatStore()
 
   const { privateUsers } = useUserStore()
@@ -58,7 +58,7 @@ const User = forwardRef(({ userSearch, fetchUserData, BACKEND_URL }, ref) => {
         autoClose: 2000
       })
 
-      fetchUserData(BACKEND_URL)
+      socket.emit('update-user')
     } catch (error) {
       console.error(error)
     }
@@ -80,6 +80,7 @@ User.displayName = 'User'
 User.propTypes = {
     userSearch: PropTypes.object,
     fetchUserData: PropTypes.func,
+    socket: PropTypes.object,
     BACKEND_URL: PropTypes.string
 }
 
