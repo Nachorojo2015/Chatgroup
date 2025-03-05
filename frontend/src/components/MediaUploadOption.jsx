@@ -23,7 +23,7 @@ const MediaUploadOption = ({ icon: Icon, extensions, socket, id, userId, BACKEND
     })
 
     try {
-      const response = await fetch(`${BACKEND_URL}/messages/upload`, {
+      const response = await fetch(`${BACKEND_URL}/messages/upload/file`, {
         method: 'POST',
         body: formData,
         credentials: 'include'
