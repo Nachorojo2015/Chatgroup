@@ -9,8 +9,8 @@ const UserPanel = ({ socket, BACKEND_URL }) => {
   const fetchUserData = useUserStore(state => state.fetchUserData)
 
   useEffect(() => {
-    fetchUserData()
-  }, [fetchUserData])
+    fetchUserData(BACKEND_URL)
+  }, [fetchUserData, BACKEND_URL])
   
 
   return (

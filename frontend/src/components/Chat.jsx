@@ -46,7 +46,7 @@ const Chat = ({ socket, BACKEND_URL }) => {
     }
 
     const handleUpdateUserData = () => {
-      fetchUserData()
+      fetchUserData(BACKEND_URL)
     }
 
     socket.on('receive-message', handleReceiveMessage)
@@ -62,7 +62,7 @@ const Chat = ({ socket, BACKEND_URL }) => {
       socket.off('receive-message-deleted')
       socket.off('update-user-data')
     }
-  }, [setMessages, socket, id, setUnSeen, unSeen, messages, fetchUserData])
+  }, [setMessages, socket, id, setUnSeen, unSeen, messages, fetchUserData, BACKEND_URL])
   
   if (!id) 
   return ( 

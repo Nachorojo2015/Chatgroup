@@ -32,7 +32,7 @@ const LeaveGroupModal = forwardRef(({ picture, name, _id, fetchUserData, BACKEND
       toast.success('Leave group', {
         theme: isDark ? 'dark' : 'light'
       })
-      fetchUserData()
+      fetchUserData(BACKEND_URL)
     } catch (error) {
       console.log(error.message)
     } 

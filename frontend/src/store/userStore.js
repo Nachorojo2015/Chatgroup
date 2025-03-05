@@ -1,8 +1,6 @@
 import { toast } from "react-toastify";
 import { create } from "zustand";
 
-const BACKEND_URL = import.meta.vite.BACKEND_URL
-
 export const useUserStore = create((set) => ({
     userId: '',
     fullname: '',
@@ -12,7 +10,7 @@ export const useUserStore = create((set) => ({
     privateUsers: [],
     blockedUsers: [],
 
-    fetchUserData: async () => {
+    fetchUserData: async (BACKEND_URL) => {
       try {
         const response = await fetch(`${BACKEND_URL}/user`, {
           credentials: 'include'

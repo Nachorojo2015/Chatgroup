@@ -43,7 +43,7 @@ const Group = forwardRef(({ groupSearch, username, fetchUserData, BACKEND_URL },
         autoClose: 2000
       })
 
-      fetchUserData()
+      fetchUserData(BACKEND_URL)
     } catch (error) {
       console.log(error.message)
       toast.update(toastId, {

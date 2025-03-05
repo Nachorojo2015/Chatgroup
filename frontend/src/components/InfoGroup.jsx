@@ -79,7 +79,7 @@ const InfoGroup = ({ BACKEND_URL }) => {
             autoClose: 2000
           })
     
-          fetchUserData()
+          fetchUserData(BACKEND_URL)
         } catch (error) {
           console.log(error.message)
         }
@@ -116,7 +116,7 @@ const InfoGroup = ({ BACKEND_URL }) => {
           isLoading: false,
           autoClose: 2000
         })
-        fetchUserData()
+        fetchUserData(BACKEND_URL)
       } catch (error) {
         console.log(error.message)
         toast.update(toastId, {
@@ -147,7 +147,7 @@ const InfoGroup = ({ BACKEND_URL }) => {
       }
     
       getInfoGroup()
-      fetchUserData()
+      fetchUserData(BACKEND_URL)
   }, [id, fetchUserData, BACKEND_URL])
 
   if (!group) {

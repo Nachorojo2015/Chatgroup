@@ -69,7 +69,7 @@ const CreateGroupModal = forwardRef(({ fetchUserData, BACKEND_URL }, ref) => {
           setImageGroup('/camera.png')
           setFileImageGroup(null)
           groupNameRef.current.value = ''
-          fetchUserData()
+          fetchUserData(BACKEND_URL)
         } catch (error) {
           console.log(error)
           toast.update(toastId, {

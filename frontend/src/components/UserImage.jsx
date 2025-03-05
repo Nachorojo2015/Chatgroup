@@ -34,7 +34,7 @@ const UserImage = ({ avatar, BACKEND_URL }) => {
 
       toast.success('Avatar updated')
 
-      fetchUserData()
+      fetchUserData(BACKEND_URL)
     } catch (error) {
       console.error(error)
     }

@@ -70,7 +70,7 @@ const EditGroupModal = forwardRef(({ name, description, username, picture, _id, 
           autoClose: 2000
          })
 
-         fetchUserData()
+         fetchUserData(BACKEND_URL)
        } catch (error) {
          console.log(error.message)
        }

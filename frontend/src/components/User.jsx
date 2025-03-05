@@ -58,7 +58,7 @@ const User = forwardRef(({ userSearch, fetchUserData, BACKEND_URL }, ref) => {
         autoClose: 2000
       })
 
-      fetchUserData()
+      fetchUserData(BACKEND_URL)
     } catch (error) {
       console.error(error)
     }
