@@ -22,7 +22,7 @@ export const uploadFile = async (req, res) => {
     const fileUrl = await MessagesRepository.uploadFile({ file })
     res.send({ fileUrl })
   } catch (error) {
-    console.log(error)
+    console.log(error.message)
     res.status(500).send('Error uploading file')
   }
 }

@@ -46,17 +46,17 @@ export class MessagesRepository {
     }
 
     static async uploadFile({ file }) {
-        const randomUUID = crypto.randomUUID()
-        const fileType = file.mimetype.split('/').pop()
-        const destination = `media/${randomUUID}.${fileType}`
-
-        await uploadFile(file.path, destination)
-
-        const fileUrl = await getFileUrl(destination)
-
-        fs.unlinkSync(file.path)
-
-        return fileUrl
+        const randomUUID = crypto.randomUUID();
+        const fileType = file.mimetype.split('/').pop();
+        const destination = `media/${randomUUID}.${fileType}`;
+    
+        await uploadFile(file.path, destination);
+        
+        const fileUrl = await getFileUrl(destination);
+    
+        await fs.unlink(file.path)
+    
+        return fileUrl;
     }
 
     static async markMessagesAsSeen({ messageId, userId }) {
