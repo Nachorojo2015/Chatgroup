@@ -10,7 +10,9 @@ const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
 
 console.log(BACKEND_URL)
 
-const socket = io(BACKEND_URL)
+const socket = io(BACKEND_URL, {
+  withCredentials: true
+})
 
 function App() {
 
