@@ -23,8 +23,8 @@ const CopyLinkGroupButton = ({ _id }) => {
 
   return (
     <button aria-label="Copy group Link" className="flex items-center justify-center gap-2 text-sm transition hover:opacity-70" onClick={copyLinkGroup}>
-        <TbCopyPlusFilled />
-        <span>Copy Link</span>
+        <TbCopyPlusFilled className="dark:text-white"/>
+        <span className="dark:text-white">Copy Link</span>
     </button>
   )
 }

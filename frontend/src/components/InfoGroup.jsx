@@ -1,20 +1,23 @@
 import { useEffect, useState } from "react"
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import { ClipLoader } from "react-spinners"
 import { toast } from "react-toastify"
 import { MdGroups } from "react-icons/md";
-import { IoCopyOutline } from "react-icons/io5";
 import { BiWorld } from "react-icons/bi";
 import { SiPrivateinternetaccess } from "react-icons/si";
 import { FaRegEye } from "react-icons/fa";
 import { FaRegEyeSlash } from "react-icons/fa"
 import { MdHistory } from "react-icons/md";
 import { useUserStore } from "../store/userStore";
-import { CiLogout } from "react-icons/ci";
 import DarkMode from "./DarkMode";
 import PropTypes from "prop-types";
+import DeleteGroupButton from "./DeleteGroupButton";
+import LeaveGroupButton from "./LeaveGroupButton";
+import CopyLinkGroupButton from "./CopyLinkGroupButton";
 
-const InfoGroup = ({ BACKEND_URL }) => {
+const InfoGroup = ({ socket, BACKEND_URL }) => {
+
+  const navigate = useNavigate()
 
   const { id } = useParams()
 
@@ -22,6 +25,7 @@ const InfoGroup = ({ BACKEND_URL }) => {
   const { username, fetchUserData } = useUserStore()
 
   const isMember = group?.members.map(group => group.username).includes(username)
+  const isCreator = group?.creator?.username === username
 
   function formateDate(fecha) {
     fecha = new Date(fecha)
@@ -31,21 +35,6 @@ const InfoGroup = ({ BACKEND_URL }) => {
     const fechaFormateada = `${dia} de ${mes} del ${año}`;
     return fechaFormateada
   }
-
-  async function copyLinkGroup() {
-    const isDark = document.querySelector('html').className === 'dark'
-    navigator.clipboard.writeText(`${window.location}group/${id}`)
-     .then(() => {
-        toast.success('Link group copied succesfull', {
-          theme: isDark ? 'dark' : 'light'
-        })
-      })
-      .catch(() => {
-        toast.error('Error to copy the link', {
-          theme: isDark ? 'dark' : 'light'
-        })
-      })
-    } 
 
     async function joinGroup() {
         const isDark = document.querySelector('html').className === 'dark'
@@ -85,49 +74,6 @@ const InfoGroup = ({ BACKEND_URL }) => {
         }
     }
 
-    async function leaveGroup() {
-      const isDark = document.querySelector('html').className === 'dark'
-      const toastId = toast.loading('Leaving group...', {
-        theme: isDark ? 'dark' : 'light'
-      })
-
-      try {
-        const response = await fetch(`${BACKEND_URL}/group/leave/${id}`, {
-          method: 'PUT',
-          headers: {
-              'Content-Type': 'application/json'
-          },
-          credentials: 'include'
-        })
-  
-        if (!response.ok) {
-          const errorMessage = await response.text()
-          return toast.update(toastId, {
-            render: errorMessage,
-            type: 'error',
-            isLoading: false,
-            autoClose: 2000
-          })
-        }
-  
-        toast.update(toastId, {
-          render: 'Leave group!',
-          type: 'success',
-          isLoading: false,
-          autoClose: 2000
-        })
-        fetchUserData(BACKEND_URL)
-      } catch (error) {
-        console.log(error.message)
-        toast.update(toastId, {
-          render: 'Error in server',
-          type: 'error',
-          isLoading: false,
-          autoClose: 2000
-        })
-      } 
-
-    }
 
   useEffect(() => {
     async function getInfoGroup() {
@@ -136,19 +82,26 @@ const InfoGroup = ({ BACKEND_URL }) => {
     
           if (!response.ok) {
             const errorMessage = await response.text();
-            return toast.error(errorMessage);
+            toast.error(errorMessage);
+            setTimeout(() => {
+              navigate('/')
+            }, 2000)
           }
     
           const data = await response.json();
           setGroup(data.group);
         } catch (error) {
           console.log(error);
+          toast.error('Error in server')
+          setTimeout(() => {
+            navigate('/')
+          }, 2000)
         }
       }
     
       getInfoGroup()
       fetchUserData(BACKEND_URL)
-  }, [id, fetchUserData, BACKEND_URL])
+  }, [id, fetchUserData, navigate, BACKEND_URL])
 
   if (!group) {
     return (
@@ -167,23 +120,20 @@ const InfoGroup = ({ BACKEND_URL }) => {
                     <strong className="text-2xl whitespace-nowrap overflow-hidden text-ellipsis w-72 dark:text-white">{group.name}</strong>
                     <span className="font-semibold dark:text-gray-400">{group.visibility} group | {group.members.length} members</span>
                 </div>
-                <div className="flex flex-wrap items-center justify-center gap-3">
+                <div className="flex flex-wrap items-center justify-center gap-5">
                     {
-                      isMember ?
-                      <button className="flex items-center gap-3 px-6 py-2 rounded-md bg-red-500 text-white" onClick={leaveGroup}>
-                        <CiLogout size={30}/>
-                        <strong>Leave group</strong>
-                      </button>
+                      isCreator ?
+                      <DeleteGroupButton picture={group.picture} name={group.name} _id={group._id} socket={socket} BACKEND_URL={BACKEND_URL}/>
                       :
-                      <button className="flex items-center gap-3 px-6 py-2 rounded-md bg-blue-500 text-white" onClick={joinGroup}>
-                        <MdGroups size={30}/>
+                      isMember ? 
+                      <LeaveGroupButton picture={group.picture} name={group.name} _id={group._id} fetchUserData={fetchUserData} BACKEND_URL={BACKEND_URL}/>
+                      :
+                      <button className="flex items-center gap-3 dark:text-white" onClick={joinGroup}>
+                        <MdGroups />
                         <strong>Join to group</strong>
                       </button>
                     }
-                    <button className="flex items-center gap-3 px-6 py-3 rounded-md bg-gray-600 text-white" onClick={copyLinkGroup}>
-                        <IoCopyOutline size={20}/>
-                        <strong>Copy Link group</strong>
-                    </button>
+                    <CopyLinkGroupButton />
                     <DarkMode />
                  </div>
             </div>
@@ -245,6 +195,7 @@ const InfoGroup = ({ BACKEND_URL }) => {
 }
 
 InfoGroup.propTypes = {
+  socket: PropTypes.object,
   BACKEND_URL: PropTypes.string
 }
 

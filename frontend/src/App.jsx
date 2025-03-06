@@ -20,7 +20,7 @@ function App() {
       <Route path='/register' element={<Register BACKEND_URL={BACKEND_URL}/>}></Route>
       <Route path='/reset' element={<ResetPassword BACKEND_URL={BACKEND_URL}/>}></Route>
       <Route path='/' element={<UserPanel socket={socket} BACKEND_URL={BACKEND_URL}/>}></Route>
-      <Route path='/group/:id' element={<InfoGroup BACKEND_URL={BACKEND_URL}/>}></Route>
+      <Route path='/group/:id' element={<InfoGroup socket={socket} BACKEND_URL={BACKEND_URL}/>}></Route>
     </Routes>
   )
 }
