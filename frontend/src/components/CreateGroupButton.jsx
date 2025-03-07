@@ -10,7 +10,7 @@ const CreateGroupButton = ({ fetchUserData, BACKEND_URL }) => {
   return (
     <>
     <button onClick={() => modalCreateGroupRef.current.showModal()} className="text-xl flex items-center gap-5 dark:text-white">
-      Create new Group
+      New Group
       <MdGroups size={30}/>
     </button>
     <CreateGroupModal ref={modalCreateGroupRef} fetchUserData={fetchUserData} BACKEND_URL={BACKEND_URL}/>

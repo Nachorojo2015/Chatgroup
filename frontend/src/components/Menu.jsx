@@ -43,15 +43,15 @@ const Menu = ({ socket, BACKEND_URL }) => {
       </section>
 
       <section className="flex items-center justify-around w-full mt-3">
-        <button className={`dark:bg-gray-800 bg-slate-200 text-sm px-5 py-1 rounded-full ${activeTab === 'Groups' ? 'dark:text-blue-300 text-blue-600' : ''} dark:text-white`} onClick={() => setActiveTab('Groups')}>Groups</button>
-        <button className={`dark:bg-gray-800 bg-slate-200 text-sm px-5 py-1 rounded-full ${activeTab === 'Users' ? 'dark:text-blue-300 text-blue-600' : ''} dark:text-white`} onClick={() => setActiveTab('Users')}>Users</button>
+        <button className={`dark:bg-gray-800 bg-slate-200 text-sm px-5 py-1 rounded-full ${activeTab === 'Groups' ? 'dark:text-blue-300 text-blue-500' : 'dark:text-white'}`} onClick={() => setActiveTab('Groups')}>Groups</button>
+        <button className={`dark:bg-gray-800 bg-slate-200 text-sm px-5 py-1 rounded-full ${activeTab === 'Users' ? 'dark:text-blue-300 text-blue-500' : 'dark:text-white'}`} onClick={() => setActiveTab('Users')}>Users</button>
       </section>
       
       <section className="flex flex-1 w-full relative items-center justify-center">
         {Chats[activeTab]}
       </section>
       
-      <section className="mt-auto flex items-center justify-center gap-5 w-full border-t border-black p-4 dark:border-white">
+      <section className="mt-auto flex items-center justify-center gap-5 w-full border-t border-black p-3 dark:border-white">
         <CreateGroupButton fetchUserData={fetchUserData} BACKEND_URL={BACKEND_URL}/>
       </section>
     </aside>
