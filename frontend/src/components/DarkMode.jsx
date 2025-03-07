@@ -7,7 +7,9 @@ const DarkMode = () => {
     const [darkIcon, setDarkIcon] = useState(false)
 
     useEffect(() => {
-        darkMode()
+      const dark = localStorage.getItem('dark') === 'true'
+      const html = document.querySelector('html')
+      dark ? html.className = '' : html.className = 'dark'
     }, [])
        
      

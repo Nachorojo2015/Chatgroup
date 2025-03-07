@@ -129,7 +129,7 @@ const Application = forwardRef(({ userId, _id, content, username, avatar, isSame
   // If is my user id
   if (userId === _id) {
     return (
-      <li className={`flex xl:w-[16%] w-[45%] ml-auto items-center justify-end gap-3 mr-3 mt-3 p-2 pr-20 rounded-md ${isSameUser ? '' : 'rounded-tr-none'} relative bg-slate-200 dark:bg-gray-600 dark:text-white`} ref={ref}>
+      <li className={`flex xl:w-[16%] w-[45%] ml-auto items-center justify-end gap-3 mr-3 ${isSameUser ? 'mt-1' : 'mt-3'} p-2 pr-20 rounded-md ${isSameUser ? '' : 'rounded-tr-none'} relative bg-slate-200 dark:bg-gray-600 dark:text-white`} ref={ref}>
         <FaFileAlt />
         File
         <a href={content}>
@@ -145,7 +145,7 @@ const Application = forwardRef(({ userId, _id, content, username, avatar, isSame
   }
 
   return (
-    <li className="flex items-start gap-2.5 mt-3 ml-2" ref={ref}>
+    <li className={`flex items-start gap-2.5 ${isSameUser ? 'mt-1' : 'mt-3'} ml-2`} ref={ref}>
       <img className={`w-8 h-8 rounded-full object-cover ${isSameUser ? 'hidden' : ''}`} src={avatar} alt="user-avatar"/>
       <div className={`flex flex-col gap-1 ${isSameUser ? 'ml-10' : ''}`}>
         <span className={`dark:text-white ${isSameUser ? 'hidden' : ''}`}>{username}</span>
