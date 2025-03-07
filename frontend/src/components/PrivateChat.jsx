@@ -53,7 +53,7 @@ const PrivateChat = ({ privateChat, fetchUserData, socket, BACKEND_URL }) => {
   } 
 
   return (
-    <article className="flex items-center w-full gap-3 transition cursor-pointer hover:bg-slate-200 dark:hover:bg-opacity-20 p-3">
+    <article className="flex items-center w-full gap-3 p-3">
         <img
         src={privateChat.user.avatar}
         alt="avatar user"
@@ -61,7 +61,7 @@ const PrivateChat = ({ privateChat, fetchUserData, socket, BACKEND_URL }) => {
         onClick={() => pictureUserModal.current.showModal()}
         />
         <div className="flex flex-col gap-1">
-         <span className="dark:text-white font-bold whitespace-nowrap overflow-hidden text-ellipsis w-52 transition hover:underline" onClick={openChat}>{privateChat.user.fullname}</span>
+         <span className="dark:text-white font-bold whitespace-nowrap overflow-hidden text-ellipsis w-52 cursor-pointer hover:underline" onClick={openChat}>{privateChat.user.fullname}</span>
          <span className="text-sm whitespace-nowrap overflow-hidden text-ellipsis w-52 dark:text-white">
          {privateChat.user.username}
          </span>

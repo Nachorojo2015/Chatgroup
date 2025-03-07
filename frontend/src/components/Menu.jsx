@@ -42,9 +42,9 @@ const Menu = ({ socket, BACKEND_URL }) => {
         </div>
       </section>
 
-      <section className="flex items-center justify-around border-black border-t border-b w-full mt-3 dark:border-white">
-        <button className={`w-full border-black border-r ${activeTab === 'Groups' ? 'font-bold' : ''} dark:text-white dark:border-white`} onClick={() => setActiveTab('Groups')}>Groups</button>
-        <button className={`w-full border-black border-l ${activeTab === 'Users' ? 'font-bold' : ''} dark:text-white dark:border-white`} onClick={() => setActiveTab('Users')}>Users</button>
+      <section className="flex items-center justify-around w-full mt-3">
+        <button className={`dark:bg-gray-800 bg-slate-200 text-sm px-5 py-1 rounded-full ${activeTab === 'Groups' ? 'dark:text-blue-300 text-blue-600' : ''} dark:text-white`} onClick={() => setActiveTab('Groups')}>Groups</button>
+        <button className={`dark:bg-gray-800 bg-slate-200 text-sm px-5 py-1 rounded-full ${activeTab === 'Users' ? 'dark:text-blue-300 text-blue-600' : ''} dark:text-white`} onClick={() => setActiveTab('Users')}>Users</button>
       </section>
       
       <section className="flex flex-1 w-full relative items-center justify-center">

@@ -55,7 +55,7 @@ const JoinedGroups = ({ group, fetchUserData, BACKEND_URL }) => {
 
   return (
     <article
-      className="flex items-center w-full gap-3 transition hover:bg-slate-200 dark:hover:bg-opacity-20 p-3"
+      className="flex items-center w-full gap-3 p-3"
     >
       <img
         src={picture}
