@@ -89,7 +89,7 @@ const PrivateChat = ({ privateChat, fetchUserData, socket, BACKEND_URL }) => {
           <dialog ref={pictureUserModal} className="backdrop:bg-[rgba(0,0,0,.80)] xl:max-w-96 max-w-60 outline-none" onClick={() => pictureUserModal.current.close()}>
             <div>
               <span className="absolute w-full bg-black p-2 text-white bg-opacity-40">{privateChat.user.fullname}</span>
-              <img src={privateChat.user.avatar} alt="picture-group" className="object-cover" onError={e => e.target.src = '/picture-user-no-load.png'}/>
+              <img src={privateChat.user.avatar} alt="picture-group" className="object-cover xl:w-96 xl:h-96 w-64 h-64" onError={e => e.target.src = '/picture-user-no-load.png'}/>
             </div>
           </dialog>
     </article>

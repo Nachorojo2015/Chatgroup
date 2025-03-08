@@ -96,7 +96,7 @@ const MyGroups = ({ group, fetchUserData, username, socket, BACKEND_URL }) => {
       <dialog ref={pictureGroupModal} className="backdrop:bg-[rgba(0,0,0,.90)] xl:max-w-96 max-w-60 outline-none" onClick={() => pictureGroupModal.current.close()}>
         <div>
           <span className="absolute whitespace-nowrap overflow-hidden text-ellipsis bg-black p-2 w-full text-white bg-opacity-40">{name}</span>
-          <img src={picture} alt="picture-group" className="object-cover" onError={e => e.target.src = '/picture-group-no-load.png'}/>
+          <img src={picture} alt="picture-group" className="object-cover xl:w-96 xl:h-96 w-64 h-64" onError={e => e.target.src = '/picture-group-no-load.png'}/>
         </div>
       </dialog>
     </article>
