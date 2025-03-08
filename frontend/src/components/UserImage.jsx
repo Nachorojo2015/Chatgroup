@@ -49,7 +49,7 @@ const UserImage = ({ avatar, BACKEND_URL }) => {
         : 
         <div className="relative flex items-center justify-center group">
           <IoMdAdd className="absolute dark:text-white opacity-0 transition group-hover:opacity-100" size={80} />
-          <img src={avatar} alt="user avatar" className="rounded-full w-36 h-36 object-cover cursor-pointer transition group-hover:opacity-20" />
+          <img src={avatar} alt="user avatar" className="rounded-full w-36 h-36 object-cover cursor-pointer transition group-hover:opacity-20" onError={e => e.target.src = '/picture-user-no-load.png'} />
         </div>
         }
         <input type="file" hidden accept=".jpg, .png, .webp" onChange={handleAvatar}/>

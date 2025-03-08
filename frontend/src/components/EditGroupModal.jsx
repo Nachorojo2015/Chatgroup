@@ -182,7 +182,7 @@ const EditGroupModal = forwardRef(({ name, description, username, picture, _id, 
         <label htmlFor="picture" className="pointer-events-none">
           <div className="relative flex items-center justify-center group">
             <IoMdAdd className="absolute dark:text-white opacity-0 transition group-hover:opacity-100" size={50} />
-            <img src={pictureGroup} alt="picture-group" className="cursor-pointer m-auto w-36 h-36 object-cover rounded-full pointer-events-auto transition group-hover:opacity-20"/>
+            <img src={pictureGroup} alt="picture-group" className="cursor-pointer m-auto w-36 h-36 object-cover rounded-full pointer-events-auto transition group-hover:opacity-20" onError={e => e.target.src = '/picture-group-no-load.png'}/>
           </div>
           <input type="file" hidden id="picture" name="picture" accept=".jpg, .png, .webp" onChange={handlePicture}/>
         </label>

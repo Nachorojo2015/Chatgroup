@@ -19,7 +19,7 @@ const Menu = ({ socket, BACKEND_URL }) => {
   const [activeTab, setActiveTab] = useState('Groups')
   const [valueSearch, setValueSearch] = useState('')
   
-  if (!username || !fullname || !avatar) return <ClipLoader cssOverride={{margin: 'auto'}}/>
+  if (!username || !fullname) return <ClipLoader cssOverride={{margin: 'auto'}}/>
 
   const Chats = {
     'Groups': <ChatGroups groups={groups} username={username} valueSearch={valueSearch} fetchUserData={fetchUserData} socket={socket} BACKEND_URL={BACKEND_URL}/>,

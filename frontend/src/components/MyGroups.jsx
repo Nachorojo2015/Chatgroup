@@ -58,11 +58,12 @@ const MyGroups = ({ group, fetchUserData, username, socket, BACKEND_URL }) => {
       <img
         src={picture}
         alt="avatar user"
-        className="w-16 h-16 rounded-full object-cover"
+        className="xl:w-16 xl:h-16 w-12 h-12 rounded-full object-cover"
         onClick={() => pictureGroupModal.current.showModal()}
+        onError={e => e.target.src = '/picture-group-no-load.png'}
       />
 
-      <div className="flex flex-col gap-1">
+      <div className="flex flex-col">
         <span className="dark:text-white font-bold whitespace-nowrap overflow-hidden text-ellipsis w-52 hover:underline cursor-pointer" onClick={openChat}>{name}</span>
         <div>
           <span className="border-r-2 border-black dark:border-white pr-2 dark:text-white">
@@ -95,7 +96,7 @@ const MyGroups = ({ group, fetchUserData, username, socket, BACKEND_URL }) => {
       <dialog ref={pictureGroupModal} className="backdrop:bg-[rgba(0,0,0,.90)] xl:max-w-96 max-w-60 outline-none" onClick={() => pictureGroupModal.current.close()}>
         <div>
           <span className="absolute whitespace-nowrap overflow-hidden text-ellipsis bg-black p-2 w-full text-white bg-opacity-40">{name}</span>
-          <img src={picture} alt="picture-group" className="object-cover"/>
+          <img src={picture} alt="picture-group" className="object-cover" onError={e => e.target.src = '/picture-group-no-load.png'}/>
         </div>
       </dialog>
     </article>

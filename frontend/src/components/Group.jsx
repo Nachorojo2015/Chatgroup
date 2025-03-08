@@ -57,10 +57,10 @@ const Group = forwardRef(({ groupSearch, username, fetchUserData, BACKEND_URL },
 
   return (
     <article className="flex items-center gap-3 p-2 transition hover:opacity-65 w-full">
-        <img src={groupSearch.picture} alt="picture-group" className="w-16 h-16 rounded-full object-cover"/>
+        <img src={groupSearch.picture} alt="picture-group" className="w-16 h-16 rounded-full object-cover" onError={e => e.target.src = '/picture-group-no-load.png'}/>
           <div className="dark:text-white">
             <p className="font-semibold whitespace-nowrap overflow-hidden text-ellipsis xl:w-60 w-32">{groupSearch.name}</p>
-            <p className="flex items-center gap-3 mt-2">
+            <p className="flex items-center gap-2">
              <span>{groupSearch.members?.length}</span>
              <FaUser />
             </p>

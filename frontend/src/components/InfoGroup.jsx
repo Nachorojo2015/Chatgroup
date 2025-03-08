@@ -114,7 +114,7 @@ const InfoGroup = ({ socket, BACKEND_URL }) => {
   return (
     <section className="dark:bg-black bg-white dark:bg-opacity-10">
         <article className="dark:bg-gray-900 bg-slate-200 bg-opacity-80 flex flex-col items-center">
-            <img src={group.picture} alt="picture-group" className="h-96 xl:w-[80%] shadow-md w-full rounded-b-md object-cover"/>
+            <img src={group.picture} alt="picture-group" className="h-96 xl:w-[80%] shadow-md w-full rounded-b-md object-cover" onError={e => e.target.src = '/picture-group-no-load.png'}/>
             <div className="flex flex-wrap justify-center gap-3 xl:justify-between w-[80%] mt-5 mb-5">
                 <div className="flex flex-col">
                     <strong className="text-2xl whitespace-nowrap overflow-hidden text-ellipsis w-72 dark:text-white">{group.name}</strong>

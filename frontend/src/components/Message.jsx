@@ -24,7 +24,7 @@ const Text = forwardRef(({ userId, _id, content, username, avatar, isSameUser, t
   // If is not my user id
   return (
     <li className={`flex items-start gap-2.5 ${isSameUser ? 'mt-1' : 'mt-3'} ml-2`} ref={ref}>
-      <img className={`w-8 h-8 rounded-full object-cover ${isSameUser ? 'hidden' : ''}`} src={avatar} alt="user-avatar"/>
+      <img className={`w-8 h-8 rounded-full object-cover ${isSameUser ? 'hidden' : ''}`} src={avatar} alt="user-avatar" onError={e => e.target.src = '/picture-user-no-load.png'}/>
       <div className={`flex flex-col gap-1 rounded-md ${isSameUser ? 'ml-[42px]' : 'rounded-tl-none'} p-2 bg-slate-200 dark:bg-gray-600 relative`}>
         <span className={`text-sm font-bold dark:text-white ${isSameUser ? 'hidden' : ''}`}>{username}</span>
         <span className="pr-20 text-sm dark:text-white whitespace-pre-line break-words xl:max-w-96 max-w-56">{content}</span>
@@ -54,7 +54,7 @@ const Image = forwardRef(({ userId, _id, content, username, avatar, isSameUser, 
           <FaCheck size={10} className="dark:text-gray-300"/>
         </div>
         <dialog ref={modalPictureRef} className="backdrop:bg-[rgba(0,0,0,.90)] xl:max-w-96 max-w-60 outline-none" onClick={() => modalPictureRef.current.close()}>
-          <img src={content} alt="picture"/>
+          <img src={content} alt="picture" onError={(e) => e.target.src = "/picture-no-load.png"}/>
         </dialog>
       </li>
     )
@@ -62,7 +62,7 @@ const Image = forwardRef(({ userId, _id, content, username, avatar, isSameUser, 
 
   return (
     <li className={`flex items-start gap-2.5 ${isSameUser ? 'mt-1' : 'mt-3'} ml-2`} ref={ref}>
-      <img className={`w-8 h-8 rounded-full object-cover ${isSameUser ? 'hidden' : ''}`} src={avatar} alt="user-avatar"/>
+      <img className={`w-8 h-8 rounded-full object-cover ${isSameUser ? 'hidden' : ''}`} src={avatar} alt="user-avatar" onError={e => e.target.src = '/picture-user-no-load.png'}/>
       <div className={`flex flex-col gap-1 ${isSameUser ? 'ml-[42px]' : ''} relative`}>
         <span className={`dark:text-white ${isSameUser ? 'hidden' : ''}`}>{username}</span>
         <div className={`xl:max-w-96 max-w-60 rounded-md bg-slate-200 dark:bg-gray-600 ${isSameUser ? '' : 'rounded-tl-none'} relative`}>
@@ -74,7 +74,7 @@ const Image = forwardRef(({ userId, _id, content, username, avatar, isSameUser, 
         <time className="absolute bottom-0 right-2 text-[10px] mt-auto cursor-pointer dark:text-gray-300">{time}</time>
       </div>
       <dialog ref={modalPictureRef} className="backdrop:bg-[rgba(0,0,0,.90)] xl:max-w-96 max-w-60 outline-none" onClick={() => modalPictureRef.current.close()}>
-        <img src={content} alt="picture" />
+        <img src={content} alt="picture" onError={(e) => e.target.src = "/picture-no-load.png"}/>
       </dialog>
     </li>
   )
@@ -101,7 +101,7 @@ const Video = forwardRef(({ userId, _id, content, username, avatar, isSameUser, 
 
   return (
     <li className={`flex items-start gap-2.5 ${isSameUser ? 'mt-1' : 'mt-3'} ml-2`} ref={ref}>
-      <img className={`w-8 h-8 rounded-full object-cover ${isSameUser ? 'hidden' : ''}`} src={avatar} alt="user-avatar"/>
+      <img className={`w-8 h-8 rounded-full object-cover ${isSameUser ? 'hidden' : ''}`} src={avatar} alt="user-avatar" onError={e => e.target.src = '/picture-user-no-load.png'}/>
       <div className={`flex flex-col gap-1 ${isSameUser ? 'ml-[42px]' : ''} relative`}>
         <span className={`dark:text-white ${isSameUser ? 'hidden' : ''}`}>{username}</span>
         <div className={`xl:max-w-96 max-w-60 rounded-md bg-slate-200 dark:bg-gray-600 ${isSameUser ? '' : 'rounded-tl-none'} relative`}>
@@ -137,7 +137,7 @@ const Application = forwardRef(({ userId, _id, content, username, avatar, isSame
 
   return (
     <li className={`flex items-start gap-2.5 ${isSameUser ? 'mt-1' : 'mt-3'} ml-2`} ref={ref}>
-      <img className={`w-8 h-8 rounded-full object-cover ${isSameUser ? 'hidden' : ''}`} src={avatar} alt="user-avatar"/>
+      <img className={`w-8 h-8 rounded-full object-cover ${isSameUser ? 'hidden' : ''}`} src={avatar} alt="user-avatar" onError={e => e.target.src = '/picture-user-no-load.png'}/>
       <div className={`flex flex-col gap-1 ${isSameUser ? 'ml-[42px]' : ''}`}>
         <span className={`dark:text-white ${isSameUser ? 'hidden' : ''}`}>{username}</span>
         <div className={`flex items-center gap-3 p-2 rounded-md ${isSameUser ? '' : 'rounded-tl-none'} relative pr-20 bg-slate-200 dark:bg-gray-600 dark:text-white`}>
@@ -160,7 +160,7 @@ const Audio = forwardRef(({ userId, _id, content, username, avatar, isSameUser, 
     return (
       <li className={`flex items-center justify-end mr-3 ${isSameUser ? 'mt-1' : 'mt-3'} relative`} ref={ref}>
         <div className={`flex items-center gap-5 bg-slate-200 dark:bg-gray-600 p-2 rounded-md ${isSameUser ? '' : 'rounded-tr-none'}`}>
-          <img src={avatar} alt="user-avatar" className="w-10 h-10 rounded-full object-cover"/>
+          <img src={avatar} alt="user-avatar" className="w-10 h-10 rounded-full object-cover" onError={e => e.target.src = '/picture-user-no-load.png'}/>
           <Player audioURL={content}/>
         </div>
         {isSameUser ? '' : <div className="absolute top-0 right-0 w-0 border-t-[10px] border-t-slate-200 dark:border-t-gray-600 border-r-[10px] border-r-transparent translate-x-2"></div>}
@@ -174,12 +174,12 @@ const Audio = forwardRef(({ userId, _id, content, username, avatar, isSameUser, 
 
   return (
     <li className={`flex items-start gap-2.5 ${isSameUser ? 'mt-1' : 'mt-3'} ml-2`} ref={ref}>
-      <img className={`w-8 h-8 rounded-full object-cover ${isSameUser ? 'hidden' : ''}`} src={avatar} alt="user-avatar"/>
+      <img className={`w-8 h-8 rounded-full object-cover ${isSameUser ? 'hidden' : ''}`} src={avatar} alt="user-avatar" onError={e => e.target.src = '/picture-user-no-load.png'}/>
       <div className={`flex flex-col gap-1 ${isSameUser ? 'ml-[42px]' : ''} relative`}>
         <span className={`dark:text-white ${isSameUser ? 'hidden' : ''}`}>{username}</span>
         <div className={`flex items-center gap-3 bg-slate-200 dark:bg-gray-600 p-2 rounded-md ${isSameUser ? '' : 'rounded-tl-none'} relative`}>
           <Player audioURL={content}/>
-          <img src={avatar} alt="user-avatar" className="w-10 h-10 rounded-full object-cover"/>
+          <img src={avatar} alt="user-avatar" className="w-10 h-10 rounded-full object-cover" onError={e => e.target.src = '/picture-user-no-load.png'}/>
           {isSameUser ? '' : <div className="absolute top-0 left-0 w-0 h-0 border-t-[10px] dark:border-t-gray-600 border-t-slate-200 border-r-[10px] border-r-transparent -translate-x-2 rotate-90"></div>}
         </div>
         <time className="absolute bottom-0 right-14 cursor-pointer text-[10px] mt-auto dark:text-gray-300">{time}</time>
