@@ -24,6 +24,7 @@ const PrivateChat = ({ privateChat, fetchUserData, socket, BACKEND_URL }) => {
   async function openChat() {
     setOpenMenu(false)
     setLoader(true)
+    setIsChatMobileOpen(true)
     setUnSeen(unSeen.filter(chatId => chatId !== privateChat._id))
     try {
       const response = await fetch(`${BACKEND_URL}/messages/${privateChat._id}`)
@@ -44,7 +45,6 @@ const PrivateChat = ({ privateChat, fetchUserData, socket, BACKEND_URL }) => {
       )
 
       setLoader(false)
-      setIsChatMobileOpen(true)
     } catch (error) {
       console.error(error)
       toast.error('Error in server')

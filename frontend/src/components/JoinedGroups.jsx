@@ -26,6 +26,7 @@ const JoinedGroups = ({ group, fetchUserData, BACKEND_URL }) => {
   async function openChat() {
     setOpenMenu(false)
     setLoader(true)
+    setIsChatMobileOpen(true)
     setUnSeen(unSeen.filter(chatId => chatId !== _id))
     try {
       const response = await fetch(`${BACKEND_URL}/messages/${_id}`)
@@ -45,7 +46,6 @@ const JoinedGroups = ({ group, fetchUserData, BACKEND_URL }) => {
         data.messages
       )
 
-      setIsChatMobileOpen(true)
       setLoader(false)
     } catch (error) {
       console.log(error)
