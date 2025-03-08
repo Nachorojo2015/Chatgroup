@@ -72,7 +72,7 @@ const Player = ({ audioURL }) => {
             value={currentTime}
             onChange={handleSeek}
          />
-        <time className="dark:text-white">{formatTime(currentTime)}</time>
+        <time className="dark:text-white text-sm">{formatTime(currentTime)}</time>
     </div>
   )
 }
