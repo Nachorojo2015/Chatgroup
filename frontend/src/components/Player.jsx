@@ -2,48 +2,60 @@ import PropTypes from "prop-types";
 import { useEffect, useRef, useState } from "react";
 import { FaPlay } from "react-icons/fa";
 import { FaPause } from "react-icons/fa";
+import WaveSurfer from 'wavesurfer.js'
 
 const Player = ({ audioURL }) => {
     
-  const audio = useRef()
-  const [isPlaying, setIsPlaying] = useState(false)
-  const [currentTime, setCurrentTime] = useState(0);
-  const [duration, setDuration] = useState(0);
+  const [duration, setDuration] = useState(0)
+  const [currentTime, setCurrentTime] = useState(0)
+  const [playing, setPlaying] = useState(false)
+
+  const waveFormRef = useRef()
+  const waveSurfer = useRef()
+
+  const formWaveSurferOptions = (ref) => ({
+    container: ref,
+    waveColor: 'gray',
+    progressColor: '#0178ff',
+    cursorColor: 'transparent',
+    responsive: true,
+    height: 20,
+    normalize: true,
+    backend: 'MediaElement',
+    barWidth: 3,
+    barGap: 3
+  })
   
   useEffect(() => {
-    const audioEl = audio.current;
-    if (!audioEl) return;
+    const options = formWaveSurferOptions(waveFormRef.current)
+    waveSurfer.current = WaveSurfer.create(options)
 
-    const updateTime = () => setCurrentTime(audioEl.currentTime);
-    const setAudioDuration = () => setDuration(audioEl.duration);
-    const handleEnded = () => stopAudio();
+    waveSurfer.current.load(audioURL)
 
-    audioEl.addEventListener("timeupdate", updateTime);
-    audioEl.addEventListener("loadedmetadata", setAudioDuration);
-    audioEl.addEventListener('ended', handleEnded)
+    waveSurfer.current.on('ready', () => {
+      setDuration(waveSurfer.current.getDuration())
+    })
+
+    waveSurfer.current.on('audioprocess', () => {
+        setCurrentTime(waveSurfer.current.getCurrentTime())
+    })
+
+    waveSurfer.current.on('finish', () => {
+      waveSurfer.current.seekTo(0); 
+      setPlaying(false)
+    });
 
     return () => {
-      audioEl.removeEventListener("timeupdate", updateTime);
-      audioEl.removeEventListener("loadedmetadata", setAudioDuration);
-      audioEl.addEventListener('ended', handleEnded)
-    } 
-}, []);
+        waveSurfer.current.un('audioprocess')
+        waveSurfer.current.un('ready')
+        waveSurfer.current.un('finish')
+        waveSurfer.current.destroy()
+    }
+  }, [audioURL,]);
 
-  function stopAudio() {
-    audio.current.pause()
-    audio.current.currentTime = 0
-    setIsPlaying(false)
-  }
-
-  function playAudio() {
-    audio.current.play()
-    setIsPlaying(true)
-  }
-
-  function handleSeek(e) {
-    const newTime = e.target.value;
-    setCurrentTime(newTime);
-    audio.current.currentTime = newTime;
+  const handlePlayPause = () => {
+    setPlaying(!playing)
+    waveSurfer.current.playPause()
   }
 
   function formatTime(time) {
@@ -54,25 +66,9 @@ const Player = ({ audioURL }) => {
 
   return (
     <div className="flex items-center gap-3 min-w-52">
-        <audio src={audioURL} ref={audio} hidden></audio>
-        {
-            isPlaying ? 
-            <button onClick={stopAudio}>
-                <FaPause className="dark:text-white"/>
-            </button>
-            :
-            <button onClick={playAudio}>
-                <FaPlay className="dark:text-white"/>
-            </button>
-        }
-        <input
-            type="range"
-            min="0"
-            max={duration || 0}
-            value={currentTime}
-            onChange={handleSeek}
-         />
-        <time className="dark:text-white text-sm">{formatTime(currentTime)}</time>
+        <button onClick={handlePlayPause}>{playing ? <FaPause className="dark:text-white"/> : <FaPlay className="dark:text-white"/>}</button>
+        <div id="waveform" ref={waveFormRef} className="w-full"></div>
+        <time className="dark:text-white text-sm">{playing ? formatTime(currentTime) : formatTime(duration)}</time>
     </div>
   )
 }

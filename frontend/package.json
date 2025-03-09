@@ -20,6 +20,7 @@
     "react-toastify": "^11.0.2",
     "socket.io-client": "^4.8.1",
     "uuid": "^11.0.5",
+    "wavesurfer.js": "^7.9.1",
     "zustand": "^5.0.3"
   },
   "devDependencies": {
