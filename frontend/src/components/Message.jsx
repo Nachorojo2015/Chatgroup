@@ -44,8 +44,8 @@ const Image = forwardRef(({ userId, _id, content, username, avatar, isSameUser, 
     return (
       <li className={`flex justify-end relative mr-3 ${isSameUser ? 'mt-1' : 'mt-3'}`} ref={ref}>
         <div className={`xl:max-w-96 max-w-64 rounded-md bg-slate-200 dark:bg-gray-600 ${isSameUser ? '' : 'rounded-tr-none'}`}>
-          <div className="p-2 pb-5"> 
-            <img src={content} alt="user-image" className="rounded-md w-[300px] h-[300px] object-cover shadow" onClick={() => modalPictureRef.current.showModal()} onError={(e) => e.target.src = "/picture-no-load.png"}/>
+          <div className="p-1 pb-5"> 
+            <img src={content} alt="user-image" className="rounded-md shadow" onClick={() => modalPictureRef.current.showModal()} onError={(e) => e.target.src = "/picture-no-load.png"}/>
           </div>
           {isSameUser ? '' : <div className="absolute top-0 right-0 w-0 border-t-[10px] border-t-slate-200 dark:border-t-gray-600 border-r-[10px] border-r-transparent translate-x-2"></div>}
         </div>
@@ -66,8 +66,8 @@ const Image = forwardRef(({ userId, _id, content, username, avatar, isSameUser, 
       <div className={`flex flex-col gap-1 ${isSameUser ? 'ml-[42px]' : ''} relative`}>
         <span className={`dark:text-white ${isSameUser ? 'hidden' : ''}`}>{username}</span>
         <div className={`xl:max-w-96 max-w-64 rounded-md bg-slate-200 dark:bg-gray-600 ${isSameUser ? '' : 'rounded-tl-none'} relative`}>
-          <div className="p-2 pb-5">
-            <img src={content} alt="user-image" className="rounded-md object-cover w-[300px] h-[300px] shadow" onClick={() => modalPictureRef.current.showModal()} onError={(e) => e.target.src = "/picture-no-load.png"}/>
+          <div className="p-1 pb-5">
+            <img src={content} alt="user-image" className="rounded-md shadow" onClick={() => modalPictureRef.current.showModal()} onError={(e) => e.target.src = "/picture-no-load.png"}/>
           </div>
           {isSameUser ? '' : <div className="absolute top-0 left-0 w-0 h-0 border-t-[10px] dark:border-t-gray-600 border-t-slate-200 border-r-[10px] border-r-transparent -translate-x-2 rotate-90"></div>}
         </div>
@@ -86,8 +86,8 @@ const Video = forwardRef(({ userId, _id, content, username, avatar, isSameUser, 
     return (
       <li className={`flex items-center mr-3 ${isSameUser ? 'mt-1' : 'mt-3'} relative`} ref={ref}>
         <div className={`ml-auto xl:max-w-96 max-w-64 rounded-md bg-slate-200 dark:bg-gray-600 ${isSameUser ? '' : 'rounded-tr-none'}`}>
-          <div className="p-2 pb-5">
-            <video src={content} controls className="shadow object-cover rounded-md w-[300px] h-[300px]"></video>
+          <div className="p-1 pb-5">
+            <video src={content} controls className="shadow rounded-md"></video>
           </div>
           {isSameUser ? '' : <div className="absolute top-0 right-0 w-0 border-t-[10px] border-t-slate-200  dark:border-t-gray-600 border-r-[10px] border-r-transparent translate-x-2"></div>}
         </div>
@@ -105,8 +105,8 @@ const Video = forwardRef(({ userId, _id, content, username, avatar, isSameUser, 
       <div className={`flex flex-col gap-1 ${isSameUser ? 'ml-[42px]' : ''} relative`}>
         <span className={`dark:text-white ${isSameUser ? 'hidden' : ''}`}>{username}</span>
         <div className={`xl:max-w-96 max-w-64 rounded-md bg-slate-200 dark:bg-gray-600 ${isSameUser ? '' : 'rounded-tl-none'} relative`}>
-          <div className="p-2 pb-5">
-            <video src={content} controls className="rounded-md object-cover shadow w-[300px] h-[300px]"></video>
+          <div className="p-1 pb-5">
+            <video src={content} controls className="rounded-md shadow"></video>
           </div>
           {isSameUser ? '' : <div className="absolute top-0 left-0 w-0 h-0 border-t-[10px] dark:border-t-gray-600 border-t-slate-200 border-r-[10px] border-r-transparent -translate-x-2 rotate-90"></div>}
         </div>
