@@ -102,7 +102,7 @@ function scrollToBottom() {
 }
 
   return (
-    <section className={`xl:border-l border-black dark:border-white flex flex-col ${!isChatMobileOpen ? 'hidden xl:flex' : ''} xl:w-[70%] w-full`}>
+    <section className={`xl:border-l border-black dark:border-white flex flex-col ${!isChatMobileOpen ? 'hidden xl:flex' : ''} xl:w-[70%] w-full relative`}>
       <header className="p-3 flex items-center gap-3 border-b border-black dark:border-white">
         <button onClick={closeChatMobile} className="xl:hidden">
            <FaArrowLeft className="dark:text-white"/>
@@ -111,7 +111,7 @@ function scrollToBottom() {
         <span className="dark:text-white whitespace-nowrap overflow-hidden text-ellipsis">{name}</span>
       </header>
       <div className="relative flex flex-1">
-        <ul className="overflow-y-auto overflow-x-hidden absolute h-full w-full pb-3" ref={chatContainer}>
+        <ul className="overflow-y-auto overflow-x-hidden absolute h-full w-full pb-16 [scrollbar-width:none]" ref={chatContainer}>
             {
               loader ? 
               <div className="grid place-content-center place-items-center mt-60">
@@ -132,7 +132,7 @@ function scrollToBottom() {
             }
         </ul>
       </div>
-      <footer className="flex justify-center items-center gap-3 border-black p-3 dark:border-white relative">
+      <footer className="absolute bottom-0 w-full flex justify-center items-center gap-3 border-black px-2 pb-2  dark:border-white">
         <ul className="flex items-center absolute right-10 dark:text-white">
             {
               message && !activeMicro ? 
