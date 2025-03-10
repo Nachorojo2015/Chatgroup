@@ -103,7 +103,7 @@ function scrollToBottom() {
 
   return (
     <section className={`xl:border-l border-black dark:border-white flex flex-col ${!isChatMobileOpen ? 'hidden xl:flex' : ''} xl:w-[70%] w-full relative`}>
-      <header className="p-3 flex items-center gap-3 border-b border-black dark:border-white">
+      <header className="absolute z-[100] dark:bg-black bg-white shadow w-full p-3 flex items-center gap-3 border-black dark:border-white">
         <button onClick={closeChatMobile} className="xl:hidden">
            <FaArrowLeft className="dark:text-white"/>
         </button>
@@ -119,7 +119,7 @@ function scrollToBottom() {
               </div>
               :
               <>
-              <article className="flex flex-col gap-2 justify-center items-center m-auto p-2 rounded-lg mt-3 w-[90%] bg-yellow-200 bg-opacity-50">
+              <article className="flex flex-col gap-2 justify-center items-center m-auto p-2 rounded-lg mt-24 w-[90%] bg-yellow-200 bg-opacity-50">
                 <CiLock className="dark:text-white" size={20}/>
                 <p className="text-[10px] dark:text-white">Conversations in this chat are end-to-end encrypted to protect your privacy. Please avoid sharing sensitive information such as passwords, bank details or confidential personal information. Your security is our priority.</p>
               </article>
@@ -132,7 +132,7 @@ function scrollToBottom() {
             }
         </ul>
       </div>
-      <footer className="absolute bottom-0 w-full flex justify-center items-center gap-3 border-black px-2 pb-2  dark:border-white">
+      <footer className="absolute bottom-0 z-[100] w-full flex justify-center items-center gap-3 border-black px-2 pb-2  dark:border-white">
         <ul className="flex items-center absolute right-10 dark:text-white">
             {
               message && !activeMicro ? 
