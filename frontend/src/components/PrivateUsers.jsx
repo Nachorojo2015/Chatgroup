@@ -1,5 +1,4 @@
 import PropTypes from "prop-types";
-import SearchUsersButton from "./SearchUsersButton";
 import PrivateChat from "./PrivateChat";
 
 const PrivateUsers = ({ privateUsers, valueSearch, fetchUserData, username, socket, BACKEND_URL }) => {
@@ -17,7 +16,6 @@ const PrivateUsers = ({ privateUsers, valueSearch, fetchUserData, username, sock
           <PrivateChat key={privateChat._id} privateChat={privateChat} fetchUserData={fetchUserData} socket={socket} BACKEND_URL={BACKEND_URL}/>
         ))
        }
-       <SearchUsersButton socket={socket} BACKEND_URL={BACKEND_URL}/>
     </div>
   );
 };

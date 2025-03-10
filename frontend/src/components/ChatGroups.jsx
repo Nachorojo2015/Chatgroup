@@ -1,8 +1,6 @@
 import PropTypes from "prop-types"
 import MyGroups from "./MyGroups"
 import JoinedGroups from "./JoinedGroups"
-import SearchGroupsButton from "./SearchGroupsButton"
-
 
 const ChatGroups = ({ groups, username, fetchUserData, valueSearch, socket, BACKEND_URL }) => { 
   let myGroups = groups.filter(group => group.creator.username === username) // Grupos creados por el usuario
@@ -30,8 +28,6 @@ const ChatGroups = ({ groups, username, fetchUserData, valueSearch, socket, BACK
           <JoinedGroups key={index} group={group} fetchUserData={fetchUserData} BACKEND_URL={BACKEND_URL}/>
         ))
       }
-
-      <SearchGroupsButton username={username} fetchUserData={fetchUserData} BACKEND_URL={BACKEND_URL}/>
     </div>
   )
 }

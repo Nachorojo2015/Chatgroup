@@ -15,7 +15,7 @@ const JoinedGroups = ({ group, fetchUserData, BACKEND_URL }) => {
   const { picture, name, visibility, members, _id } = group 
   const { setData, setIsChatMobileOpen, setLoader, unSeen, setUnSeen } = useChatStore()
   const userId = useUserStore(state => state.userId)
-  const [openMenu, setOpenMenu] = useState(false)
+  const [menu, setMenu] = useState(false)
 
   const isUnSeen = unSeen.includes(_id)
 
@@ -23,8 +23,19 @@ const JoinedGroups = ({ group, fetchUserData, BACKEND_URL }) => {
 
   const isBlock = group.blockedUsers.includes(userId)
 
+  const btnMenuRef = useRef()
+
+  function openMenu() {
+    setMenu(!menu)
+    document.addEventListener('click', () => {
+      if (!btnMenuRef.current.contains(event.target)) {
+        setMenu(false)
+        document.body.classList.remove('pointer-events-none');
+      }
+    })
+  }
+
   async function openChat() {
-    setOpenMenu(false)
     setLoader(true)
     setIsChatMobileOpen(true)
     setUnSeen(unSeen.filter(chatId => chatId !== _id))
@@ -85,10 +96,10 @@ const JoinedGroups = ({ group, fetchUserData, BACKEND_URL }) => {
      <div className="flex items-center ml-auto gap-3">
       {isUnSeen ? <span className="bg-blue-400 rounded-full p-1 ml-auto"></span> : ''}
       <span className="dark:text-white">{isBlock ? 'Blocked' : ''}</span>
-      <button onClick={() => setOpenMenu(!openMenu)}>
+      <button onClick={openMenu} ref={btnMenuRef} className="transition hover:opacity-60">
        <SlOptionsVertical className="dark:text-white"/>
       </button>
-      <div className={`transition-all ${!openMenu ? 'invisible opacity-0' : 'opacity-100'} flex flex-col gap-2 p-2 rounded-md absolute right-9 shadow-xl dark:bg-black bg-white dark:text-white min-w-32`}>
+      <div className={`transition-all ${!menu ? 'invisible opacity-0' : 'opacity-100'} flex flex-col gap-2 p-2 rounded-md absolute right-9 shadow dark:bg-black bg-white dark:text-white min-w-32`}>
         <CopyLinkGroupButton _id={_id}/>
         <LeaveGroupButton picture={picture} name={name} _id={_id} fetchUserData={fetchUserData} BACKEND_URL={BACKEND_URL}/>
       </div>

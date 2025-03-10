@@ -23,7 +23,20 @@ const DarkMode = () => {
     }
 
   return (
-    <button className="dark:text-white" onClick={darkMode}>{ darkIcon ? <IoCloudyNightSharp size={20}/>  : <CiLight size={20}/> }</button>
+    <button className="dark:text-white transition hover:opacity-60 flex items-center gap-2 text-sm" onClick={darkMode}>
+      { 
+      darkIcon ? 
+      <>
+      <IoCloudyNightSharp size={20}/>
+      <span>Dark mode</span>
+      </>
+      : 
+      <>
+      <CiLight size={20}/>
+      <span>Light mode</span>
+      </>
+      }
+    </button>
   )
 }
 

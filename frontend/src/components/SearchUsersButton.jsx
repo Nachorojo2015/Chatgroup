@@ -1,6 +1,7 @@
 import { useRef } from "react"
 import SearchUsersModal from "./SearchUsersModal"
 import PropTypes from "prop-types"
+import { CiSearch } from "react-icons/ci";
 
 const SearchUsersButton = ({ socket, BACKEND_URL }) => {
 
@@ -8,9 +9,10 @@ const SearchUsersButton = ({ socket, BACKEND_URL }) => {
 
   return (
     <>
-    <div className="flex flex-col justify-center items-center mt-5">
-        <button type="button" className="text-white w-[50%] bg-blue-700 hover:bg-blue-800 font-medium rounded-full text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700" onClick={() => modalSearchUsersRef.current.showModal()}>Search New Users</button>
-    </div>
+    <button type="button" className="dark:text-white transition hover:opacity-60 text-sm flex items-center gap-2" onClick={() => modalSearchUsersRef.current.showModal()}>
+     <CiSearch size={20}/>
+     Search Users
+    </button>
     <SearchUsersModal ref={modalSearchUsersRef} socket={socket} BACKEND_URL={BACKEND_URL}/>
     </>
   )

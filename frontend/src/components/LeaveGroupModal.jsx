@@ -46,7 +46,7 @@ const LeaveGroupModal = forwardRef(({ picture, name, _id, fetchUserData, BACKEND
         <FaArrowLeftLong />
       </button>
 
-      <img src={picture} alt="picture-group" className="w-36 h-36 rounded-full m-auto"/>
+      <img src={picture} alt="picture-group" className="w-36 h-36 rounded-full m-auto" onError={e => e.target.src = '/picture-group-no-load.png'}/>
       <p className="text-center mt-3 font-bold whitespace-nowrap overflow-hidden text-ellipsis">{name}</p>
       <h1 className="text-center">¿Leave Group?</h1>
 

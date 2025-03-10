@@ -15,14 +15,25 @@ const PrivateChat = ({ privateChat, fetchUserData, socket, BACKEND_URL }) => {
   const isMyUserBlocked = privateChat.user.blockedUsers.includes(userId)
   const isBlocked = blockedUsers.includes(privateChat.user._id)
 
-  const [openMenu, setOpenMenu] = useState(false)
+  const [menu, setMenu] = useState(false)
 
   const isUnSeen = unSeen.includes(privateChat._id)
 
   const pictureUserModal = useRef()
 
+  const btnMenuRef = useRef()
+
+  function openMenu() {
+    setMenu(!menu)
+    document.addEventListener('click', () => {
+      if (!btnMenuRef.current.contains(event.target)) {
+        setMenu(false)
+        document.body.classList.remove('pointer-events-none');
+      }
+    })
+  }
+
   async function openChat() {
-    setOpenMenu(false)
     setLoader(true)
     setIsChatMobileOpen(true)
     setUnSeen(unSeen.filter(chatId => chatId !== privateChat._id))
@@ -71,13 +82,13 @@ const PrivateChat = ({ privateChat, fetchUserData, socket, BACKEND_URL }) => {
            {isUnSeen ? <span className="ml-auto bg-blue-400 rounded-full p-1"></span> : ''}
            {
               isBlocked || !isMyUserBlocked ? 
-              <button onClick={() => setOpenMenu(!openMenu)}>
+              <button onClick={openMenu} ref={btnMenuRef}>
                 <SlOptionsVertical className="dark:text-white"/>
               </button>
               :
              <span className="dark:text-white text-sm">Blocked</span>
            }
-          <div className={`transition-all ${!openMenu ? 'invisible opacity-0' : 'opacity-100'} flex flex-col gap-2 p-2 rounded-md absolute right-9 shadow-xl dark:bg-black dark:text-white min-w-32`} id="menu-users-option">
+          <div className={`transition-all ${!menu ? 'invisible opacity-0' : 'opacity-100'} flex flex-col gap-2 p-2 rounded-md absolute right-9 shadow dark:bg-black dark:text-white min-w-32`} id="menu-users-option">
             {
              isBlocked && !isMyUserBlocked ? 
              <UnlockUserButton avatar={privateChat.user.avatar} username={privateChat.user.username} fetchUserData={fetchUserData} socket={socket} privateChatId={privateChat._id} BACKEND_URL={BACKEND_URL}/>

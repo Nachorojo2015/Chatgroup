@@ -14,14 +14,25 @@ const MyGroups = ({ group, fetchUserData, username, socket, BACKEND_URL }) => {
 
   const { picture, name, visibility, members, blockedUsers, description, _id } = group
   const { setData, setIsChatMobileOpen, setLoader, unSeen, setUnSeen } = useChatStore()
-  const [openMenu, setOpenMenu] = useState(false)
+  const [menu, setMenu] = useState(false)
 
   const pictureGroupModal = useRef()
 
   const isUnSeen = unSeen.includes(_id)
+
+  const btnMenuRef = useRef()
+
+  function openMenu() {
+    setMenu(!menu)
+    document.addEventListener('click', () => {
+      if (!btnMenuRef.current.contains(event.target)) {
+        setMenu(false)
+        document.body.classList.remove('pointer-events-none');
+      }
+    })
+  }
   
   async function openChat() {
-      setOpenMenu(false)
       setLoader(true)
       setIsChatMobileOpen(true)
       setUnSeen(unSeen.filter(chatId => chatId !== _id))
@@ -83,10 +94,10 @@ const MyGroups = ({ group, fetchUserData, username, socket, BACKEND_URL }) => {
 
       <div className="flex items-center ml-auto gap-5 relative">
         {isUnSeen ? <span className="bg-blue-400 rounded-full p-1"></span> : ''}
-        <button onClick={() => setOpenMenu(!openMenu)}>
+        <button onClick={openMenu} ref={btnMenuRef} className="transition hover:opacity-60">
           <SlOptionsVertical className="dark:text-white"/>
         </button>
-        <div className={`transition-all ${!openMenu ? 'invisible opacity-0' : 'opacity-100'} flex flex-col gap-2 p-1 rounded-md absolute right-7 shadow-xl bg-white dark:bg-black dark:text-white min-w-36`}>
+        <div className={`transition-all ${!menu ? 'invisible opacity-0' : 'opacity-100'} flex flex-col gap-2 p-1 rounded-md absolute right-7 shadow bg-white dark:bg-black dark:text-white min-w-36`}>
           <CopyLinkGroupButton _id={_id} />
           <EditGroupButton _id={_id} name={name} description={description} username={username} picture={picture} members={members} blockedUsers={blockedUsers} visibility={visibility} fetchUserData={fetchUserData} socket={socket} BACKEND_URL={BACKEND_URL}/>
           <DeleteGroupButton picture={picture} name={name} _id={_id} socket={socket} BACKEND_URL={BACKEND_URL}/>

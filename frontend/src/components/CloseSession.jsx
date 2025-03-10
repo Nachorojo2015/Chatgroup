@@ -39,7 +39,10 @@ const CloseSession = ({ BACKEND_URL }) => {
   }
 
   return (
-    <CiLogout className="cursor-pointer dark:text-white" size={20} onClick={closeSession}/>
+    <button className="text-red-500 transition hover:opacity-60 flex items-center gap-2 text-sm" onClick={closeSession}>
+      <CiLogout size={20} />
+      <span>Close session</span>
+    </button>
   )
 }
 

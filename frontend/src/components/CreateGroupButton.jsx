@@ -9,9 +9,9 @@ const CreateGroupButton = ({ fetchUserData, BACKEND_URL }) => {
 
   return (
     <>
-    <button onClick={() => modalCreateGroupRef.current.showModal()} className="text-xl flex items-center gap-5 dark:text-white">
-      New Group
-      <MdGroups size={30}/>
+    <button onClick={() => modalCreateGroupRef.current.showModal()} className="text-sm transition hover:opacity-60 flex items-center gap-2 dark:text-white">
+      <MdGroups size={20}/>
+      <span>Create Group</span>
     </button>
     <CreateGroupModal ref={modalCreateGroupRef} fetchUserData={fetchUserData} BACKEND_URL={BACKEND_URL}/>
     </>
