@@ -103,7 +103,7 @@ function scrollToBottom() {
 
   return (
     <section className={`xl:border-l border-black dark:border-white flex flex-col ${!isChatMobileOpen ? 'hidden xl:flex' : ''} xl:w-[70%] w-full relative`}>
-      <header className="absolute z-[100] dark:bg-black bg-white shadow w-full p-3 flex items-center gap-3 border-black dark:border-white">
+      <header className="fixed z-[100] dark:bg-black bg-white shadow w-full p-3 flex items-center gap-3 border-black dark:border-white">
         <button onClick={closeChatMobile} className="xl:hidden">
            <FaArrowLeft className="dark:text-white"/>
         </button>
@@ -132,7 +132,7 @@ function scrollToBottom() {
             }
         </ul>
       </div>
-      <footer className="absolute bottom-0 z-[100] w-full flex justify-center items-center gap-3 border-black px-2 pb-2  dark:border-white">
+      <footer className="fixed bottom-0 z-[100] xl:w-[70%] w-full flex justify-center items-center gap-3 border-black px-2 pb-2  dark:border-white">
         <ul className="flex items-center absolute right-10 dark:text-white">
             {
               message && !activeMicro ? 
