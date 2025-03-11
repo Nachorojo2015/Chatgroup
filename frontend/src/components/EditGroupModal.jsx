@@ -208,12 +208,12 @@ const EditGroupModal = forwardRef(({ name, description, username, picture, _id, 
         
         <div className="mt-5">
           <details>
-            <summary>Members <MdGroups className="inline mb-1 ml-2" size={30}/></summary>
+            <summary>Members <MdGroups className="inline mb-1 ml-2" size={30}/> | {members.length}</summary>
                 {
                 members.map(member => (
                   <article className="flex items-center gap-3 mt-3" key={member._id}>
                     <img src={member.avatar} alt="avatar-user" className="w-16 h-16 align-middle rounded-full"/>
-                    <span>{member.username}</span>
+                    <span className="font-bold">{member.fullname}</span>
                     {
                     member.username === username ? <span className="ml-auto text-blue-500">Owner</span> : 
                     blockedUsers.includes(member._id) ? 

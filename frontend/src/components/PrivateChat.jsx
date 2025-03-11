@@ -74,9 +74,6 @@ const PrivateChat = ({ privateChat, fetchUserData, socket, BACKEND_URL }) => {
         />
         <div className="flex flex-col">
          <span className="dark:text-white font-bold whitespace-nowrap overflow-hidden text-ellipsis w-52 cursor-pointer hover:underline" onClick={openChat}>{privateChat.user.fullname}</span>
-         <span className="text-sm whitespace-nowrap overflow-hidden text-ellipsis w-52 dark:text-white">
-         {privateChat.user.username}
-         </span>
         </div>
         <div className="ml-auto flex items-center gap-3">
            {isUnSeen ? <span className="ml-auto bg-blue-400 rounded-full p-1"></span> : ''}

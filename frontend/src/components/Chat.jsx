@@ -15,9 +15,9 @@ import { FaArrowLeft } from "react-icons/fa6";
 import MessageInput from "./MessageInput";
 import { ClipLoader } from "react-spinners";
 import { toast } from "react-toastify";
-import { CiLock } from "react-icons/ci";
 import { IoMusicalNotesOutline } from "react-icons/io5";
 import { FiPaperclip } from "react-icons/fi";
+import ChatAdvice from "./ChatAdvice";
 
 const Chat = ({ socket, BACKEND_URL }) => {
 
@@ -116,7 +116,7 @@ function openMenu() {
 
   return (
     <section className={`xl:border-l border-black dark:border-white flex flex-col ${!isChatMobileOpen ? 'hidden xl:flex' : ''} xl:w-[70%] w-full relative`}>
-      <header className="fixed z-[100] dark:bg-black bg-white shadow w-full p-3 flex items-center gap-3 border-black dark:border-white">
+      <header className="border-b shadow w-full p-3 flex items-center gap-3 border-black dark:border-white">
         <button onClick={closeChatMobile} className="xl:hidden">
            <FaArrowLeft className="dark:text-white"/>
         </button>
@@ -132,10 +132,7 @@ function openMenu() {
               </div>
               :
               <>
-              <article className="flex flex-col gap-2 justify-center items-center m-auto p-2 rounded-lg mt-24 w-[90%] bg-yellow-200 bg-opacity-50">
-                <CiLock className="dark:text-white" size={20}/>
-                <p className="text-[10px] dark:text-white">Conversations in this chat are end-to-end encrypted to protect your privacy. Please avoid sharing sensitive information such as passwords, bank details or confidential personal information. Your security is our priority.</p>
-              </article>
+              <ChatAdvice />
               {
                 messages.map((message, index) => (
                   <Message key={message._id} message={message} userId={userId} isSameUser={messages[index - 1]?.user?._id === message?.user?._id} socket={socket}/>

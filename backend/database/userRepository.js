@@ -141,7 +141,7 @@ export class UserRepository {
               },
               {
                 path: 'members',
-                select: 'username avatar'
+                select: 'fullname avatar'
               }
             ]
         })
