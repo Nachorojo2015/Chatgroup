@@ -12,7 +12,7 @@ const Text = forwardRef(({ userId, _id, content, fullname, avatar, isSameUser, t
   if (userId === _id) {
     return (
       <li className={`flex justify-end ${isSameUser ? 'mt-1' : 'mt-3'}  mr-3 items-center relative`}>
-        <span className={`pr-20 pl-3 text-sm bg-slate-200 p-2 rounded-md ${isSameUser ? '' : 'rounded-tr-none'} dark:bg-green-700 bg-green-200 dark:text-white whitespace-pre-line break-words xl:max-w-96 max-w-64`}>{content}</span>
+        <span className={`pr-20 pl-3 text-sm p-2 rounded-md ${isSameUser ? '' : 'rounded-tr-none'} dark:bg-green-700 bg-green-200 dark:text-white whitespace-pre-line break-words xl:max-w-96 max-w-64`}>{content}</span>
         {isSameUser ? '' : <div className="absolute top-0 right-0 w-0 border-t-[10px] border-t-green-200 dark:border-t-green-700 border-r-[10px] border-r-transparent translate-x-2"></div>}
         <div className="absolute bottom-0 right-2 flex items-center gap-1 cursor-pointer" onClick={() => ref.current.showModal()}>
           <time className="text-[10px] mt-auto dark:text-gray-300">{time}</time>
