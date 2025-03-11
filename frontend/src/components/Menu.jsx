@@ -64,7 +64,7 @@ const Menu = ({ socket, BACKEND_URL }) => {
         </div>
       </section>
 
-      <section className="flex items-center justify-around w-full mt-3">
+      <section className="flex items-center justify-around w-full mt-3 mb-2">
         <button className={`dark:bg-gray-800 bg-slate-200 text-sm px-5 py-1 rounded-full ${activeTab === 'Groups' ? 'dark:text-blue-300 text-blue-500' : 'dark:text-white'}`} onClick={() => setActiveTab('Groups')}>Groups</button>
         <button className={`dark:bg-gray-800 bg-slate-200 text-sm px-5 py-1 rounded-full ${activeTab === 'Users' ? 'dark:text-blue-300 text-blue-500' : 'dark:text-white'}`} onClick={() => setActiveTab('Users')}>Users</button>
       </section>

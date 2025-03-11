@@ -1,7 +1,7 @@
 import PropTypes from "prop-types"
 import { TbLock } from "react-icons/tb";
 import { IoSend } from "react-icons/io5";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { IoImageOutline } from "react-icons/io5";
 import { LuFiles } from "react-icons/lu";
 import MediaUploadOption from "./MediaUploadOption";
@@ -17,13 +17,16 @@ import { ClipLoader } from "react-spinners";
 import { toast } from "react-toastify";
 import { CiLock } from "react-icons/ci";
 import { IoMusicalNotesOutline } from "react-icons/io5";
+import { FiPaperclip } from "react-icons/fi";
 
 const Chat = ({ socket, BACKEND_URL }) => {
 
   const { setMessage, message } = useChatStore()
   const { userId, fetchUserData } = useUserStore()
+  const [menu, setMenu] = useState(false)
   const chatContainer = useRef(null)
   const textareaMessageRef = useRef(null)
+  const btnMenuRef = useRef()
   
   const { image, name, messages, id, setMessages, isChatMobileOpen, setIsChatMobileOpen, activeMicro, setActiveMicro, setIdChat, loader, setUnSeen, unSeen } = useChatStore()
 
@@ -101,6 +104,16 @@ function scrollToBottom() {
   }
 }
 
+function openMenu() {
+  setMenu(!menu)
+  document.addEventListener('click', () => {
+    if (!btnMenuRef.current.contains(event.target)) {
+      setMenu(false)
+      document.body.classList.remove('pointer-events-none');
+    }
+  })
+}
+
   return (
     <section className={`xl:border-l border-black dark:border-white flex flex-col ${!isChatMobileOpen ? 'hidden xl:flex' : ''} xl:w-[70%] w-full relative`}>
       <header className="fixed z-[100] dark:bg-black bg-white shadow w-full p-3 flex items-center gap-3 border-black dark:border-white">
@@ -132,30 +145,27 @@ function scrollToBottom() {
             }
         </ul>
       </div>
-      <footer className="fixed bottom-0 z-[100] xl:w-[70%] w-full flex justify-center items-center gap-3 border-black px-2 pb-2  dark:border-white">
-        <ul className="flex items-center absolute right-10 dark:text-white">
-            {
-              message && !activeMicro ? 
-              <button onClick={sendMessage}>
-                <IoSend size={20} className="dark:text-white z-10"/>
-              </button>
-              :
-              <div className="flex items-center gap-3">
-                {!activeMicro ? 
-                <>
-                <MediaUploadOption icon={IoImageOutline} extensions={'.jpg, .png, .webp'} socket={socket} id={id} userId={userId} BACKEND_URL={BACKEND_URL}/>
-                <MediaUploadOption icon={FiVideo} extensions={'.mp4'} socket={socket} id={id} userId={userId} BACKEND_URL={BACKEND_URL}/>
-                <MediaUploadOption icon={LuFiles} extensions={'.pdf, .docx'} socket={socket} id={id} userId={userId} BACKEND_URL={BACKEND_URL}/>
-                <MediaUploadOption icon={IoMusicalNotesOutline} extensions={'.mp3'} socket={socket} id={id} userId={userId} BACKEND_URL={BACKEND_URL}/>
-                </>
-                :
-                ''
-                }
-                <Microphone activeMicro={activeMicro} setActiveMicro={setActiveMicro} socket={socket} id={id} userId={userId} BACKEND_URL={BACKEND_URL}/>
-              </div>
-            }
-        </ul>
+      <footer className="fixed bottom-0 z-[100] xl:w-[70%] w-full py-1 dark:bg-black bg-white flex items-center gap-3">
+        <div className="relative flex items-center ml-1">
+          <div className={`absolute flex flex-col gap-3 bottom-10 shadow dark:bg-gray-800 bg-white rounded-lg p-2 transition ${menu ? 'opacity-100' : 'opacity-0 invisible'}`}>
+            <MediaUploadOption icon={IoImageOutline} typeFile={'Pictures'} extensions={'.jpg, .png, .webp'} socket={socket} id={id} userId={userId} BACKEND_URL={BACKEND_URL}/>
+            <MediaUploadOption icon={FiVideo} typeFile={'Videos'} extensions={'.mp4'} socket={socket} id={id} userId={userId} BACKEND_URL={BACKEND_URL}/>
+            <MediaUploadOption icon={LuFiles} typeFile={'Files'} extensions={'.pdf, .docx'} socket={socket} id={id} userId={userId} BACKEND_URL={BACKEND_URL}/>
+            <MediaUploadOption icon={IoMusicalNotesOutline} typeFile={'Audios'} extensions={'.mp3'} socket={socket} id={id} userId={userId} BACKEND_URL={BACKEND_URL}/>
+          </div>
+        <button onClick={openMenu} ref={btnMenuRef} className={`ml-5 ${activeMicro ? 'hidden' : ''}`}>
+          <FiPaperclip size={20} className="dark:text-white"/>
+        </button>
+        </div>
         <MessageInput socket={socket} userId={userId} id={id} ref={textareaMessageRef}/>
+        {
+          message && !activeMicro ? 
+          <button onClick={sendMessage} className="mr-5">
+            <IoSend size={20} className="dark:text-white"/>
+          </button>
+          :
+          <Microphone activeMicro={activeMicro} setActiveMicro={setActiveMicro} socket={socket} id={id} userId={userId} BACKEND_URL={BACKEND_URL}/>
+        }
       </footer>
     </section>
   )

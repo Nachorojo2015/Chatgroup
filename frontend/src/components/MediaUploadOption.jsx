@@ -1,7 +1,7 @@
 import PropTypes from "prop-types"
 import { toast } from "react-toastify"
 
-const MediaUploadOption = ({ icon: Icon, extensions, socket, id, userId, BACKEND_URL }) => {
+const MediaUploadOption = ({ icon: Icon, typeFile, extensions, socket, id, userId, BACKEND_URL }) => {
 
   async function handleFile(e) {
     const file = e.target.files[0]
@@ -76,8 +76,9 @@ const MediaUploadOption = ({ icon: Icon, extensions, socket, id, userId, BACKEND
   }
 
   return (
-    <label className="flex items-center gap-3 transition hover:opacity-50 cursor-pointer mt-3 mb-3">
+    <label className="flex items-center gap-3 transition hover:opacity-50 cursor-pointer dark:text-white">
         <Icon size={20}/>
+        <span>{typeFile}</span>
         <input type="file" disabled={ id === 'Block' } hidden accept={extensions} onChange={handleFile}/>
     </label>
   )
@@ -85,6 +86,7 @@ const MediaUploadOption = ({ icon: Icon, extensions, socket, id, userId, BACKEND
 
 MediaUploadOption.propTypes = {
     icon: PropTypes.func,
+    typeFile: PropTypes.string,
     extensions: PropTypes.string,
     socket: PropTypes.object,
     id: PropTypes.string,

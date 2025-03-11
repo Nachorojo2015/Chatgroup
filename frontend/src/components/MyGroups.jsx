@@ -13,7 +13,7 @@ import { useRef, useState } from "react";
 const MyGroups = ({ group, fetchUserData, username, socket, BACKEND_URL }) => {
 
   const { picture, name, visibility, members, blockedUsers, description, _id } = group
-  const { setData, setIsChatMobileOpen, setLoader, unSeen, setUnSeen } = useChatStore()
+  const { setData, setIsChatMobileOpen, setLoader, unSeen, setUnSeen, id } = useChatStore()
   const [menu, setMenu] = useState(false)
 
   const pictureGroupModal = useRef()
@@ -64,7 +64,7 @@ const MyGroups = ({ group, fetchUserData, username, socket, BACKEND_URL }) => {
 
   return (
     <article
-      className="flex items-center w-full gap-3 p-3"
+      className={`flex items-center w-full gap-3 p-3 ${id === _id ? 'dark:bg-slate-500 bg-slate-300' : ''}`}
     >
       <img
         src={picture}

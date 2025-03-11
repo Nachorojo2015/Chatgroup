@@ -9,7 +9,7 @@ import UnlockUserButton from "./UnlockUserButton";
 
 const PrivateChat = ({ privateChat, fetchUserData, socket, BACKEND_URL }) => {
 
-  const { setIsChatMobileOpen, setData, unSeen, setUnSeen, setLoader} = useChatStore()
+  const { setIsChatMobileOpen, setData, unSeen, setUnSeen, setLoader, id } = useChatStore()
   const { blockedUsers, userId } = useUserStore()
 
   const isMyUserBlocked = privateChat.user.blockedUsers.includes(userId)
@@ -64,7 +64,7 @@ const PrivateChat = ({ privateChat, fetchUserData, socket, BACKEND_URL }) => {
   } 
 
   return (
-    <article className="flex items-center w-full gap-3 p-3">
+    <article className={`flex items-center w-full gap-3 p-3 ${id === privateChat._id ? 'dark:bg-slate-500 bg-slate-300' : ''}`}>
         <img
         src={privateChat.user.avatar}
         alt="avatar user"

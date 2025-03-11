@@ -121,20 +121,20 @@ const Microphone = ({ setActiveMicro, socket, id, userId, BACKEND_URL }) => {
   }
 
   return (
-    <div>
+    <div className="ml-auto">
       {!isRecording ? (
-        <button onClick={startRecording} disabled={ id === 'Block' } className={`${audioURL ? 'hidden' : 'mt-[5px]'}`}><FaMicrophone size={20}/></button>
+        <button onClick={startRecording} disabled={ id === 'Block' } className={`${audioURL ? 'hidden' : 'mr-5'}`}><FaMicrophone size={20} className="dark:text-white"/></button>
       ) : (
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 p-2">
          <span className="w-3 h-3 rounded-full bg-red-500 animate-blink"></span>
-         <button onClick={stopRecording}><FaStop size={30}/></button>
+         <button onClick={stopRecording}><FaStop size={30} className="dark:text-white"/></button>
         </div>
       )}
       {audioURL && (
-        <div className="flex gap-5">
-          <button onClick={deleteAudio}><FaRegTrashAlt /></button>
+        <div className="flex gap-5 p-3">
+          <button onClick={deleteAudio}><FaRegTrashAlt className="dark:text-white"/></button>
           <Player audioURL={audioURL}/>
-          <button onClick={sendAudio}><IoSend /></button>
+          <button onClick={sendAudio}><IoSend className="dark:text-white"/></button>
         </div>
       )}
     </div>

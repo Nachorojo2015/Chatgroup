@@ -25,7 +25,8 @@ const MessageInput = forwardRef(({ socket, userId, id }, ref) => {
   <textarea
   placeholder={`${id === 'Block' ? 'Blocked' : !activeMicro ? 'Write a message' : ''}`}
   disabled={activeMicro || id === 'Block'}
-  className="[field-sizing:content] pr-16 rounded-full p-3 w-full dark:bg-black bg-white shadow-md dark:text-white resize-none h-auto outline-none max-h-48"
+  autoFocus
+  className={`[field-sizing:content] p-2.5 w-full text-sm text-gray-900 bg-white rounded-lg border border-gray-300 dark:bg-black dark:border-gray-600 dark:placeholder-gray-400 dark:text-white h-auto max-h-32 resize-none outline-none ${activeMicro ? 'hidden' : ''}`}
   ref={ref}
   onChange={(e) => {
     setMessage(e.target.value);

@@ -13,7 +13,7 @@ import { useUserStore } from "../store/userStore";
 const JoinedGroups = ({ group, fetchUserData, BACKEND_URL }) => {
 
   const { picture, name, visibility, members, _id } = group 
-  const { setData, setIsChatMobileOpen, setLoader, unSeen, setUnSeen } = useChatStore()
+  const { setData, setIsChatMobileOpen, setLoader, unSeen, setUnSeen, id } = useChatStore()
   const userId = useUserStore(state => state.userId)
   const [menu, setMenu] = useState(false)
 
@@ -66,7 +66,7 @@ const JoinedGroups = ({ group, fetchUserData, BACKEND_URL }) => {
 
   return (
     <article
-      className="flex items-center w-full gap-3 p-3"
+      className={`flex items-center w-full gap-3 p-3 ${id === _id ? 'dark:bg-slate-500 bg-slate-300' : ''}`}
     >
       <img
         src={picture}
