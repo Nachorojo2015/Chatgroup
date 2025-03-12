@@ -1,5 +1,4 @@
 import PropTypes from "prop-types"
-import { TbLock } from "react-icons/tb";
 import { IoSend } from "react-icons/io5";
 import { useEffect, useState } from "react";
 import { IoImageOutline } from "react-icons/io5";
@@ -70,12 +69,7 @@ const Chat = ({ socket, BACKEND_URL }) => {
   if (!id) 
   return ( 
     <div className="hidden xl:grid place-content-center place-items-center border-black dark:border-white xl:border-l w-[70%]">
-      <img src="/chat.svg" alt="brand-app-logue" className="w-52 h-52"/> 
-      <p className="text-3xl dark:text-white">Init a conversation</p>
-      <div className="flex items-center gap-3 mt-3 dark:text-white">
-        <TbLock/>
-        <p>End-to-end encryption</p>
-      </div>
+     <span className="dark:text-white px-5 py-1 dark:bg-gray-800 bg-slate-200 rounded-full font-bold">Select a chat</span>
     </div>
   )
 
@@ -114,6 +108,14 @@ function openMenu() {
   })
 }
 
+function isSameDate(prevMessage, nextMessage) {
+  const datePrevMessage = new Date(prevMessage)
+  const dateNextMessage = new Date(nextMessage)
+  return datePrevMessage.getFullYear() === dateNextMessage.getFullYear() &&
+         datePrevMessage.getMonth() === dateNextMessage.getMonth() &&
+         datePrevMessage.getDate() === dateNextMessage.getDate()
+}
+
   return (
     <section className={`xl:border-l border-black dark:border-white flex flex-col ${!isChatMobileOpen ? 'hidden xl:flex' : ''} xl:w-[70%] w-full relative`}>
       <header className="border-b shadow w-full p-3 flex items-center gap-3 border-black dark:border-white">
@@ -135,7 +137,7 @@ function openMenu() {
               <ChatAdvice />
               {
                 messages.map((message, index) => (
-                  <Message key={message._id} message={message} userId={userId} isSameUser={messages[index - 1]?.user?._id === message?.user?._id} socket={socket}/>
+                  <Message key={message._id} message={message} userId={userId} isSameUser={messages[index - 1]?.user?._id === message?.user?._id} isSameDate={isSameDate(messages[index - 1]?.date, message?.date)} socket={socket}/>
                 ))
               }
               </>

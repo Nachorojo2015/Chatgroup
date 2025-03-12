@@ -11,7 +11,7 @@ const Text = forwardRef(({ userId, _id, content, fullname, avatar, isSameUser, t
   // If is my user id
   if (userId === _id) {
     return (
-      <li className={`flex justify-end ${isSameUser ? 'mt-1' : 'mt-3'} mr-3 relative`}>
+      <li className={`flex justify-end ${isSameUser ? 'mt-1' : 'mt-3'} mr-3 relative scale-up-right`}>
         <div className={`relative flex flex-col dark:bg-purple-700 bg-green-200 rounded-md p-2 ${isSameUser ? '' : 'rounded-tr-none'}`}>
           <span className={`text-sm dark:text-white whitespace-pre-line break-words xl:max-w-96 max-w-64`}>{content}</span>
           <div className="flex ml-auto items-center gap-1 mt-1 cursor-pointer" onClick={() => ref.current.showModal()}>
@@ -26,7 +26,7 @@ const Text = forwardRef(({ userId, _id, content, fullname, avatar, isSameUser, t
 
   // If is not my user id
   return (
-    <li className={`flex gap-2.5 ${isSameUser ? 'mt-1' : 'mt-3'} ml-2`} ref={ref}>
+    <li className={`flex gap-2.5 ${isSameUser ? 'mt-1' : 'mt-3'} ml-2 scale-up-left`} ref={ref}>
       <img className={`w-8 h-8 rounded-full object-cover ${isSameUser ? 'hidden' : ''}`} src={avatar} alt="user-avatar" onError={e => e.target.src = '/picture-user-no-load.png'}/>
       <div className={`flex flex-col gap-1 rounded-md ${isSameUser ? 'ml-[42px]' : 'rounded-tl-none'} p-2 bg-slate-200 dark:bg-gray-600 relative`}>
         <span className={`text-sm font-bold dark:text-white ${isSameUser ? 'hidden' : ''}`}>{fullname}</span>
@@ -45,7 +45,7 @@ const Image = forwardRef(({ userId, _id, content, fullname, avatar, isSameUser, 
   // If is my user id
   if (userId === _id) {
     return (
-      <li className={`flex justify-end relative mr-3 ${isSameUser ? 'mt-1' : 'mt-3'}`} ref={ref}>
+      <li className={`flex justify-end relative mr-3 ${isSameUser ? 'mt-1' : 'mt-3'} scale-up-right`} ref={ref}>
         <div className={`xl:max-w-96 max-w-64 rounded-md dark:bg-purple-700 bg-green-200 ${isSameUser ? '' : 'rounded-tr-none'}`}>
           <div className="p-1 pb-5"> 
             <img src={content} alt="user-image" className="rounded-md shadow" onClick={() => modalPictureRef.current.showModal()} onError={(e) => e.target.src = "/picture-no-load.png"}/>
@@ -64,7 +64,7 @@ const Image = forwardRef(({ userId, _id, content, fullname, avatar, isSameUser, 
   }
 
   return (
-    <li className={`flex items-start gap-2.5 ${isSameUser ? 'mt-1' : 'mt-3'} ml-2`} ref={ref}>
+    <li className={`flex items-start gap-2.5 ${isSameUser ? 'mt-1' : 'mt-3'} ml-2 scale-up-left`} ref={ref}>
       <img className={`w-8 h-8 rounded-full object-cover ${isSameUser ? 'hidden' : ''}`} src={avatar} alt="user-avatar" onError={e => e.target.src = '/picture-user-no-load.png'}/>
       <div className={`flex flex-col gap-1 ${isSameUser ? 'ml-[42px]' : ''} relative`}>
         <span className={`dark:text-white ${isSameUser ? 'hidden' : ''}`}>{fullname}</span>
@@ -87,7 +87,7 @@ const Video = forwardRef(({ userId, _id, content, fullname, avatar, isSameUser, 
   // If is my user id
   if (userId === _id) {
     return (
-      <li className={`flex items-center mr-3 ${isSameUser ? 'mt-1' : 'mt-3'} relative`} ref={ref}>
+      <li className={`flex items-center mr-3 ${isSameUser ? 'mt-1' : 'mt-3'} relative scale-up-right`} ref={ref}>
         <div className={`ml-auto xl:max-w-96 max-w-64 rounded-md dark:bg-purple-700 bg-green-200 ${isSameUser ? '' : 'rounded-tr-none'}`}>
           <div className="p-1 pb-5">
             <video src={content} controls className="shadow rounded-md"></video>
@@ -103,7 +103,7 @@ const Video = forwardRef(({ userId, _id, content, fullname, avatar, isSameUser, 
   }
 
   return (
-    <li className={`flex items-start gap-2.5 ${isSameUser ? 'mt-1' : 'mt-3'} ml-2`} ref={ref}>
+    <li className={`flex items-start gap-2.5 ${isSameUser ? 'mt-1' : 'mt-3'} ml-2 scale-up-left`} ref={ref}>
       <img className={`w-8 h-8 rounded-full object-cover ${isSameUser ? 'hidden' : ''}`} src={avatar} alt="user-avatar" onError={e => e.target.src = '/picture-user-no-load.png'}/>
       <div className={`flex flex-col gap-1 ${isSameUser ? 'ml-[42px]' : ''} relative`}>
         <span className={`dark:text-white ${isSameUser ? 'hidden' : ''}`}>{fullname}</span>
@@ -123,15 +123,19 @@ const Application = forwardRef(({ userId, _id, content, fullname, avatar, isSame
   // If is my user id
   if (userId === _id) {
     return (
-      <li className={`flex xl:w-[16%] w-[50%] ml-auto items-center justify-end gap-3 mr-3 ${isSameUser ? 'mt-1' : 'mt-3'} p-2 pr-20 rounded-md ${isSameUser ? '' : 'rounded-tr-none'} relative dark:bg-purple-700 bg-green-200 dark:text-white`} ref={ref}>
-        <FaFileAlt />
-        File
-        <a href={content}>
-          <FaDownload />
-        </a>
-        <div className="absolute bottom-0 right-2 flex items-center gap-1 cursor-pointer" onClick={() => ref.current.showModal()}>
-          <time className="text-[10px] mt-auto dark:text-gray-300">{time}</time>
-          <FaCheck size={10} className="dark:text-gray-300"/>
+      <li className={`flex justify-end ${isSameUser ? 'mt-1' : 'mt-3'} mr-3 relative scale-up-right`}>
+        <div className={`relative flex flex-col dark:bg-purple-700 bg-green-200 rounded-md p-2 ${isSameUser ? '' : 'rounded-tr-none'}`}>
+          <div className="flex items-center gap-2">
+            <FaFileAlt className="dark:text-white"/>
+            <span className="dark:text-white">File</span>
+            <a href={content}>
+              <FaDownload className="dark:text-white"/>
+            </a>
+          </div>
+          <div className="flex ml-auto items-center gap-1 mt-1 cursor-pointer" onClick={() => ref.current.showModal()}>
+            <time className="text-[10px] dark:text-gray-300">{time}</time>
+            <FaCheck size={10} className="dark:text-gray-300"/>
+          </div>
         </div>
         {isSameUser ? '' : <div className="absolute top-0 right-0 w-0 border-t-[10px] border-t-green-200 dark:border-t-purple-700 border-r-[10px] border-r-transparent translate-x-2"></div>}
       </li>
@@ -139,19 +143,19 @@ const Application = forwardRef(({ userId, _id, content, fullname, avatar, isSame
   }
 
   return (
-    <li className={`flex items-start gap-2.5 ${isSameUser ? 'mt-1' : 'mt-3'} ml-2`} ref={ref}>
+    <li className={`flex gap-2.5 ${isSameUser ? 'mt-1' : 'mt-3'} ml-2 scale-up-left`} ref={ref}>
       <img className={`w-8 h-8 rounded-full object-cover ${isSameUser ? 'hidden' : ''}`} src={avatar} alt="user-avatar" onError={e => e.target.src = '/picture-user-no-load.png'}/>
-      <div className={`flex flex-col gap-1 ${isSameUser ? 'ml-[42px]' : ''}`}>
-        <span className={`dark:text-white ${isSameUser ? 'hidden' : ''}`}>{fullname}</span>
-        <div className={`flex items-center gap-3 p-2 rounded-md ${isSameUser ? '' : 'rounded-tl-none'} relative pr-20 bg-slate-200 dark:bg-gray-600 dark:text-white`}>
-          <FaFileAlt />
-          File
+      <div className={`flex flex-col gap-1 rounded-md ${isSameUser ? 'ml-[42px]' : 'rounded-tl-none'} p-2 bg-slate-200 dark:bg-gray-600 relative`}>
+        <span className={`text-sm font-bold dark:text-white ${isSameUser ? 'hidden' : ''}`}>{fullname}</span>
+        <div className="flex items-center gap-2">
+          <FaFileAlt className="dark:text-white"/>
+          <span className="dark:text-white">File</span>
           <a href={content}>
-            <FaDownload />
-         </a>
-         <time className="absolute bottom-0 right-2 cursor-pointer text-[10px] mt-auto dark:text-gray-300">{time}</time>
-         {isSameUser ? '' : <div className="absolute top-0 left-0 w-0 h-0 border-t-[10px] dark:border-t-gray-600 border-t-slate-200 border-r-[10px] border-r-transparent -translate-x-2 rotate-90"></div>}
+            <FaDownload className="dark:text-white"/>
+          </a>
         </div>
+        {isSameUser ? '' : <div className="absolute top-0 left-0 w-0 h-0 border-t-[10px] dark:border-t-gray-600 border-t-slate-200 border-r-[10px] border-r-transparent -translate-x-2 rotate-90"></div>}
+        <time className="ml-auto text-[10px] cursor-pointer dark:text-gray-300">{time}</time>
       </div>
     </li>
   )
@@ -161,7 +165,7 @@ const Audio = forwardRef(({ userId, _id, content, fullname, avatar, isSameUser, 
   // If is my user id
   if (userId === _id) {
     return (
-      <li className={`flex items-center justify-end mr-3 ${isSameUser ? 'mt-1' : 'mt-3'} relative`} ref={ref}>
+      <li className={`flex items-center justify-end mr-3 ${isSameUser ? 'mt-1' : 'mt-3'} relative scale-up-right`} ref={ref}>
         <div className={`flex items-center gap-5 dark:bg-purple-700 bg-green-200 p-2 rounded-md ${isSameUser ? '' : 'rounded-tr-none'}`}>
           <div className="relative">
             <img src={avatar} alt="user-avatar" className="w-10 h-10 rounded-full object-cover" onError={e => e.target.src = '/picture-user-no-load.png'}/>
@@ -179,7 +183,7 @@ const Audio = forwardRef(({ userId, _id, content, fullname, avatar, isSameUser, 
   }
 
   return (
-    <li className={`flex items-start gap-2.5 ${isSameUser ? 'mt-1' : 'mt-3'} ml-2`} ref={ref}>
+    <li className={`flex items-start gap-2.5 ${isSameUser ? 'mt-1' : 'mt-3'} ml-2 scale-up-left`} ref={ref}>
       <img className={`w-8 h-8 rounded-full object-cover ${isSameUser ? 'hidden' : ''}`} src={avatar} alt="user-avatar" onError={e => e.target.src = '/picture-user-no-load.png'}/>
       <div className={`flex flex-col gap-1 ${isSameUser ? 'ml-[42px]' : ''} relative`}>
         <span className={`dark:text-white ${isSameUser ? 'hidden' : ''}`}>{fullname}</span>
@@ -197,7 +201,7 @@ const Audio = forwardRef(({ userId, _id, content, fullname, avatar, isSameUser, 
   )
 })
 
-const Message = ({ message, userId, isSameUser, socket }) => {
+const Message = ({ message, userId, isSameUser, isSameDate, socket }) => {
 
   function formatTime(date) {
     const dateMessage = new Date(date)
@@ -216,6 +220,20 @@ const Message = ({ message, userId, isSameUser, socket }) => {
     return time
   }
 
+  function formatDate(date) {
+    date = new Date(date)
+    const months = [
+        "January", "February", "March", "April", "May", "June", 
+        "July", "August", "September", "October", "November", "December"
+    ];
+    
+    const day = date.getDate();
+    const month = months[date.getMonth()];
+    const year = date.getFullYear();
+
+    return `${month} ${day}, ${year}`;
+  }
+
   console.log(message)
 
   const messageModalRef = useRef()
@@ -230,6 +248,7 @@ const Message = ({ message, userId, isSameUser, socket }) => {
   
   return (
     <>
+    <span className={`flex justify-center mt-2 p-2 text-sm dark:text-white ${!isSameDate ? 'inline-block' : 'hidden'}`}>{formatDate(message.date)}</span>
     {TypeMessage[message.format]}
     <MessageOptionsModal ref={messageModalRef} socket={socket} message={message}/>
     </>
@@ -247,7 +266,8 @@ Message.propTypes = {
   nextMessage: PropTypes.object,
   userId: PropTypes.string,
   isSameUser: PropTypes.bool,
-  socket: PropTypes.object
+  socket: PropTypes.object,
+  isSameDate: PropTypes.bool
 }
 
 Text.propTypes = {
