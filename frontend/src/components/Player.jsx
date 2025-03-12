@@ -17,7 +17,7 @@ const Player = ({ audioURL }) => {
     container: ref,
     waveColor: 'gray',
     progressColor: '#0178ff',
-    cursorColor: 'transparent',
+    cursorColor: 'black',
     responsive: true,
     height: 20,
     normalize: true,
