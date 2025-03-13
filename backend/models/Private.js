@@ -10,6 +10,11 @@ const privateSchema = new Schema({
     creationDate: {
         type: Date,
         default: new Date()
+    },
+    lastMessage: {
+      content: String,
+      date: Date,
+      fullname: String
     }
 })
 

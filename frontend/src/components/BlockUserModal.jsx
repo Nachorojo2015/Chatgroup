@@ -51,7 +51,7 @@ const BlockUserModal = forwardRef(({ avatar, username, socket, privateChatId, BA
         <FaArrowLeftLong />
       </button>
 
-      <img src={avatar} alt="picture-group" className="w-36 h-36 rounded-full m-auto"/>
+      <img src={avatar} alt="picture-group" className="w-36 h-36 rounded-full object-cover m-auto"/>
       <p className="text-center mt-3 font-bold whitespace-nowrap overflow-hidden text-ellipsis">{username}</p>
       <h1 className="text-center">¿Block User?</h1>
 

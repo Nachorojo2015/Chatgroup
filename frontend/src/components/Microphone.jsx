@@ -7,7 +7,7 @@ import { IoSend } from "react-icons/io5";
 import { toast } from "react-toastify";
 import Player from "./Player";
 
-const Microphone = ({ setActiveMicro, socket, id, userId, BACKEND_URL }) => {
+const Microphone = ({ setActiveMicro, socket, id, userId, BACKEND_URL, type }) => {
 
   const [isRecording, setIsRecording] = useState(false);
   const [audioURL, setAudioURL] = useState('');
@@ -99,7 +99,8 @@ const Microphone = ({ setActiveMicro, socket, id, userId, BACKEND_URL }) => {
           format: 'audio',
           content: fileUrl,
           chatId: id,
-          user: userId
+          user: userId,
+          typeChat: type
         }})
   
         toast.update(toastId, {
@@ -123,18 +124,18 @@ const Microphone = ({ setActiveMicro, socket, id, userId, BACKEND_URL }) => {
   return (
     <div className="ml-auto">
       {!isRecording ? (
-        <button onClick={startRecording} disabled={ id === 'Block' } className={`${audioURL ? 'hidden' : 'mr-5'}`}><FaMicrophone size={20} className="dark:text-white"/></button>
+        <button onClick={startRecording} disabled={ id === 'Block' } className={`transition hover:opacity-60 ${audioURL ? 'hidden' : 'mr-5'}`}><FaMicrophone size={20} className="dark:text-white"/></button>
       ) : (
         <div className="flex items-center gap-3 p-2">
          <span className="w-3 h-3 rounded-full bg-red-500 animate-blink"></span>
-         <button onClick={stopRecording}><FaStop size={30} className="dark:text-white"/></button>
+         <button onClick={stopRecording} className="transition hover:opacity-60"><FaStop size={30} className="dark:text-white"/></button>
         </div>
       )}
       {audioURL && (
         <div className="flex gap-5 p-3">
-          <button onClick={deleteAudio}><FaRegTrashAlt className="dark:text-white"/></button>
+          <button onClick={deleteAudio} className="transition hover:opacity-60"><FaRegTrashAlt className="dark:text-white"/></button>
           <Player audioURL={audioURL}/>
-          <button onClick={sendAudio}><IoSend className="dark:text-white"/></button>
+          <button onClick={sendAudio} className="transition hover:opacity-60"><IoSend className="dark:text-white"/></button>
         </div>
       )}
     </div>
@@ -147,7 +148,8 @@ Microphone.propTypes = {
   socket: PropTypes.object,
   id: PropTypes.string,
   userId: PropTypes.string,
-  BACKEND_URL: PropTypes.string
+  BACKEND_URL: PropTypes.string,
+  type: PropTypes.string
 }
 
 export default Microphone

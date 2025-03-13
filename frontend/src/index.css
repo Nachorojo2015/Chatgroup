@@ -28,3 +28,4 @@ dialog::backdrop {
 
 .scale-up-left{animation:scale-up-left 0.4s; } @keyframes scale-up-left{0%{transform:scale(.5);transform-origin:left center}100%{transform:scale(1);transform-origin:left center}}
 .scale-up-right{animation:scale-up-right 0.4s; } @keyframes scale-up-right{0%{transform:scale(.5);transform-origin:right center}100%{transform:scale(1);transform-origin:right center}}
+.scale-up-bottom{animation:scale-up-bottom 0.2s; } @keyframes scale-up-bottom{0%{transform:scale(.5);transform-origin:center bottom}100%{transform:scale(1);transform-origin:center bottom}}

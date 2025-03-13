@@ -1,7 +1,7 @@
 import PropTypes from "prop-types"
 import { toast } from "react-toastify"
 
-const MediaUploadOption = ({ icon: Icon, typeFile, extensions, socket, id, userId, BACKEND_URL }) => {
+const MediaUploadOption = ({ icon: Icon, typeFile, extensions, socket, id, userId, BACKEND_URL, type }) => {
 
   async function handleFile(e) {
     const file = e.target.files[0]
@@ -55,7 +55,8 @@ const MediaUploadOption = ({ icon: Icon, typeFile, extensions, socket, id, userI
         format: formatFile,
         content: fileUrl,
         chatId: id,
-        user: userId
+        user: userId,
+        typeChat: type
       }})
 
       toast.update(toastId, {
@@ -91,7 +92,8 @@ MediaUploadOption.propTypes = {
     socket: PropTypes.object,
     id: PropTypes.string,
     userId: PropTypes.string,
-    BACKEND_URL: PropTypes.string
+    BACKEND_URL: PropTypes.string,
+    type: PropTypes.string
 }
 
 export default MediaUploadOption

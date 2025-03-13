@@ -53,7 +53,7 @@ const UnlockUserModal = forwardRef(({ avatar, username, socket, privateChatId, B
         <FaArrowLeftLong />
       </button>
 
-      <img src={avatar} alt="picture-group" className="w-36 h-36 rounded-full m-auto"/>
+      <img src={avatar} alt="picture-group" className="w-36 h-36 rounded-full object-cover m-auto"/>
       <p className="text-center mt-3 font-bold">{username}</p>
       <h1 className="text-center">¿Block User?</h1>
 

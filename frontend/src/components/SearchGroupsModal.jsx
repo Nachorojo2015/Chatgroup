@@ -3,7 +3,7 @@ import { CiSearch } from "react-icons/ci"
 import { FaArrowLeftLong } from "react-icons/fa6"
 import { ClipLoader } from "react-spinners"
 import PropTypes from "prop-types"
-import Group from "./Group"
+import GroupSearch from "./GroupSearch"
 
 const SearchGroupsModal = forwardRef(({ username, fetchUserData, BACKEND_URL }, ref) => {
 
@@ -73,7 +73,7 @@ const SearchGroupsModal = forwardRef(({ username, fetchUserData, BACKEND_URL }, 
             <ClipLoader />
              :
             groupsSearch.map((groupSearch, index) => (
-              <Group key={index} groupSearch={groupSearch} username={username} fetchUserData={fetchUserData} searchGroups={searchGroups} BACKEND_URL={BACKEND_URL} ref={ref}/>
+              <GroupSearch key={index} groupSearch={groupSearch} username={username} fetchUserData={fetchUserData} searchGroups={searchGroups} BACKEND_URL={BACKEND_URL} ref={ref}/>
             ))
           }
         </section>

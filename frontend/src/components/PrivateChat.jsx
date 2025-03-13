@@ -7,13 +7,15 @@ import BlockUserButton from "./BlockUserButton";
 import { useUserStore } from "../store/userStore";
 import UnlockUserButton from "./UnlockUserButton";
 
-const PrivateChat = ({ privateChat, fetchUserData, socket, BACKEND_URL }) => {
+const PrivateChat = ({ privateChat, fetchUserData, socket, lastMessage, BACKEND_URL }) => {
 
   const { setIsChatMobileOpen, setData, unSeen, setUnSeen, setLoader, id } = useChatStore()
-  const { blockedUsers, userId } = useUserStore()
+  const { blockedUsers, userId, username } = useUserStore()
 
-  const isMyUserBlocked = privateChat.user.blockedUsers.includes(userId)
-  const isBlocked = blockedUsers.includes(privateChat.user._id)
+  const privateUser = privateChat.users.filter(user => user.username !== username)[0]
+
+  const isMyUserBlocked = privateUser.blockedUsers.includes(userId)
+  const isBlocked = blockedUsers.includes(privateUser._id)
 
   const [menu, setMenu] = useState(false)
 
@@ -49,10 +51,11 @@ const PrivateChat = ({ privateChat, fetchUserData, socket, BACKEND_URL }) => {
       const data = await response.json()
 
       setData(
-        privateChat.user.avatar,
-        privateChat.user.fullname,
+        privateUser.avatar,
+        privateUser.fullname,
         isBlocked || isMyUserBlocked ? 'Block' : privateChat._id,
-        data.messages
+        data.messages,
+        'private'
       )
 
       setLoader(false)
@@ -64,16 +67,17 @@ const PrivateChat = ({ privateChat, fetchUserData, socket, BACKEND_URL }) => {
   } 
 
   return (
-    <article className={`flex items-center w-full gap-3 p-3 ${id === privateChat._id ? 'dark:bg-slate-500 bg-slate-300' : ''}`}>
+    <article className={`flex items-center w-full gap-3 p-3 ${id === privateChat._id ? 'dark:bg-slate-700 bg-slate-300' : ''}`}>
         <img
-        src={privateChat.user.avatar}
+        src={privateUser.avatar}
         alt="avatar user"
         className={`xl:w-16 xl:h-16 w-12 h-12 rounded-full object-cover ${isBlocked || isMyUserBlocked ? 'opacity-20' : ''}`}
         onClick={() => pictureUserModal.current.showModal()}
         onError={e => e.target.src = '/picture-user-no-load.png'}
         />
         <div className="flex flex-col">
-         <span className="dark:text-white font-bold whitespace-nowrap overflow-hidden text-ellipsis w-52 cursor-pointer hover:underline" onClick={openChat}>{privateChat.user.fullname}</span>
+         <span className="dark:text-white font-bold whitespace-nowrap overflow-hidden text-ellipsis w-52 cursor-pointer hover:underline" onClick={openChat}>{privateUser.fullname}</span>
+         <span className="whitespace-nowrap text-sm overflow-hidden text-ellipsis max-w-56 dark:text-white">{lastMessage?.content}</span>
         </div>
         <div className="ml-auto flex items-center gap-3">
            {isUnSeen ? <span className="ml-auto bg-blue-400 rounded-full p-1"></span> : ''}
@@ -88,16 +92,16 @@ const PrivateChat = ({ privateChat, fetchUserData, socket, BACKEND_URL }) => {
           <div className={`transition-all ${!menu ? 'invisible opacity-0' : 'opacity-100'} flex flex-col gap-2 p-2 rounded-md absolute right-9 shadow dark:bg-black dark:text-white min-w-32`} id="menu-users-option">
             {
              isBlocked && !isMyUserBlocked ? 
-             <UnlockUserButton avatar={privateChat.user.avatar} username={privateChat.user.username} fetchUserData={fetchUserData} socket={socket} privateChatId={privateChat._id} BACKEND_URL={BACKEND_URL}/>
+             <UnlockUserButton avatar={privateUser.avatar} username={privateUser.username} fetchUserData={fetchUserData} socket={socket} privateChatId={privateChat._id} BACKEND_URL={BACKEND_URL}/>
              :
-             <BlockUserButton avatar={privateChat.user.avatar} username={privateChat.user.username} fetchUserData={fetchUserData} socket={socket} privateChatId={privateChat._id} BACKEND_URL={BACKEND_URL}/>
+             <BlockUserButton avatar={privateUser.avatar} username={privateUser.username} fetchUserData={fetchUserData} socket={socket} privateChatId={privateChat._id} BACKEND_URL={BACKEND_URL}/>
             }
           </div>
           </div>
           <dialog ref={pictureUserModal} className="backdrop:bg-[rgba(0,0,0,.80)] xl:max-w-96 max-w-60 outline-none" onClick={() => pictureUserModal.current.close()}>
             <div>
-              <span className="absolute w-full bg-black p-2 text-white bg-opacity-40">{privateChat.user.fullname}</span>
-              <img src={privateChat.user.avatar} alt="picture-group" className="object-cover xl:w-96 xl:h-96 w-64 h-64" onError={e => e.target.src = '/picture-user-no-load.png'}/>
+              <span className="absolute w-full bg-black p-2 text-white bg-opacity-40">{privateUser.fullname}</span>
+              <img src={privateUser.avatar} alt="picture-group" className="object-cover xl:w-96 xl:h-96 w-64 h-64" onError={e => e.target.src = '/picture-user-no-load.png'}/>
             </div>
           </dialog>
     </article>
@@ -108,6 +112,7 @@ PrivateChat.propTypes = {
   privateChat: PropTypes.object,
   fetchUserData: PropTypes.func,
   socket: PropTypes.object,
+  lastMessage: PropTypes.object,
   BACKEND_URL: PropTypes.string
 }
 

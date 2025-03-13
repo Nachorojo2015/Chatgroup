@@ -43,7 +43,12 @@ const groupsSchema = new Schema({
             type: mongoose.Schema.ObjectId,
             ref: 'users'
         }
-    ]
+    ],
+    lastMessage: {
+       content: String,
+       date: Date,
+       fullname: String
+    }
 })
 
 export const groupsModel = model('groups', groupsSchema)

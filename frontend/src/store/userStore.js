@@ -10,6 +10,29 @@ export const useUserStore = create((set) => ({
     privateUsers: [],
     blockedUsers: [],
 
+    // Setter para actualizar los chats y labeledChats automáticamente
+    setChats: (groups, privateUsers) => {
+      set({
+          groups,
+          privateUsers,
+          labeledChats: [
+              ...groups.map(chat => ({ ...chat, type: "group" })),
+              ...privateUsers.map(chat => ({ ...chat, type: "privateUser" }))
+          ]
+      });
+    },
+
+    
+    updateLastMessage: (newMessage) => {
+      set((state) => ({
+          chats: state.chats.map(chat => 
+              chat._id === newMessage.chatId
+              ? { ...chat, lastMessage: newMessage } 
+              : chat
+          )
+      }));
+    },
+
     fetchUserData: async (BACKEND_URL) => {
       try {
         const response = await fetch(`${BACKEND_URL}/user`, {
@@ -37,7 +60,11 @@ export const useUserStore = create((set) => ({
           avatar,
           groups,
           privateUsers,
-          blockedUsers
+          blockedUsers,
+          chats: [
+            ...groups.map(chat => ({ ...chat, type: "group" })),
+            ...privateUsers.map(chat => ({ ...chat, type: "privateUser" }))
+          ] 
         })
         
       } catch (error) {

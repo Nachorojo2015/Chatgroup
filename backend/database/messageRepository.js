@@ -3,10 +3,13 @@ import crypto from "crypto"
 import fs from "fs"
 import { getFileUrl, uploadFile } from "../config/firebaseConfig.js";
 import { decrypt, encrypt } from "../utils/encrypt.js";
+import { groupsModel } from "../models/Groups.js";
+import { privatesModel } from "../models/Private.js";
+import { usersModel } from "../models/Users.js";
 
 export class MessagesRepository {
     static async createMessage({ message }) {
-        const { format, content, chatId, user } = message
+        const { format, content, chatId, user, typeChat } = message
         const encryptedContent = encrypt(content)
 
         const newMessage = await messagesModel.create({
@@ -17,9 +20,25 @@ export class MessagesRepository {
             date: new Date()
         })
 
+        const userSender = await usersModel.findById({_id: user})
+
+        if (typeChat === 'group') {
+            const chatGroup = await groupsModel.findById({_id: chatId})
+            chatGroup.lastMessage.content = format === 'text' ? content : format
+            chatGroup.lastMessage.date = newMessage.date
+            chatGroup.lastMessage.fullname = userSender.fullname
+            await chatGroup.save()
+        } else {
+            const chatPrivate = await privatesModel.findById({_id: chatId})
+            chatPrivate.lastMessage.content = format === 'text' ? content : format
+            chatPrivate.lastMessage.date = newMessage.date
+            chatPrivate.lastMessage.fullname = userSender.fullname
+            await chatPrivate.save()
+        }
+
         const populatedMessage = await newMessage.populate({
             path: 'user',
-            select: 'avatar username', // Selecciona los campos que quieres devolver del usuario
+            select: 'avatar username fullname', // Selecciona los campos que quieres devolver del usuario
         });
 
         populatedMessage.content = decrypt(populatedMessage.content)

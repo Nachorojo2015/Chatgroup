@@ -4,7 +4,7 @@ import PropTypes from "prop-types"
 
 const MessageInput = forwardRef(({ socket, userId, id }, ref) => {
 
-  const { setMessage, message, activeMicro } = useChatStore()
+  const { setMessage, message, activeMicro, type } = useChatStore()
 
   function sendMessage(e) {
       e.preventDefault()
@@ -14,7 +14,8 @@ const MessageInput = forwardRef(({ socket, userId, id }, ref) => {
         format: 'text',
         content: message,
         chatId: id,
-        user: userId
+        user: userId,
+        typeChat: type
       }})
       
       ref.current.value = ''
@@ -25,7 +26,7 @@ const MessageInput = forwardRef(({ socket, userId, id }, ref) => {
   <textarea
   placeholder={`${id === 'Block' ? 'Blocked' : !activeMicro ? 'Write a message' : ''}`}
   disabled={activeMicro || id === 'Block'}
-  className={`[field-sizing:content] p-2.5 w-full text-sm text-gray-900 bg-white rounded-lg border border-gray-300 dark:bg-black dark:border-gray-600 dark:placeholder-gray-400 dark:text-white h-auto max-h-32 resize-none outline-none ${activeMicro ? 'hidden' : ''}`}
+  className={`[field-sizing:content] p-2.5 w-full text-sm text-gray-900 bg-white rounded-lg xl:border-none border border-gray-300 dark:bg-black dark:border-gray-600 dark:placeholder-gray-400 dark:text-white h-auto max-h-32 resize-none outline-none ${activeMicro ? 'hidden' : ''}`}
   ref={ref}
   onChange={(e) => {
     setMessage(e.target.value);

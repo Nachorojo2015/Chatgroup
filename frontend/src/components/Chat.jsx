@@ -21,17 +21,25 @@ import ChatAdvice from "./ChatAdvice";
 const Chat = ({ socket, BACKEND_URL }) => {
 
   const { setMessage, message } = useChatStore()
-  const { userId, fetchUserData } = useUserStore()
+  const { userId, fetchUserData, updateLastMessage } = useUserStore()
   const [menu, setMenu] = useState(false)
   const chatContainer = useRef(null)
   const textareaMessageRef = useRef(null)
   const btnMenuRef = useRef()
   
-  const { image, name, messages, id, setMessages, isChatMobileOpen, setIsChatMobileOpen, activeMicro, setActiveMicro, setIdChat, loader, setUnSeen, unSeen } = useChatStore()
+  const { type, image, name, messages, id, setMessages, isChatMobileOpen, setIsChatMobileOpen, activeMicro, setActiveMicro, setIdChat, loader, setUnSeen, unSeen } = useChatStore()
 
   useEffect(() => {
     const handleReceiveMessage = ({ newMessage }) => {
       const chatId = newMessage.chatId
+      
+      updateLastMessage({
+        chatId,
+        content: newMessage.format === 'text' ? newMessage.content : newMessage.format,
+        date: newMessage.date,
+        fullname: newMessage.user.fullname
+      })
+
       if (chatId !== id && !unSeen.includes(chatId)) {
         setUnSeen([...unSeen, chatId])
       } else {
@@ -41,6 +49,13 @@ const Chat = ({ socket, BACKEND_URL }) => {
 
     const handleReceiveDeleteMessage = ({ messageDeleted }) => {
       setMessages(messages.filter(mes => mes._id !== messageDeleted._id))
+      const lastMessage = messages[messages.length - 2]
+      updateLastMessage({
+          chatId: lastMessage.chatId,
+          content: lastMessage.format === 'text' ? lastMessage.content : lastMessage.format,
+          date: lastMessage.date,
+          fullname: lastMessage.user.fullname
+        })
     }
 
     const handleErrorMessage = ({ error }) => {
@@ -64,7 +79,7 @@ const Chat = ({ socket, BACKEND_URL }) => {
       socket.off('receive-message-deleted')
       socket.off('update-user-data')
     }
-  }, [setMessages, socket, id, setUnSeen, unSeen, messages, fetchUserData, BACKEND_URL])
+  }, [setMessages, socket, id, setUnSeen, unSeen, messages, fetchUserData, updateLastMessage, BACKEND_URL])
   
   if (!id) 
   return ( 
@@ -80,7 +95,8 @@ const Chat = ({ socket, BACKEND_URL }) => {
       format: 'text',
       content: message,
       chatId: id,
-      user: userId
+      user: userId,
+      typeChat: type
     }})
     
     textareaMessageRef.current.value = ''
@@ -146,13 +162,13 @@ function isSameDate(prevMessage, nextMessage) {
       </div>
       <footer className="fixed bottom-0 z-[100] xl:w-[70%] w-full py-1 dark:bg-black bg-white flex items-center gap-3">
         <div className="relative flex items-center ml-1">
-          <div className={`absolute flex flex-col gap-3 bottom-10 shadow dark:bg-gray-800 bg-white rounded-lg p-2 transition ${menu ? 'opacity-100' : 'opacity-0 invisible'}`}>
-            <MediaUploadOption icon={IoImageOutline} typeFile={'Pictures'} extensions={'.jpg, .png, .webp'} socket={socket} id={id} userId={userId} BACKEND_URL={BACKEND_URL}/>
-            <MediaUploadOption icon={FiVideo} typeFile={'Videos'} extensions={'.mp4'} socket={socket} id={id} userId={userId} BACKEND_URL={BACKEND_URL}/>
-            <MediaUploadOption icon={LuFiles} typeFile={'Files'} extensions={'.pdf, .docx'} socket={socket} id={id} userId={userId} BACKEND_URL={BACKEND_URL}/>
-            <MediaUploadOption icon={IoMusicalNotesOutline} typeFile={'Audios'} extensions={'.mp3'} socket={socket} id={id} userId={userId} BACKEND_URL={BACKEND_URL}/>
+          <div className={`absolute flex flex-col gap-3 bottom-9 shadow dark:bg-gray-800 bg-white rounded-lg p-2 transition ${menu ? 'opacity-100 scale-up-bottom' : 'opacity-0 invisible'}`}>
+            <MediaUploadOption icon={IoImageOutline} typeFile={'Pictures'} extensions={'.jpg, .png, .webp'} socket={socket} id={id} userId={userId} BACKEND_URL={BACKEND_URL} type={type}/>
+            <MediaUploadOption icon={FiVideo} typeFile={'Videos'} extensions={'.mp4'} socket={socket} id={id} userId={userId} BACKEND_URL={BACKEND_URL} type={type}/>
+            <MediaUploadOption icon={LuFiles} typeFile={'Files'} extensions={'.pdf, .docx'} socket={socket} id={id} userId={userId} BACKEND_URL={BACKEND_URL} type={type}/>
+            <MediaUploadOption icon={IoMusicalNotesOutline} typeFile={'Audios'} extensions={'.mp3'} socket={socket} id={id} userId={userId} BACKEND_URL={BACKEND_URL} type={type}/>
           </div>
-        <button onClick={openMenu} ref={btnMenuRef} className={`ml-5 ${activeMicro ? 'hidden' : ''}`}>
+        <button onClick={openMenu} ref={btnMenuRef} className={`ml-5 transition hover:opacity-60 ${activeMicro ? 'hidden' : ''}`}>
           <FiPaperclip size={20} className="dark:text-white"/>
         </button>
         </div>
@@ -163,7 +179,7 @@ function isSameDate(prevMessage, nextMessage) {
             <IoSend size={20} className="dark:text-white"/>
           </button>
           :
-          <Microphone activeMicro={activeMicro} setActiveMicro={setActiveMicro} socket={socket} id={id} userId={userId} BACKEND_URL={BACKEND_URL}/>
+          <Microphone activeMicro={activeMicro} setActiveMicro={setActiveMicro} socket={socket} id={id} userId={userId} BACKEND_URL={BACKEND_URL}type={type}/>
         }
       </footer>
     </section>

@@ -16,6 +16,8 @@ export const useChatStore = create((set) => ({
 
     unSeen: [],
 
+    type: '',
+
     setUnSeen: (state) => {
         set({
             unSeen: state
@@ -34,12 +36,13 @@ export const useChatStore = create((set) => ({
         })
     },
 
-    setData: (image, name, id, messages) => {
+    setData: (image, name, id, messages, type) => {
         set({
             image,
             name,
             id,
-            messages
+            messages,
+            type
         })
     },
 
