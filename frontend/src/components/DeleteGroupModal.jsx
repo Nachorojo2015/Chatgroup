@@ -2,8 +2,11 @@ import { forwardRef } from "react"
 import { FaArrowLeftLong } from "react-icons/fa6"
 import { toast } from "react-toastify"
 import PropTypes from "prop-types"
+import { useChatStore } from "../store/chatStore"
 
 const DeleteGroupModal = forwardRef(({ picture, name, _id ,socket, BACKEND_URL }, ref) => {
+
+  const setIdChat = useChatStore(state => state.setIdChat)
 
   async function deleteGroup() {
       ref.current.close()
@@ -33,6 +36,8 @@ const DeleteGroupModal = forwardRef(({ picture, name, _id ,socket, BACKEND_URL }
         })
   
         socket.emit('update-user')
+
+        setIdChat('')
       } catch (error) {
         console.log(error.message)
       }

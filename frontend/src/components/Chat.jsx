@@ -1,5 +1,4 @@
 import PropTypes from "prop-types"
-import { IoSend } from "react-icons/io5";
 import { useEffect, useState } from "react";
 import { IoImageOutline } from "react-icons/io5";
 import { LuFiles } from "react-icons/lu";
@@ -17,45 +16,55 @@ import { toast } from "react-toastify";
 import { IoMusicalNotesOutline } from "react-icons/io5";
 import { FiPaperclip } from "react-icons/fi";
 import ChatAdvice from "./ChatAdvice";
+import SendMessageButton from "./SendMessageButton";
+import EmojiMart from "./EmojiMart";
+import { isSameDate } from "../scripts/isSameDate";
+import OptionsChat from "./OptionsChat";
 
 const Chat = ({ socket, BACKEND_URL }) => {
 
-  const { setMessage, message } = useChatStore()
+  const { message } = useChatStore()
   const { userId, fetchUserData, updateLastMessage } = useUserStore()
   const [menu, setMenu] = useState(false)
   const chatContainer = useRef(null)
   const textareaMessageRef = useRef(null)
   const btnMenuRef = useRef()
+  const pictureGroupModal = useRef()
   
   const { type, image, name, messages, id, setMessages, isChatMobileOpen, setIsChatMobileOpen, activeMicro, setActiveMicro, setIdChat, loader, setUnSeen, unSeen } = useChatStore()
 
   useEffect(() => {
     const handleReceiveMessage = ({ newMessage }) => {
       const chatId = newMessage.chatId
-      
+      const { format, content, date, user } = newMessage
       updateLastMessage({
         chatId,
-        content: newMessage.format === 'text' ? newMessage.content : newMessage.format,
-        date: newMessage.date,
-        fullname: newMessage.user.fullname
+        content: format === 'text' ? content :format,
+        date: date,
+        fullname: user.fullname
       })
 
-      if (chatId !== id && !unSeen.includes(chatId)) {
-        setUnSeen([...unSeen, chatId])
+      if (chatId !== id) {
+        setUnSeen({
+          ...unSeen,
+          [chatId]: (unSeen[chatId] || 0) + 1  // Suma 1 al contador
+        });
       } else {
         setMessages([...messages, newMessage])
       }
     }
 
     const handleReceiveDeleteMessage = ({ messageDeleted }) => {
-      setMessages(messages.filter(mes => mes._id !== messageDeleted._id))
-      const lastMessage = messages[messages.length - 2]
+      const updatedMessages = messages.filter(mes => mes._id !== messageDeleted._id)
+      const lastMessage = updatedMessages[updatedMessages.length - 1]
+      console.log(!lastMessage)
       updateLastMessage({
-          chatId: lastMessage.chatId,
-          content: lastMessage.format === 'text' ? lastMessage.content : lastMessage.format,
-          date: lastMessage.date,
-          fullname: lastMessage.user.fullname
-        })
+          chatId: messageDeleted.chatId,
+          content: !lastMessage ? '' : lastMessage.format === 'text' ? lastMessage.content : lastMessage.format,
+          date: !lastMessage ? '' : lastMessage.date,
+          fullname: !lastMessage ? '' : lastMessage.user.fullname
+      })
+      setMessages(updatedMessages)
     }
 
     const handleErrorMessage = ({ error }) => {
@@ -88,24 +97,10 @@ const Chat = ({ socket, BACKEND_URL }) => {
     </div>
   )
 
-  function sendMessage() {
-    if (!message.trim()) return
-
-    socket.emit('send-message', { message: {
-      format: 'text',
-      content: message,
-      chatId: id,
-      user: userId,
-      typeChat: type
-    }})
-    
-    textareaMessageRef.current.value = ''
-    setMessage('')
-  }
-
 function closeChatMobile() {
   setIsChatMobileOpen(false)
   setIdChat('')
+  setActiveMicro(false)
 }
 
 function scrollToBottom() {
@@ -124,25 +119,25 @@ function openMenu() {
   })
 }
 
-function isSameDate(prevMessage, nextMessage) {
-  const datePrevMessage = new Date(prevMessage)
-  const dateNextMessage = new Date(nextMessage)
-  return datePrevMessage.getFullYear() === dateNextMessage.getFullYear() &&
-         datePrevMessage.getMonth() === dateNextMessage.getMonth() &&
-         datePrevMessage.getDate() === dateNextMessage.getDate()
-}
-
   return (
     <section className={`xl:border-l border-black dark:border-white flex flex-col ${!isChatMobileOpen ? 'hidden xl:flex' : ''} xl:w-[70%] w-full relative`}>
-      <header className="border-b shadow w-full p-3 flex items-center gap-3 border-black dark:border-white">
+      <header className="shadow w-full p-3 flex items-center gap-3 relative dark:bg-gray-900 bg-slate-100">
         <button onClick={closeChatMobile} className="xl:hidden">
            <FaArrowLeft className="dark:text-white"/>
         </button>
-        <img src={image} alt="picture-chat" className="xl:w-14 xl:h-14 w-10 h-10 rounded-full object-cover" onError={e => e.target.src = "/picture-no-load.png"}/>
+        <img src={image} alt="picture-chat" className="xl:w-14 xl:h-14 w-10 h-10 rounded-full object-cover" onClick={() => pictureGroupModal.current.showModal()} onError={e => e.target.src = "/picture-no-load.png"}/>
         <span className="dark:text-white whitespace-nowrap overflow-hidden text-ellipsis">{name}</span>
+        <OptionsChat chatId={id} socket={socket} BACKEND_URL={BACKEND_URL}/>
+
+        <dialog ref={pictureGroupModal} className="backdrop:bg-[rgba(0,0,0,.90)] xl:max-w-96 max-w-60 outline-none" onClick={() => pictureGroupModal.current.close()}>
+          <div>
+            <span className="absolute whitespace-nowrap overflow-hidden text-ellipsis bg-black p-2 w-full text-white bg-opacity-40">{name}</span>
+            <img src={image} alt="picture-group" className="object-cover xl:w-96 xl:h-96 w-64 h-64" onError={e => e.target.src = '/picture-group-no-load.png'}/>
+          </div>
+        </dialog>
       </header>
       <div className="relative flex flex-1">
-        <ul className="overflow-y-auto overflow-x-hidden absolute h-full w-full pb-16 [scrollbar-width:none]" ref={chatContainer}>
+        <ul className="overflow-y-auto overflow-x-hidden absolute h-full w-full pb-16 [scrollbar-width:none] px-3 bg-white dark:bg-black" ref={chatContainer}>
             {
               loader ? 
               <div className="grid place-content-center place-items-center mt-60">
@@ -153,33 +148,34 @@ function isSameDate(prevMessage, nextMessage) {
               <ChatAdvice />
               {
                 messages.map((message, index) => (
-                  <Message key={message._id} message={message} userId={userId} isSameUser={messages[index - 1]?.user?._id === message?.user?._id} isSameDate={isSameDate(messages[index - 1]?.date, message?.date)} socket={socket}/>
+                  <Message key={message._id} message={message} userId={userId} isSameUser={messages[index - 1]?.user?._id === message?.user?._id} isSameDate={isSameDate(messages[index - 1]?.date, message?.date)} socket={socket} typeChat={type}/>
                 ))
               }
               </>
             }
         </ul>
       </div>
-      <footer className="fixed bottom-0 z-[100] xl:w-[70%] w-full py-1 dark:bg-black bg-white flex items-center gap-3">
-        <div className="relative flex items-center ml-1">
-          <div className={`absolute flex flex-col gap-3 bottom-9 shadow dark:bg-gray-800 bg-white rounded-lg p-2 transition ${menu ? 'opacity-100 scale-up-bottom' : 'opacity-0 invisible'}`}>
-            <MediaUploadOption icon={IoImageOutline} typeFile={'Pictures'} extensions={'.jpg, .png, .webp'} socket={socket} id={id} userId={userId} BACKEND_URL={BACKEND_URL} type={type}/>
-            <MediaUploadOption icon={FiVideo} typeFile={'Videos'} extensions={'.mp4'} socket={socket} id={id} userId={userId} BACKEND_URL={BACKEND_URL} type={type}/>
-            <MediaUploadOption icon={LuFiles} typeFile={'Files'} extensions={'.pdf, .docx'} socket={socket} id={id} userId={userId} BACKEND_URL={BACKEND_URL} type={type}/>
-            <MediaUploadOption icon={IoMusicalNotesOutline} typeFile={'Audios'} extensions={'.mp3'} socket={socket} id={id} userId={userId} BACKEND_URL={BACKEND_URL} type={type}/>
-          </div>
-        <button onClick={openMenu} ref={btnMenuRef} className={`ml-5 transition hover:opacity-60 ${activeMicro ? 'hidden' : ''}`}>
-          <FiPaperclip size={20} className="dark:text-white"/>
-        </button>
-        </div>
+      <footer className="fixed bottom-0 z-[100] xl:w-[70%] w-full py-1 px-5 dark:bg-gray-900 bg-slate-100 flex items-center gap-3">
+        <EmojiMart message={message} ref={textareaMessageRef}/>
         <MessageInput socket={socket} userId={userId} id={id} ref={textareaMessageRef}/>
         {
           message && !activeMicro ? 
-          <button onClick={sendMessage} className="mr-5">
-            <IoSend size={20} className="dark:text-white"/>
-          </button>
+          <SendMessageButton socket={socket} chatId={id} userId={userId} typeChat={type} ref={textareaMessageRef}/>
           :
+          <>
+          <div className="relative flex items-center">
+            <div className={`absolute flex flex-col gap-3 bottom-9 right-0 shadow min-w-36 dark:bg-gray-900 bg-white rounded-lg p-3 transition ${menu ? 'opacity-100 scale-up-bottom' : 'opacity-0 invisible'}`}>
+              <MediaUploadOption icon={IoImageOutline} typeFile={'Pictures'} extensions={'.jpg, .png, .webp'} socket={socket} id={id} userId={userId} BACKEND_URL={BACKEND_URL} type={type}/>
+              <MediaUploadOption icon={FiVideo} typeFile={'Videos'} extensions={'.mp4'} socket={socket} id={id} userId={userId} BACKEND_URL={BACKEND_URL} type={type}/>
+              <MediaUploadOption icon={LuFiles} typeFile={'Files'} extensions={'.pdf, .docx'} socket={socket} id={id} userId={userId} BACKEND_URL={BACKEND_URL} type={type}/>
+              <MediaUploadOption icon={IoMusicalNotesOutline} typeFile={'Audios'} extensions={'.mp3'} socket={socket} id={id} userId={userId} BACKEND_URL={BACKEND_URL} type={type}/>
+          </div>
+          <button onClick={openMenu} ref={btnMenuRef} className={`transition hover:opacity-60 ${activeMicro ? 'hidden' : ''}`}>
+            <FiPaperclip size={20} className="dark:text-white"/>
+          </button>
+          </div>
           <Microphone activeMicro={activeMicro} setActiveMicro={setActiveMicro} socket={socket} id={id} userId={userId} BACKEND_URL={BACKEND_URL}type={type}/>
+          </>
         }
       </footer>
     </section>

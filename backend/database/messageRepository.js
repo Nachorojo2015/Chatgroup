@@ -89,8 +89,44 @@ export class MessagesRepository {
         return message
     }
 
-    static async deleteMessage({ messageId }) {
+    static async deleteMessage({ messageId, typeChat }) {
         const message = await messagesModel.findByIdAndDelete({ _id: messageId })
+        const messages = await messagesModel.find({ chatId: message.chatId })
+
+        if (messages.length > 0) {
+            // Buscar el mensaje anterior en el mismo chat
+            const { format, content, date, user, chatId } = messages[messages.length - 1]
+            const userSender = await usersModel.findById({_id: user._id})
+            if (typeChat === 'group') {
+                const chatGroup = await groupsModel.findById({_id: chatId})
+                chatGroup.lastMessage.content = format === 'text' ? decrypt(content) : format
+                chatGroup.lastMessage.date = date
+                chatGroup.lastMessage.fullname = userSender.fullname
+                await chatGroup.save()
+            } else {
+                const chatPrivate = await privatesModel.findById({_id: chatId})
+                chatPrivate.lastMessage.content = format === 'text' ? decrypt(content) : format
+                chatPrivate.lastMessage.date = date
+                chatPrivate.lastMessage.fullname = userSender.fullname
+                await chatPrivate.save()
+            }
+        } else {
+            if (typeChat === 'group') {
+                const chatGroup = await groupsModel.findById({_id: message.chatId})
+                chatGroup.lastMessage.content = ''
+                chatGroup.lastMessage.date = ''
+                chatGroup.lastMessage.fullname = ''
+                await chatGroup.save()
+            } else {
+                const chatPrivate = await privatesModel.findById({_id: message.chatId})
+                chatPrivate.lastMessage.content = ''
+                chatPrivate.lastMessage.date = ''
+                chatPrivate.lastMessage.fullname = ''
+                await chatPrivate.save()
+            }
+        }
+
+
         return message
     }
 }

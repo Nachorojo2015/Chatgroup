@@ -63,7 +63,7 @@ export const useUserStore = create((set) => ({
           blockedUsers,
           chats: [
             ...groups.map(chat => ({ ...chat, type: "group" })),
-            ...privateUsers.map(chat => ({ ...chat, type: "privateUser" }))
+            ...privateUsers.map(chat => ({ ...chat, type: "private" }))
           ] 
         })
         

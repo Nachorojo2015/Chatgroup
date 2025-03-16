@@ -170,7 +170,7 @@ const InfoGroup = ({ socket, BACKEND_URL }) => {
                 <div className="mt-5 flex items-center gap-1">
                     {
                         group.members.map((member, index) => (
-                            <img key={index} src={member.avatar} alt="user-avatar" className="w-12 h-12 rounded-full object-cover"/>
+                            <img key={index} src={member.avatar} alt="user-avatar" className="w-12 h-12 rounded-full object-cover" onError={e => e.target.src = '/picture-user-no-load.png'}/>
                         ))
                     }
                 </div>
@@ -179,7 +179,7 @@ const InfoGroup = ({ socket, BACKEND_URL }) => {
                 <div className="mt-5 flex items-center gap-1">
                     {
                         group.administrators.map((member, index) => (
-                            <img key={index} src={member.avatar} alt="user-avatar" className="w-12 h-12 rounded-full object-cover"/>
+                            <img key={index} src={member.avatar} alt="user-avatar" className="w-12 h-12 rounded-full object-cover" onError={e => e.target.src = '/picture-user-no-load.png'}/>
                         ))
                     }
                 </div>

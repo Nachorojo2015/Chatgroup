@@ -5,10 +5,10 @@ import { ClipLoader } from "react-spinners"
 import { toast } from "react-toastify"
 import { useChatStore } from "../store/chatStore"
 
-const BlockUserModal = forwardRef(({ avatar, username, socket, privateChatId, BACKEND_URL }, ref) => {
+const BlockUserModal = forwardRef(({ avatar, username, socket, BACKEND_URL }, ref) => {
 
   const [loader, setLoader] = useState(false)
-  const { setIdChat, id } = useChatStore()
+  const { setIsBlocked } = useChatStore()
 
   async function blockUser() {
     const isDark = document.querySelector('html').className === 'dark'
@@ -36,7 +36,7 @@ const BlockUserModal = forwardRef(({ avatar, username, socket, privateChatId, BA
         theme: isDark ? 'dark' : 'light'
       })  
       socket.emit('update-user')
-      setIdChat(privateChatId === id ? 'Block' : id)
+      setIsBlocked(true)
     } catch (error) {
       console.log(error)
       setLoader(false)
@@ -51,7 +51,7 @@ const BlockUserModal = forwardRef(({ avatar, username, socket, privateChatId, BA
         <FaArrowLeftLong />
       </button>
 
-      <img src={avatar} alt="picture-group" className="w-36 h-36 rounded-full object-cover m-auto"/>
+      <img src={avatar} alt="picture-group" className="w-36 h-36 rounded-full object-cover m-auto" onError={e => e.target.src = '/picture-user-no-load.png'}/>
       <p className="text-center mt-3 font-bold whitespace-nowrap overflow-hidden text-ellipsis">{username}</p>
       <h1 className="text-center">¿Block User?</h1>
 
@@ -66,7 +66,6 @@ BlockUserModal.propTypes = {
     avatar: PropTypes.string,
     username: PropTypes.string,
     socket: PropTypes.object,
-    privateChatId: PropTypes.string,
     BACKEND_URL: PropTypes.string
 }
 

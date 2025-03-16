@@ -5,6 +5,7 @@ import { IoMdAdd } from "react-icons/io"
 import { useUserStore } from "../store/userStore"
 import { toast } from "react-toastify"
 import PropTypes from "prop-types"
+import { FaCamera } from "react-icons/fa";
 
 const ProfileUserModal = forwardRef(({  username, fullname, avatar, BACKEND_URL }, ref) => {
 
@@ -48,21 +49,24 @@ const ProfileUserModal = forwardRef(({  username, fullname, avatar, BACKEND_URL 
      <button onClick={() => ref.current.close()}>
       <FaArrowLeftLong className="dark:text-white" size={22}/>
      </button>
-    <label>
+      <label>
         {loader ? 
         <BeatLoader cssOverride={{height: '144px', margin: 'auto', color: 'white'}} className="dark:text-white"/> 
         : 
         <div className="relative flex items-center justify-center group">
           <IoMdAdd className="absolute dark:text-white opacity-0 transition group-hover:opacity-100" size={80} />
-          <img src={avatar} alt="user avatar" className="rounded-full w-36 h-36 object-cover cursor-pointer transition group-hover:opacity-20" onError={e => e.target.src = '/picture-user-no-load.png'} />
+          <div className="relative">
+            <img src={avatar} alt="user avatar" className="rounded-full w-36 h-36 object-cover cursor-pointer transition group-hover:opacity-20" onError={e => e.target.src = '/picture-user-no-load.png'} />
+            <FaCamera className="absolute bottom-2 right-2" size={30}/>
+          </div>
         </div>
         }
         <input type="file" hidden accept=".jpg, .png, .webp" onChange={handleAvatar}/>
-    </label>
-    <div className="flex flex-col items-center mt-2">
+      </label>
+      <div className="flex flex-col items-center mt-2">
         <h1 className="text-3xl dark:text-white">{fullname}</h1>
         <h2 className="dark:text-white">{username}</h2>
-    </div>
+      </div>
     </dialog>
   )
 })

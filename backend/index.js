@@ -51,9 +51,9 @@ io.on('connection', socket => {
     }
   })
 
-  socket.on('delete-message', async ({ messageId }) => {
+  socket.on('delete-message', async ({ messageId, typeChat }) => {
     try {
-      const messageDeleted = await MessagesRepository.deleteMessage({ messageId })
+      const messageDeleted = await MessagesRepository.deleteMessage({ messageId, typeChat })
       if (messageDeleted) {
         io.emit('receive-message-deleted', { messageDeleted })
       } else {

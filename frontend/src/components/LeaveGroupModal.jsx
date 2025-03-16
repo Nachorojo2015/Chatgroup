@@ -3,8 +3,11 @@ import { forwardRef, useState } from "react"
 import { FaArrowLeftLong } from "react-icons/fa6"
 import { ClipLoader } from "react-spinners"
 import { toast } from "react-toastify"
+import { useChatStore } from "../store/chatStore"
 
 const LeaveGroupModal = forwardRef(({ picture, name, _id, fetchUserData, BACKEND_URL }, ref) => {
+
+  const setIdChat = useChatStore(state => state.setIdChat)
 
   const [loader, setLoader] = useState(false)
 
@@ -33,6 +36,8 @@ const LeaveGroupModal = forwardRef(({ picture, name, _id, fetchUserData, BACKEND
         theme: isDark ? 'dark' : 'light'
       })
       fetchUserData(BACKEND_URL)
+
+      setIdChat('')
     } catch (error) {
       console.log(error.message)
     } 

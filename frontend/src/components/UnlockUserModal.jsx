@@ -5,10 +5,10 @@ import { ClipLoader } from "react-spinners"
 import { toast } from "react-toastify"
 import { useChatStore } from "../store/chatStore"
 
-const UnlockUserModal = forwardRef(({ avatar, username, socket, privateChatId, BACKEND_URL }, ref) => {
+const UnlockUserModal = forwardRef(({ avatar, username, socket, BACKEND_URL }, ref) => {
 
   const [loader, setLoader] = useState(false)
-  const setIdChat = useChatStore(state => state.setIdChat)
+  const setIsBlocked = useChatStore(state => state.setIsBlocked)
 
   async function unlockUser() {
     setLoader(true)
@@ -36,7 +36,7 @@ const UnlockUserModal = forwardRef(({ avatar, username, socket, privateChatId, B
       })
 
       socket.emit('update-user')
-      setIdChat(privateChatId)
+      setIsBlocked(false)
     } catch (error) {
       console.log(error)
       setLoader(false)
@@ -53,11 +53,11 @@ const UnlockUserModal = forwardRef(({ avatar, username, socket, privateChatId, B
         <FaArrowLeftLong />
       </button>
 
-      <img src={avatar} alt="picture-group" className="w-36 h-36 rounded-full object-cover m-auto"/>
+      <img src={avatar} alt="picture-group" className="w-36 h-36 rounded-full object-cover m-auto" onError={e => e.target.src = '/picture-user-no-load.png'}/>
       <p className="text-center mt-3 font-bold">{username}</p>
       <h1 className="text-center">¿Block User?</h1>
 
-      <button onClick={unlockUser} className="text-white mt-3 w-full bg-white-700 hover:opacity-50 rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:bg-black">{loader ? <ClipLoader size={20} color="white"/> : 'Unlock'}</button>
+      <button onClick={unlockUser} className="text-white mt-3 w-full bg-blue-700 hover:opacity-50 rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:bg-black">{loader ? <ClipLoader size={20} color="white"/> : 'Unlock'}</button>
     </dialog>
   )
 })

@@ -6,8 +6,11 @@ import { FaStop } from "react-icons/fa";
 import { IoSend } from "react-icons/io5";
 import { toast } from "react-toastify";
 import Player from "./Player";
+import { useChatStore } from "../store/chatStore";
 
 const Microphone = ({ setActiveMicro, socket, id, userId, BACKEND_URL, type }) => {
+
+  const isBlocked = useChatStore(state => state.isBlocked)
 
   const [isRecording, setIsRecording] = useState(false);
   const [audioURL, setAudioURL] = useState('');
@@ -124,7 +127,7 @@ const Microphone = ({ setActiveMicro, socket, id, userId, BACKEND_URL, type }) =
   return (
     <div className="ml-auto">
       {!isRecording ? (
-        <button onClick={startRecording} disabled={ id === 'Block' } className={`transition hover:opacity-60 ${audioURL ? 'hidden' : 'mr-5'}`}><FaMicrophone size={20} className="dark:text-white"/></button>
+        <button onClick={startRecording} disabled={ isBlocked } className={`transition hover:opacity-60 ${audioURL ? 'hidden' : ''}`}><FaMicrophone size={20} className="dark:text-white"/></button>
       ) : (
         <div className="flex items-center gap-3 p-2">
          <span className="w-3 h-3 rounded-full bg-red-500 animate-blink"></span>

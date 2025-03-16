@@ -1,7 +1,10 @@
 import PropTypes from "prop-types"
 import { toast } from "react-toastify"
+import { useChatStore } from "../store/chatStore"
 
 const MediaUploadOption = ({ icon: Icon, typeFile, extensions, socket, id, userId, BACKEND_URL, type }) => {
+
+  const isBlocked = useChatStore(state => state.isBlocked)
 
   async function handleFile(e) {
     const file = e.target.files[0]
@@ -80,7 +83,7 @@ const MediaUploadOption = ({ icon: Icon, typeFile, extensions, socket, id, userI
     <label className="flex items-center gap-3 transition hover:opacity-50 cursor-pointer dark:text-white">
         <Icon size={20}/>
         <span>{typeFile}</span>
-        <input type="file" disabled={ id === 'Block' } hidden accept={extensions} onChange={handleFile}/>
+        <input type="file" disabled={ isBlocked } hidden accept={extensions} onChange={handleFile}/>
     </label>
   )
 }

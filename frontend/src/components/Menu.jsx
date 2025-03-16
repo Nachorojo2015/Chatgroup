@@ -42,7 +42,7 @@ const Menu = ({ socket, BACKEND_URL }) => {
           <button ref={btnMenuRef} className="p-2 mt-2 transition hover:bg-slate-200 dark:hover:bg-gray-700 rounded-full" onClick={openMenu}>
             <RxHamburgerMenu className="dark:text-white" size={20}/>
           </button>
-          <div className={`absolute flex flex-col gap-4 justify-between top-0 mt-14 ml-1 transition duration-200 min-w-40 z-10 bg-white shadow-md dark:bg-black p-3 rounded-lg ${menu ? 'opacity-100' : 'opacity-0 invisible'}`}>
+          <div className={`absolute flex flex-col gap-4 justify-between top-0 mt-14 ml-1 transition duration-200 min-w-40 z-10 bg-white shadow-md dark:bg-black p-3 rounded-lg ${menu ? 'scale-up-top-left opacity-100' : 'opacity-0 invisible'}`}>
             <DarkMode />
             <CreateGroupButton fetchUserData={fetchUserData} BACKEND_URL={BACKEND_URL}/>
             <SearchGroupsButton username={username} fetchUserData={fetchUserData} BACKEND_URL={BACKEND_URL}/>

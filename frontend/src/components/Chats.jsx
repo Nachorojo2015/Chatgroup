@@ -10,19 +10,17 @@ const Chats = ({ valueSearch, fetchUserData, username, socket, BACKEND_URL }) =>
   if (valueSearch) {
     chats = chats.filter(chat => {
       const searchTerm = valueSearch?.toLowerCase()
-      const chatName = chat.type === 'group' ? chat?.name : chat?.fullname
+      const chatName = chat.type === 'group' ? chat?.name : chat?.users.find(user => user.username !== username).fullname
       return chatName?.toLowerCase()?.includes(searchTerm);
     })
   }
 
-  const sortedChats = [...chats].sort((a, b) => 
-    new Date(b.lastMessage?.date.timestamp) - new Date(a.lastMessage?.date.timestamp)
-  )
+  if (!chats.length) return <p className='dark:text-white'>Search users or groups on the menu to start</p>
     
   return (
     <div className='w-full overflow-y-auto h-full absolute [scrollbar-width:thin]'>
         {
-            sortedChats
+            chats
                 .map(chat => 
                     chat.type === 'group' ? 
                     (<Group key={chat._id} group={chat} fetchUserData={fetchUserData} username={username} socket={socket} lastMessage={chat.lastMessage} BACKEND_URL={BACKEND_URL}/>)

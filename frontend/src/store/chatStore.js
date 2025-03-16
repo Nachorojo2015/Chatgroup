@@ -14,15 +14,21 @@ export const useChatStore = create((set) => ({
 
     loader: false,
 
-    unSeen: [],
+    unSeen: {},
 
     type: '',
 
-    setUnSeen: (state) => {
+    isBlocked: false,
+
+    setIsBlocked: (state) => {
         set({
-            unSeen: state
+            isBlocked: state
         })
     },
+
+    setUnSeen: (update) => set((state) => ({
+        unSeen: { ...state.unSeen, ...update }
+    })),
 
     setLoader: (loader) => {
         set({
