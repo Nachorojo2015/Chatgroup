@@ -112,7 +112,8 @@ const InfoGroup = ({ socket, BACKEND_URL }) => {
   }
   
   return (
-    <section className="dark:bg-black bg-white dark:bg-opacity-10">
+    <section className="h-screen overflow-auto">
+      <div className="dark:bg-black bg-white dark:bg-opacity-10">
         <article className="dark:bg-gray-900 bg-slate-200 bg-opacity-80 flex flex-col items-center">
             <img src={group.picture} alt="picture-group" className="h-96 xl:w-[80%] shadow-md w-full rounded-b-md object-cover" onError={e => e.target.src = '/picture-group-no-load.png'}/>
             <div className="flex flex-wrap justify-center gap-3 xl:justify-between w-[80%] mt-5 mb-5">
@@ -190,6 +191,7 @@ const InfoGroup = ({ socket, BACKEND_URL }) => {
                 <p className="whitespace-pre-wrap mt-3 break-words">{group.description}</p>
             </article>
         </section>
+    </div>
     </section>
   )
 }

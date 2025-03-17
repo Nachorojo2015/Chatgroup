@@ -16,6 +16,11 @@ dialog[open] {
   }
 }
 
+body, html {
+  overflow: hidden;
+  height: 100%;
+}
+
 dialog {
   transtion: scale .3s ease,
     display .3s ease allow-discrete;

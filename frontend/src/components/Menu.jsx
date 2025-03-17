@@ -36,7 +36,7 @@ const Menu = ({ socket, BACKEND_URL }) => {
   if (!username || !fullname) return <ClipLoader cssOverride={{margin: 'auto'}}/>
 
   return (
-    <aside className={`flex flex-col items-center ${isChatMobileOpen ? 'hidden xl:flex' : 'xl:flex'} xl:w-[30%] w-full overflow-hidden`}>
+    <aside className={`flex flex-col items-center ${isChatMobileOpen ? 'hidden xl:flex' : 'xl:flex'} xl:w-[30%] w-full`}>
       <section className="flex items-center w-full">
         <div className="relative m-2 flex items-center">
           <button ref={btnMenuRef} className="p-2 mt-2 transition hover:bg-slate-200 dark:hover:bg-gray-700 rounded-full" onClick={openMenu}>
