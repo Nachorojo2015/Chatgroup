@@ -164,7 +164,7 @@ function openMenu() {
           :
           <>
           <div className="relative flex items-center">
-            <div className={`absolute flex flex-col gap-3 bottom-9 right-0 shadow min-w-36 dark:bg-gray-900 bg-white rounded-lg p-3 transition ${menu ? 'opacity-100 scale-up-bottom' : 'opacity-0 invisible'}`}>
+            <div className={`absolute z-[200] flex flex-col gap-3 bottom-9 right-0 shadow min-w-36 dark:bg-gray-900 bg-white rounded-lg p-3 transition ${menu ? 'opacity-100 scale-up-bottom' : 'opacity-0 invisible'}`}>
               <MediaUploadOption icon={IoImageOutline} typeFile={'Pictures'} extensions={'.jpg, .png, .webp'} socket={socket} id={id} userId={userId} BACKEND_URL={BACKEND_URL} type={type}/>
               <MediaUploadOption icon={FiVideo} typeFile={'Videos'} extensions={'.mp4'} socket={socket} id={id} userId={userId} BACKEND_URL={BACKEND_URL} type={type}/>
               <MediaUploadOption icon={LuFiles} typeFile={'Files'} extensions={'.pdf, .docx'} socket={socket} id={id} userId={userId} BACKEND_URL={BACKEND_URL} type={type}/>
