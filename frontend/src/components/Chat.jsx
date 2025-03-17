@@ -155,7 +155,7 @@ function openMenu() {
             }
         </ul>
       </div>
-      <footer className="fixed bottom-0 z-[100] xl:w-[70%] w-full py-1 px-5 dark:bg-gray-900 bg-slate-100 flex items-center gap-3">
+      <footer className="w-full py-1 px-5 dark:bg-gray-900 bg-slate-100 flex items-center gap-3">
         <EmojiMart message={message} ref={textareaMessageRef}/>
         <MessageInput socket={socket} userId={userId} id={id} ref={textareaMessageRef}/>
         {
@@ -169,10 +169,10 @@ function openMenu() {
               <MediaUploadOption icon={FiVideo} typeFile={'Videos'} extensions={'.mp4'} socket={socket} id={id} userId={userId} BACKEND_URL={BACKEND_URL} type={type}/>
               <MediaUploadOption icon={LuFiles} typeFile={'Files'} extensions={'.pdf, .docx'} socket={socket} id={id} userId={userId} BACKEND_URL={BACKEND_URL} type={type}/>
               <MediaUploadOption icon={IoMusicalNotesOutline} typeFile={'Audios'} extensions={'.mp3'} socket={socket} id={id} userId={userId} BACKEND_URL={BACKEND_URL} type={type}/>
-          </div>
-          <button onClick={openMenu} ref={btnMenuRef} className={`transition hover:opacity-60 ${activeMicro ? 'hidden' : ''}`}>
-            <FiPaperclip size={20} className="dark:text-white"/>
-          </button>
+            </div>
+            <button onClick={openMenu} ref={btnMenuRef} className={`transition hover:opacity-60 ${activeMicro ? 'hidden' : ''}`}>
+              <FiPaperclip size={20} className="dark:text-white"/>
+            </button>
           </div>
           <Microphone activeMicro={activeMicro} setActiveMicro={setActiveMicro} socket={socket} id={id} userId={userId} BACKEND_URL={BACKEND_URL}type={type}/>
           </>
