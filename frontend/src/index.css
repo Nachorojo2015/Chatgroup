@@ -16,9 +16,9 @@ dialog[open] {
   }
 }
 
-body, html {
+/* body, html {
   overflow: hidden;
-}
+} */
 
 dialog {
   transtion: scale .3s ease,

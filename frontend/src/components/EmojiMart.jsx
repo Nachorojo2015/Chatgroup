@@ -46,7 +46,7 @@ const EmojiMart = forwardRef(({ message }, ref) => {
     <button onClick={openClosePicker} ref={btnPickerRef} disabled={ isBlocked } className={`${activeMicro ? 'hidden' : ''} transition hover:opacity-60`}>
       <MdOutlineEmojiEmotions className="dark:text-white" size={20}/>
     </button>
-    <div ref={picker} className={`${isPickerVisible ? 'scale-up-bottom-left absolute bottom-12 left-2' : 'hidden'}`}>
+    <div ref={picker} className={`${isPickerVisible ? 'scale-up-bottom-left absolute bottom-12 left-0' : 'hidden'}`}>
       <Picker data={data} previewPosition="none" onEmojiSelect={handleEmojiSelect} theme={isDark ? 'dark' : ''}/>
     </div>
     </>

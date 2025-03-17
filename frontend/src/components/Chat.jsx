@@ -120,7 +120,7 @@ function openMenu() {
 }
 
   return (
-    <section className={`xl:border-l border-black dark:border-white flex flex-col ${!isChatMobileOpen ? 'hidden xl:flex' : ''} xl:w-[70%] w-full`}>
+    <section className={`xl:border-l border-black dark:border-white flex flex-col ${!isChatMobileOpen ? 'hidden xl:flex' : ''} xl:w-[70%] w-full relative`}>
       <header className="shadow w-full p-3 flex items-center gap-3 relative dark:bg-gray-900 bg-slate-100">
         <button onClick={closeChatMobile} className="xl:hidden">
            <FaArrowLeft className="dark:text-white"/>
@@ -155,7 +155,7 @@ function openMenu() {
             }
         </ul>
       </div>
-      <footer className="mt-auto w-full py-1 px-5 dark:bg-gray-900 bg-slate-100 flex items-center gap-3">
+      <footer className="w-full py-1 px-5 dark:bg-gray-900 bg-slate-100 flex items-center gap-3">
         <EmojiMart message={message} ref={textareaMessageRef}/>
         <MessageInput socket={socket} userId={userId} id={id} ref={textareaMessageRef}/>
         {
