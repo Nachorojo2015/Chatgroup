@@ -4,10 +4,11 @@ import { FaDownload } from "react-icons/fa6";
 import { FaCheck } from "react-icons/fa6";
 import { FaMicrophone } from "react-icons/fa"
 import Player from "./Player";
-import { forwardRef, useRef } from "react";
+import { forwardRef, useEffect, useRef, useState } from "react";
 import MessageOptionsModal from "./MessageOptionsModal";
 import { formatTime } from "../scripts/formatTime";
 import { formatDate } from "../scripts/formatDate";
+import { ClipLoader } from "react-spinners";
 
 const Text = forwardRef(({ userId, _id, content, fullname, avatar, isSameUser, time, typeChat, isSameDate }, ref) => {
   // If is my user id
@@ -59,17 +60,27 @@ const Text = forwardRef(({ userId, _id, content, fullname, avatar, isSameUser, t
   )
 })
 
-const Image = forwardRef(({ userId, _id, content, fullname, avatar, isSameUser, time, typeChat, isSameDate }, ref) => {
+const ImageMessage = forwardRef(({ userId, _id, content, fullname, avatar, isSameUser, time, typeChat, isSameDate }, ref) => {
 
   const modalPictureRef = useRef()
+
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    const img = new Image();
+    img.src = content;
+    img.onload = () => {
+      setLoaded(true);
+    };
+  }, [content]);
 
   // If is my user id
   if (userId === _id) {
     return (
       <li className={`flex justify-end relative ${isSameUser ? 'mt-1' : 'mt-3'} scale-up-right`} ref={ref}>
         <div className={`xl:max-w-96 max-w-64 rounded-md dark:bg-purple-700 bg-green-200 ${isSameUser && isSameDate ? '' : 'rounded-tr-none'}`}>
-          <div className="p-1 pb-5"> 
-            <img src={content} alt="user-image" className="rounded-md shadow" onClick={() => modalPictureRef.current.showModal()} onError={(e) => e.target.src = "/picture-no-load.png"}/>
+          <div className={`p-1 pb-5 flex justify-center items-center ${!loaded ? `w-[100px] h-[100px]` : ``}`}> 
+          {!loaded ? <ClipLoader/> : <img src={content} alt="user-image" className="rounded-md shadow" onClick={() => modalPictureRef.current.showModal()} onError={(e) => e.target.src = "/picture-no-load.png"}/>}
           </div>
           {isSameUser && isSameDate ? '' : <div className="absolute top-0 right-0 w-0 border-t-[10px] border-t-green-200 dark:border-t-purple-700 border-r-[10px] border-r-transparent translate-x-2"></div>}
         </div>
@@ -91,8 +102,8 @@ const Image = forwardRef(({ userId, _id, content, fullname, avatar, isSameUser, 
       <div className={`flex flex-col gap-1 ${isSameUser && isSameDate ? 'ml-[42px]' : ''} relative`}>
         <span className={`dark:text-white ${isSameUser && isSameDate ? 'hidden' : ''}`}>{fullname}</span>
         <div className={`xl:max-w-96 max-w-64 rounded-md bg-slate-200 dark:bg-gray-600 ${isSameUser && isSameDate ? '' : 'rounded-tl-none'} relative`}>
-          <div className="p-1 pb-5">
-            <img src={content} alt="user-image" className="rounded-md shadow" onClick={() => modalPictureRef.current.showModal()} onError={(e) => e.target.src = "/picture-no-load.png"}/>
+          <div className={`p-1 pb-5 flex justify-center items-center ${!loaded ? `w-[100px] h-[100px]` : ``}`}>
+          {!loaded ? <ClipLoader/> : <img src={content} alt="user-image" className="rounded-md shadow" onClick={() => modalPictureRef.current.showModal()} onError={(e) => e.target.src = "/picture-no-load.png"}/>}
           </div>
           {isSameUser ? '' : <div className="absolute top-0 left-0 w-0 h-0 border-t-[10px] dark:border-t-gray-600 border-t-slate-200 border-r-[10px] border-r-transparent -translate-x-2 rotate-90"></div>}
         </div>
@@ -109,8 +120,8 @@ const Image = forwardRef(({ userId, _id, content, fullname, avatar, isSameUser, 
     <li className={`flex items-start gap-2.5 ${isSameUser ? 'mt-1' : 'mt-3'} scale-up-left`} ref={ref}>
       <div className={`flex flex-col gap-1 relative`}>
         <div className={`xl:max-w-96 max-w-64 rounded-md bg-slate-200 dark:bg-gray-600 ${isSameUser && isSameDate ? '' : 'rounded-tl-none'} relative`}>
-          <div className="p-1 pb-5">
-            <img src={content} alt="user-image" className="rounded-md shadow" onClick={() => modalPictureRef.current.showModal()} onError={(e) => e.target.src = "/picture-no-load.png"}/>
+          <div className={`p-1 pb-5 flex justify-center items-center ${!loaded ? `w-[100px] h-[100px]` : ``}`}>
+            {!loaded ? <ClipLoader/> : <img src={content} alt="user-image" className="rounded-md shadow" onClick={() => modalPictureRef.current.showModal()} onError={(e) => e.target.src = "/picture-no-load.png"}/>}
           </div>
           {isSameUser && isSameDate ? '' : <div className="absolute top-0 left-0 w-0 h-0 border-t-[10px] dark:border-t-gray-600 border-t-slate-200 border-r-[10px] border-r-transparent -translate-x-2 rotate-90"></div>}
         </div>
@@ -299,7 +310,7 @@ const Message = ({ message, userId, isSameUser, isSameDate, socket, typeChat }) 
   
   const TypeMessage = {
     'text': <Text userId={userId} _id={message.user._id} fullname={message.user.fullname} avatar={message.user.avatar} content={message.content} isSameUser={isSameUser} time={formatTime(message.date)} typeChat={typeChat} isSameDate={isSameDate} ref={messageModalRef}/>,
-    'image': <Image userId={userId} _id={message.user._id} fullname={message.user.fullname} avatar={message.user.avatar} content={message.content} isSameUser={isSameUser} time={formatTime(message.date)} typeChat={typeChat} isSameDate={isSameDate} ref={messageModalRef} />,
+    'image': <ImageMessage userId={userId} _id={message.user._id} fullname={message.user.fullname} avatar={message.user.avatar} content={message.content} isSameUser={isSameUser} time={formatTime(message.date)} typeChat={typeChat} isSameDate={isSameDate} ref={messageModalRef} />,
     'video': <Video userId={userId} _id={message.user._id} fullname={message.user.fullname} avatar={message.user.avatar} content={message.content} isSameUser={isSameUser} time={formatTime(message.date)} typeChat={typeChat} isSameDate={isSameDate} ref={messageModalRef} />,
     'application': <Application userId={userId} _id={message.user._id} fullname={message.user.fullname} avatar={message.user.avatar} content={message.content} isSameUser={isSameUser} time={formatTime(message.date)} typeChat={typeChat} isSameDate={isSameDate} ref={messageModalRef}/>,
     'audio': <Audio userId={userId} _id={message.user._id} fullname={message.user.fullname} avatar={message.user.avatar} content={message.content} isSameUser={isSameUser} time={formatTime(message.date)} typeChat={typeChat} isSameDate={isSameDate} ref={messageModalRef}/>
@@ -315,7 +326,7 @@ const Message = ({ message, userId, isSameUser, isSameDate, socket, typeChat }) 
 }
 
 Text.displayName = 'Text Message'
-Image.displayName = 'Image Message'
+ImageMessage.displayName = 'Image Message'
 Video.displayName = 'Video Message'
 Application.displayName = 'Application Message'
 Audio.displayName = 'Audio Message'
@@ -342,7 +353,7 @@ Text.propTypes = {
   isSameDate: PropTypes.bool
 }
 
-Image.propTypes = {
+ImageMessage.propTypes = {
   userId: PropTypes.string,
   _id: PropTypes.string,
   content: PropTypes.string,
