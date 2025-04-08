@@ -15,10 +15,9 @@
 
 
 <h3>Screenshots of chatgroup app</h3>
-<img src="frontend\public\Macbook-Air-localhost.png">
-<img src="frontend\public\Macbook-Air-localhost-2.png" style="margin-top: 20px">
-<img src="frontend\public\iPhone-13-PRO-MAX-localhost.png" style="display:block;margin:auto;margin-top:20px;">
-<img src="frontend\public\iPhone-13-PRO-MAX-localhost-2.png" style="display:block;margin:auto;margin-top:20px;">
+<img src="frontend\public\screenshot-one.png">
+<img src="frontend\public\screenshot-two.png" style="margin-top:20px">
+<img src="frontend\public\screenshot-three.png" style="margin-top:20px;">
 
 <h1>Stack Used</h1>
 
