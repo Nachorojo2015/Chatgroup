@@ -54,9 +54,6 @@ const Register = ({ BACKEND_URL }) => {
         })
       }
   
-      const data = await response.json()
-      console.log(data)
-  
       toast.update(toastId, {
         render: 'User registered!',
         type: 'success',

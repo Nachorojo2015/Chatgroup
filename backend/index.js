@@ -36,8 +36,6 @@ const io = new Server(server, {
 
 
 io.on('connection', socket => {
-  console.log('Client connected', socket.id)
-
   socket.on('send-message', async ({ message }) => {
     try {
       const newMessage = await MessagesRepository.createMessage({ message })
@@ -66,10 +64,6 @@ io.on('connection', socket => {
 
   socket.on('update-user', () => {
     io.emit('update-user-data')
-  })
-
-  socket.on('disconnect', () => {
-    console.log('User Disconnect:', socket.id);
   })
 })
 
