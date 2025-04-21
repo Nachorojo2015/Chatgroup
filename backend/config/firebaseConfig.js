@@ -17,6 +17,7 @@ const CREDENTIALS = {
     universe_domain: FIREBASE_UNIVERSE_DOMAIN
 }
 
+
 admin.initializeApp({
     credential: admin.credential.cert(CREDENTIALS),
     storageBucket: FIREBASE_STORAGE_BUCKET
