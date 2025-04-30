@@ -45,13 +45,15 @@ const ProfileUserModal = forwardRef(({  username, fullname, avatar, BACKEND_URL 
       }
 
   return (
-    <dialog ref={ref} className="p-3 rounded-md dark:bg-gray-700 dark:text-white">
+    <dialog ref={ref} className="p-3 rounded-md dark:bg-gray-700 dark:text-white min-h-52">
      <button onClick={() => ref.current.close()}>
       <FaArrowLeftLong className="dark:text-white" size={22}/>
      </button>
       <label>
         {loader ? 
-        <BeatLoader cssOverride={{height: '144px', margin: 'auto', color: 'white'}} className="dark:text-white"/> 
+        <div className="flex justify-center">
+          <BeatLoader /> 
+        </div>
         : 
         <div className="relative flex items-center justify-center group">
           <IoMdAdd className="absolute dark:text-white opacity-0 transition group-hover:opacity-100" size={80} />
