@@ -9,6 +9,7 @@ import MessageOptionsModal from "./MessageOptionsModal";
 import { formatTime } from "../scripts/formatTime";
 import { formatDate } from "../scripts/formatDate";
 import { ClipLoader } from "react-spinners";
+import { FaArrowLeftLong } from "react-icons/fa6";
 
 const Text = forwardRef(({ userId, _id, content, fullname, avatar, isSameUser, time, typeChat, isSameDate }, ref) => {
   // If is my user id
@@ -62,9 +63,10 @@ const Text = forwardRef(({ userId, _id, content, fullname, avatar, isSameUser, t
 
 const ImageMessage = forwardRef(({ userId, _id, content, fullname, avatar, isSameUser, time, typeChat, isSameDate }, ref) => {
 
-  const modalPictureRef = useRef()
-
   const [loaded, setLoaded] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
+
+  const [openMenuImage, setOpenMenuImage] = useState(true);
 
   useEffect(() => {
     const img = new Image();
@@ -80,7 +82,7 @@ const ImageMessage = forwardRef(({ userId, _id, content, fullname, avatar, isSam
       <li className={`flex justify-end relative ${isSameUser ? 'mt-1' : 'mt-3'} scale-up-right`} ref={ref}>
         <div className={`xl:max-w-96 max-w-64 rounded-md dark:bg-purple-700 bg-green-200 ${isSameUser && isSameDate ? '' : 'rounded-tr-none'}`}>
           <div className={`p-1 pb-5 flex justify-center items-center ${!loaded ? `w-[100px] h-[100px]` : ``}`}> 
-          {!loaded ? <ClipLoader/> : <img src={content} alt="user-image" className="rounded-md shadow" onClick={() => modalPictureRef.current.showModal()} onError={(e) => e.target.src = "/picture-no-load.png"}/>}
+          {!loaded ? <ClipLoader/> : <img src={content} alt="user-image" className="rounded-md shadow object-cover max-h-[450px]" onClick={() => setSelectedImage(content)} onError={(e) => e.target.src = "/picture-no-load.png"}/>}
           </div>
           {isSameUser && isSameDate ? '' : <div className="absolute top-0 right-0 w-0 border-t-[10px] border-t-green-200 dark:border-t-purple-700 border-r-[10px] border-r-transparent translate-x-2"></div>}
         </div>
@@ -88,9 +90,29 @@ const ImageMessage = forwardRef(({ userId, _id, content, fullname, avatar, isSam
           <time className="text-[10px] mt-auto dark:text-gray-300">{time}</time>
           <FaCheck size={10} className="dark:text-gray-300"/>
         </div>
-        <dialog ref={modalPictureRef} className="backdrop:bg-[rgba(0,0,0,.90)] xl:max-w-96 max-w-60 outline-none" onClick={() => modalPictureRef.current.close()}>
-          <img src={content} alt="picture" onError={(e) => e.target.src = "/picture-no-load.png"}/>
-        </dialog>
+
+        {selectedImage && (
+        <div
+          className="fixed inset-0 bg-black flex flex-col items-center justify-center z-50"
+        >
+          <div className={`${openMenuImage ? 'blur-in' : 'invisible'} absolute flex items-center gap-5 top-0 p-3 z-[60] bg-black bg-opacity-80 w-full`}>
+              <button onClick={() => setSelectedImage(null)}>
+                <FaArrowLeftLong size={20} color="white"/>
+              </button>
+              <div className="flex flex-col">
+                <strong className="text-white text-sm">{fullname}</strong>
+                <span className="text-white text-sm">{time}</span>
+              </div>
+          </div>
+
+          <img
+            src={selectedImage}
+            alt="full size"
+            className="max-w-full max-h-full transition-transform duration-300 scale-100 open-image"
+            onClick={() => setOpenMenuImage(!openMenuImage)}
+          />
+        </div>
+        )}
       </li>
     )
   }
@@ -103,15 +125,35 @@ const ImageMessage = forwardRef(({ userId, _id, content, fullname, avatar, isSam
         <span className={`dark:text-white ${isSameUser && isSameDate ? 'hidden' : ''}`}>{fullname}</span>
         <div className={`xl:max-w-96 max-w-64 rounded-md bg-slate-200 dark:bg-gray-600 ${isSameUser && isSameDate ? '' : 'rounded-tl-none'} relative`}>
           <div className={`p-1 pb-5 flex justify-center items-center ${!loaded ? `w-[100px] h-[100px]` : ``}`}>
-          {!loaded ? <ClipLoader/> : <img src={content} alt="user-image" className="rounded-md shadow" onClick={() => modalPictureRef.current.showModal()} onError={(e) => e.target.src = "/picture-no-load.png"}/>}
+          {!loaded ? <ClipLoader/> : <img src={content} alt="user-image" className="rounded-md shadow max-h-[450px]" onClick={() => setSelectedImage(content)} onError={(e) => e.target.src = "/picture-no-load.png"}/>}
           </div>
           {isSameUser ? '' : <div className="absolute top-0 left-0 w-0 h-0 border-t-[10px] dark:border-t-gray-600 border-t-slate-200 border-r-[10px] border-r-transparent -translate-x-2 rotate-90"></div>}
         </div>
         <time className="absolute bottom-0 right-2 text-[10px] mt-auto cursor-pointer dark:text-gray-300">{time}</time>
       </div>
-      <dialog ref={modalPictureRef} className="backdrop:bg-[rgba(0,0,0,.90)] xl:max-w-96 max-w-60 outline-none" onClick={() => modalPictureRef.current.close()}>
-        <img src={content} alt="picture" className="w-[300px] h-[300px]" onError={(e) => e.target.src = "/picture-no-load.png"}/>
-      </dialog>
+       {selectedImage && (
+        <div
+          className="fixed inset-0 bg-black flex flex-col items-center justify-center z-50"
+        >
+
+          <div className={`${openMenuImage ? 'blur-in' : 'invisible'} absolute flex items-center gap-5 top-0 p-3 z-[60] bg-black bg-opacity-80 w-full`}>
+              <button onClick={() => setSelectedImage(null)}>
+                <FaArrowLeftLong size={20} color="white"/>
+              </button>
+              <div className="flex flex-col">
+                <strong className="text-white text-sm">{fullname}</strong>
+                <span className="text-white text-sm">{time}</span>
+              </div>
+          </div>
+
+          <img
+            src={selectedImage}
+            alt="full size"
+            className="max-w-full max-h-full transition-transform duration-300 scale-100 open-image"
+            onClick={() => setOpenMenuImage(!openMenuImage)}
+          />
+        </div>
+        )}
     </li>
     )
   }
@@ -121,15 +163,35 @@ const ImageMessage = forwardRef(({ userId, _id, content, fullname, avatar, isSam
       <div className={`flex flex-col gap-1 relative`}>
         <div className={`xl:max-w-96 max-w-64 rounded-md bg-slate-200 dark:bg-gray-600 ${isSameUser && isSameDate ? '' : 'rounded-tl-none'} relative`}>
           <div className={`p-1 pb-5 flex justify-center items-center ${!loaded ? `w-[100px] h-[100px]` : ``}`}>
-            {!loaded ? <ClipLoader/> : <img src={content} alt="user-image" className="rounded-md shadow" onClick={() => modalPictureRef.current.showModal()} onError={(e) => e.target.src = "/picture-no-load.png"}/>}
+            {!loaded ? <ClipLoader/> : <img src={content} alt="user-image" className="rounded-md shadow max-h-[450px]" onClick={() => setSelectedImage(content)} onError={(e) => e.target.src = "/picture-no-load.png"}/>}
           </div>
           {isSameUser && isSameDate ? '' : <div className="absolute top-0 left-0 w-0 h-0 border-t-[10px] dark:border-t-gray-600 border-t-slate-200 border-r-[10px] border-r-transparent -translate-x-2 rotate-90"></div>}
         </div>
         <time className="absolute bottom-0 right-2 text-[10px] mt-auto cursor-pointer dark:text-gray-300">{time}</time>
       </div>
-      <dialog ref={modalPictureRef} className="backdrop:bg-[rgba(0,0,0,.90)] xl:max-w-96 max-w-60 outline-none" onClick={() => modalPictureRef.current.close()}>
-        <img src={content} alt="picture" onError={(e) => e.target.src = "/picture-no-load.png"}/>
-      </dialog>
+       {selectedImage && (
+        <div
+          className="fixed inset-0 bg-black flex flex-col items-center justify-center z-50"
+        >
+
+          <div className={`${openMenuImage ? 'blur-in' : 'invisible'} absolute flex items-center gap-5 top-0 p-3 z-[60] bg-black bg-opacity-80 w-full`}>
+              <button onClick={() => setSelectedImage(null)}>
+                <FaArrowLeftLong size={20} color="white"/>
+              </button>
+              <div className="flex flex-col">
+                <strong className="text-white text-sm">{fullname}</strong>
+                <span className="text-white text-sm">{time}</span>
+              </div>
+          </div>
+
+          <img
+            src={selectedImage}
+            alt="full size"
+            className="max-w-full max-h-full transition-transform duration-300 scale-100 open-image"
+            onClick={() => setOpenMenuImage(!openMenuImage)}
+          />
+        </div>
+        )}
     </li>
   )
 })
