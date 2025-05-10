@@ -96,7 +96,7 @@ const Register = ({ BACKEND_URL }) => {
   const EyeConfirmPasswordIcon = viewConfirmPassword ? FaEye : LuEyeClosed
 
   return (
-    <section className="flex flex-col items-center justify-center px-6 py-3 h-screen">
+    <section className="flex flex-col items-center justify-center px-6 py-3 h-[100dvh]">
       <div className="w-full rounded-lg shadow-md sm:max-w-md dark:bg-gray-800 dark:border-gray-700">
         <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
           <h1 className="text-3xl text-center font-bold leading-tight tracking-tight text-gray-900 dark:text-white">

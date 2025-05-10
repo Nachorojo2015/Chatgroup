@@ -113,7 +113,7 @@ const Login = ({ BACKEND_URL }) => {
 
   return (
     <>
-      <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto h-screen">
+      <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto h-[100dvh]">
         <RiChatSmile2Line className="dark:text-white text-3xl" />
         <span className="font-bold text-3xl mb-5 dark:text-white">
           Chatgroup

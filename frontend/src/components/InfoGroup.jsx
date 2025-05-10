@@ -112,7 +112,6 @@ const InfoGroup = ({ socket, BACKEND_URL }) => {
   }
   
   return (
-    <section className="h-screen overflow-auto">
       <div className="dark:bg-black bg-white dark:bg-opacity-10">
         <article className="dark:bg-gray-900 bg-slate-200 bg-opacity-80 flex flex-col items-center">
             <img src={group.picture} alt="picture-group" className="h-96 xl:w-[80%] shadow-md w-full rounded-b-md object-cover" onError={e => e.target.src = '/picture-group-no-load.png'}/>
@@ -192,7 +191,6 @@ const InfoGroup = ({ socket, BACKEND_URL }) => {
             </article>
         </section>
     </div>
-    </section>
   )
 }
 
