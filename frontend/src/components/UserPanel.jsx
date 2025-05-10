@@ -14,7 +14,7 @@ const UserPanel = ({ socket, BACKEND_URL }) => {
   
 
   return (
-    <section className="flex h-screen overflow-hidden">
+    <section className="flex h-[100dvh] overflow-hidden">
         <Menu socket={socket} BACKEND_URL={BACKEND_URL}/>
         <Chat socket={socket} BACKEND_URL={BACKEND_URL}/>
     </section>
