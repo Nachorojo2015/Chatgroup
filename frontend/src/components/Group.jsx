@@ -14,15 +14,17 @@ const Group = ({ group, lastMessage, BACKEND_URL }) => {
   const isBlock = group.blockedUsers.includes(userId)
   
   async function openChat() {
-      setIsBlocked(isBlock) 
-      setLoader(true)
-      setIsChatMobileOpen(true)
-      
       if (unSeen[_id]) {
         const updatedUnSeen = { ...unSeen }
         updatedUnSeen[_id] = 0
         setUnSeen(updatedUnSeen)
       }
+
+      if (id === _id) return
+
+      setIsBlocked(isBlock) 
+      setLoader(true)
+      setIsChatMobileOpen(true)
 
       try {
         const response = await fetch(`${BACKEND_URL}/messages/${_id}`)

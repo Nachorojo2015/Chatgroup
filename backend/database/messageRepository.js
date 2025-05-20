@@ -51,7 +51,7 @@ export class MessagesRepository {
             chatId: id
         }).populate({
             path: 'user',
-            select: 'avatar fullname'
+            select: 'avatar fullname username'
         })
 
         const decryptedMessages = messages.map((message) => {

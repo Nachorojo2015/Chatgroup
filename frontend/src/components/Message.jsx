@@ -11,7 +11,7 @@ import { formatDate } from "../scripts/formatDate";
 import { ClipLoader } from "react-spinners";
 import { FaArrowLeftLong } from "react-icons/fa6";
 
-const Text = forwardRef(({ userId, _id, content, fullname, avatar, isSameUser, time, typeChat, isSameDate }, ref) => {
+const Text = forwardRef(({ userId, _id, content, fullname, avatar, isSameUser, time, username, typeChat, isSameDate }, ref) => {
   // If is my user id
   if (userId === _id) {
     return (
@@ -36,7 +36,10 @@ const Text = forwardRef(({ userId, _id, content, fullname, avatar, isSameUser, t
       <li className={`flex gap-2.5 ${isSameUser ? 'mt-1' : 'mt-3'} scale-up-left`} ref={ref}>
         <img className={`w-8 h-8 rounded-full object-cover ${isSameUser && isSameDate ? 'hidden' : ''}`} src={avatar} alt="user-avatar" onError={e => e.target.src = '/picture-user-no-load.png'}/>
         <div className={`flex flex-col gap-1 rounded-md ${isSameUser && isSameDate ? 'ml-[42px]' : 'rounded-tl-none'} px-2 py-1 bg-slate-200 dark:bg-gray-600 relative`}>
-        <span className={`text-sm font-bold dark:text-white ${isSameUser && isSameDate ? 'hidden' : ''}`}>{fullname}</span>
+        <div className="flex justify-between">
+          <span className={`text-sm font-bold dark:text-white ${isSameUser && isSameDate ? 'hidden' : ''}`}>{fullname}</span>
+          <span className={`text-[12px] dark:text-white ${isSameUser && isSameDate ? 'hidden' : ''} ml-3`}>{username}</span>
+        </div>
         <div className="flex gap-3 items-center">
           <span className="text-sm dark:text-white whitespace-pre-line break-words xl:max-w-96 max-w-64">{content}</span>
           <time className="ml-auto mt-auto text-[10px] cursor-pointer dark:text-gray-300">{time}</time>
@@ -61,7 +64,7 @@ const Text = forwardRef(({ userId, _id, content, fullname, avatar, isSameUser, t
   )
 })
 
-const ImageMessage = forwardRef(({ userId, _id, content, fullname, avatar, isSameUser, time, typeChat, isSameDate }, ref) => {
+const ImageMessage = forwardRef(({ userId, _id, content, fullname, avatar, isSameUser, time, username, typeChat, isSameDate }, ref) => {
 
   const [loaded, setLoaded] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
@@ -122,7 +125,10 @@ const ImageMessage = forwardRef(({ userId, _id, content, fullname, avatar, isSam
     <li className={`flex items-start gap-2.5 ${isSameUser ? 'mt-1' : 'mt-3'} scale-up-left`} ref={ref}>
       <img className={`w-8 h-8 rounded-full object-cover ${isSameUser && isSameDate ? 'hidden' : ''}`} src={avatar} alt="user-avatar" onError={e => e.target.src = '/picture-user-no-load.png'}/>
       <div className={`flex flex-col gap-1 ${isSameUser && isSameDate ? 'ml-[42px]' : ''} relative`}>
-        <span className={`dark:text-white ${isSameUser && isSameDate ? 'hidden' : ''}`}>{fullname}</span>
+        <div className="flex justify-between items-center">
+          <span className={`dark:text-white ${isSameUser && isSameDate ? 'hidden' : ''}`}>{fullname}</span>
+          <span className={`dark:text-white ${isSameUser && isSameDate ? 'hidden' : ''} text-sm`}>{username}</span>
+        </div>
         <div className={`xl:max-w-96 max-w-64 rounded-md bg-slate-200 dark:bg-gray-600 ${isSameUser && isSameDate ? '' : 'rounded-tl-none'} relative`}>
           <div className={`p-1 pb-5 flex justify-center items-center ${!loaded ? `w-[100px] h-[100px]` : ``}`}>
           {!loaded ? <ClipLoader/> : <img src={content} alt="user-image" className="rounded-md shadow max-h-[450px]" onClick={() => setSelectedImage(content)} onError={(e) => e.target.src = "/picture-no-load.png"}/>}
@@ -196,7 +202,7 @@ const ImageMessage = forwardRef(({ userId, _id, content, fullname, avatar, isSam
   )
 })
 
-const Video = forwardRef(({ userId, _id, content, fullname, avatar, isSameUser, time, typeChat, isSameDate }, ref) => {
+const Video = forwardRef(({ userId, _id, content, fullname, avatar, isSameUser, time, username, typeChat, isSameDate }, ref) => {
   // If is my user id
   if (userId === _id) {
     return (
@@ -220,7 +226,10 @@ const Video = forwardRef(({ userId, _id, content, fullname, avatar, isSameUser, 
      <li className={`flex items-start gap-2.5 ${isSameUser ? 'mt-1' : 'mt-3'} scale-up-left`} ref={ref}>
       <img className={`w-8 h-8 rounded-full object-cover ${isSameUser && isSameDate ? 'hidden' : ''}`} src={avatar} alt="user-avatar" onError={e => e.target.src = '/picture-user-no-load.png'}/>
       <div className={`flex flex-col gap-1 ${isSameUser && isSameDate ? 'ml-[42px]' : ''} relative`}>
-        <span className={`dark:text-white ${isSameUser && isSameDate ? 'hidden' : ''}`}>{fullname}</span>
+        <div className="flex justify-between items-center">
+          <span className={`dark:text-white ${isSameUser && isSameDate ? 'hidden' : ''}`}>{fullname}</span>
+          <span className={`dark:text-white ${isSameUser && isSameDate ? 'hidden' : ''} text-sm`}>{username}</span>
+        </div>
         <div className={`xl:max-w-96 max-w-64 rounded-md bg-slate-200 dark:bg-gray-600 ${isSameUser && isSameDate ? '' : 'rounded-tl-none'} relative`}>
           <div className="p-1 pb-5">
             <video src={content} controls className="rounded-md shadow"></video>
@@ -248,7 +257,7 @@ const Video = forwardRef(({ userId, _id, content, fullname, avatar, isSameUser, 
   )
 })
 
-const Application = forwardRef(({ userId, _id, content, fullname, avatar, isSameUser, time, typeChat, isSameDate }, ref) => {
+const Application = forwardRef(({ userId, _id, content, fullname, avatar, isSameUser, time, username, typeChat, isSameDate }, ref) => {
   // If is my user id
   if (userId === _id) {
     return (
@@ -276,7 +285,10 @@ const Application = forwardRef(({ userId, _id, content, fullname, avatar, isSame
       <li className={`flex gap-2.5 ${isSameUser ? 'mt-1' : 'mt-3'} scale-up-left`} ref={ref}>
       <img className={`w-8 h-8 rounded-full object-cover ${isSameUser && isSameDate ? 'hidden' : ''}`} src={avatar} alt="user-avatar" onError={e => e.target.src = '/picture-user-no-load.png'}/>
       <div className={`flex flex-col gap-1 rounded-md ${isSameUser && isSameDate ? 'ml-[42px]' : 'rounded-tl-none'} py-1 px-2 bg-slate-200 dark:bg-gray-600 relative`}>
-        <span className={`text-sm font-bold dark:text-white ${isSameUser && isSameDate ? 'hidden' : ''}`}>{fullname}</span>
+        <div className="flex justify-between items-center">
+          <span className={`dark:text-white text-sm font-bold ${isSameUser && isSameDate ? 'hidden' : ''}`}>{fullname}</span>
+          <span className={`dark:text-white ${isSameUser && isSameDate ? 'hidden' : ''} text-[12px] ml-3`}>{username}</span>
+        </div>
         <div className="flex items-center gap-2">
           <FaFileAlt className="dark:text-white"/>
           <span className="dark:text-white">File</span>
@@ -308,7 +320,7 @@ const Application = forwardRef(({ userId, _id, content, fullname, avatar, isSame
   )
 })
 
-const Audio = forwardRef(({ userId, _id, content, fullname, avatar, isSameUser, time, typeChat, isSameDate }, ref) => {
+const Audio = forwardRef(({ userId, _id, content, fullname, avatar, isSameUser, time, username, typeChat, isSameDate }, ref) => {
   // If is my user id
   if (userId === _id) {
     return (
@@ -334,7 +346,10 @@ const Audio = forwardRef(({ userId, _id, content, fullname, avatar, isSameUser, 
       <li className={`flex items-start gap-2.5 ${isSameUser ? 'mt-1' : 'mt-3'} scale-up-left`} ref={ref}>
       <img className={`w-8 h-8 rounded-full object-cover ${isSameUser && isSameDate ? 'hidden' : ''}`} src={avatar} alt="user-avatar" onError={e => e.target.src = '/picture-user-no-load.png'}/>
       <div className={`flex flex-col gap-1 ${isSameUser && isSameDate ? 'ml-[42px]' : ''} relative`}>
-        <span className={`dark:text-white ${isSameUser && isSameDate ? 'hidden' : ''}`}>{fullname}</span>
+        <div className="flex justify-between items-center">
+          <span className={`dark:text-white text-sm font-bold ${isSameUser && isSameDate ? 'hidden' : ''}`}>{fullname}</span>
+          <span className={`dark:text-white ${isSameUser && isSameDate ? 'hidden' : ''} text-[12px] ml-3`}>{username}</span>
+        </div>
         <div className={`flex items-center gap-3 bg-slate-200 dark:bg-gray-600 p-2 rounded-md ${isSameUser && isSameDate ? '' : 'rounded-tl-none'} relative`}>
           <Player audioURL={content}/>
           <div className="relative">
@@ -371,11 +386,11 @@ const Message = ({ message, userId, isSameUser, isSameDate, socket, typeChat }) 
   const messageModalRef = useRef()
   
   const TypeMessage = {
-    'text': <Text userId={userId} _id={message.user._id} fullname={message.user.fullname} avatar={message.user.avatar} content={message.content} isSameUser={isSameUser} time={formatTime(message.date)} typeChat={typeChat} isSameDate={isSameDate} ref={messageModalRef}/>,
-    'image': <ImageMessage userId={userId} _id={message.user._id} fullname={message.user.fullname} avatar={message.user.avatar} content={message.content} isSameUser={isSameUser} time={formatTime(message.date)} typeChat={typeChat} isSameDate={isSameDate} ref={messageModalRef} />,
-    'video': <Video userId={userId} _id={message.user._id} fullname={message.user.fullname} avatar={message.user.avatar} content={message.content} isSameUser={isSameUser} time={formatTime(message.date)} typeChat={typeChat} isSameDate={isSameDate} ref={messageModalRef} />,
-    'application': <Application userId={userId} _id={message.user._id} fullname={message.user.fullname} avatar={message.user.avatar} content={message.content} isSameUser={isSameUser} time={formatTime(message.date)} typeChat={typeChat} isSameDate={isSameDate} ref={messageModalRef}/>,
-    'audio': <Audio userId={userId} _id={message.user._id} fullname={message.user.fullname} avatar={message.user.avatar} content={message.content} isSameUser={isSameUser} time={formatTime(message.date)} typeChat={typeChat} isSameDate={isSameDate} ref={messageModalRef}/>
+    'text': <Text userId={userId} _id={message.user._id} fullname={message.user.fullname} avatar={message.user.avatar} content={message.content} isSameUser={isSameUser} time={formatTime(message.date)} username={message.user.username} typeChat={typeChat} isSameDate={isSameDate} ref={messageModalRef}/>,
+    'image': <ImageMessage userId={userId} _id={message.user._id} fullname={message.user.fullname} avatar={message.user.avatar} content={message.content} isSameUser={isSameUser} time={formatTime(message.date)} username={message.user.username} typeChat={typeChat} isSameDate={isSameDate} ref={messageModalRef} />,
+    'video': <Video userId={userId} _id={message.user._id} fullname={message.user.fullname} avatar={message.user.avatar} content={message.content} isSameUser={isSameUser} time={formatTime(message.date)} username={message.user.username} typeChat={typeChat} isSameDate={isSameDate} ref={messageModalRef} />,
+    'application': <Application userId={userId} _id={message.user._id} fullname={message.user.fullname} avatar={message.user.avatar} content={message.content} isSameUser={isSameUser} time={formatTime(message.date)} username={message.user.username} typeChat={typeChat} isSameDate={isSameDate} ref={messageModalRef}/>,
+    'audio': <Audio userId={userId} _id={message.user._id} fullname={message.user.fullname} avatar={message.user.avatar} content={message.content} isSameUser={isSameUser} time={formatTime(message.date)} username={message.user.username} typeChat={typeChat} isSameDate={isSameDate} ref={messageModalRef}/>
   }
   
   return (
@@ -412,7 +427,8 @@ Text.propTypes = {
   isSameUser: PropTypes.bool,
   time: PropTypes.string,
   typeChat: PropTypes.string,
-  isSameDate: PropTypes.bool
+  isSameDate: PropTypes.bool,
+  username: PropTypes.string
 }
 
 ImageMessage.propTypes = {
@@ -424,7 +440,8 @@ ImageMessage.propTypes = {
   isSameUser: PropTypes.bool,
   time: PropTypes.string,
   typeChat: PropTypes.string,
-  isSameDate: PropTypes.bool
+  isSameDate: PropTypes.bool,
+  username: PropTypes.string
 }
 
 Video.propTypes = {
@@ -436,7 +453,8 @@ Video.propTypes = {
   isSameUser: PropTypes.bool,
   time: PropTypes.string,
   typeChat: PropTypes.string,
-  isSameDate: PropTypes.bool
+  isSameDate: PropTypes.bool,
+  username: PropTypes.string
 }
 
 Application.propTypes = {
@@ -448,7 +466,8 @@ Application.propTypes = {
   isSameUser: PropTypes.bool,
   time: PropTypes.string,
   typeChat: PropTypes.string,
-  isSameDate: PropTypes.bool
+  isSameDate: PropTypes.bool,
+  username: PropTypes.string
 }
 
 Audio.propTypes = {
@@ -460,7 +479,8 @@ Audio.propTypes = {
   isSameUser: PropTypes.bool,
   time: PropTypes.string,
   typeChat: PropTypes.string,
-  isSameDate: PropTypes.bool
+  isSameDate: PropTypes.bool,
+  username: PropTypes.string
 }
 
 export default Message

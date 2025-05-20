@@ -24,7 +24,7 @@ import OptionsChat from "./OptionsChat";
 const Chat = ({ socket, BACKEND_URL }) => {
 
   const { message } = useChatStore()
-  const { userId, fetchUserData, updateLastMessage } = useUserStore()
+  const { userId, fetchUserData, updateLastMessage, chats, username } = useUserStore()
   const [menu, setMenu] = useState(false)
   const chatContainer = useRef(null)
   const textareaMessageRef = useRef(null)
@@ -119,6 +119,8 @@ function openMenu() {
   })
 }
 
+  const chat = chats.find(chat => chat._id === id)
+
   return (
     <section className={`xl:border-l border-black dark:border-white flex flex-col ${!isChatMobileOpen ? 'hidden xl:flex' : ''} xl:w-[70%] w-full relative`}>
       <header className="shadow w-full p-3 flex items-center gap-3 relative dark:bg-gray-900 bg-slate-100">
@@ -126,7 +128,10 @@ function openMenu() {
            <FaArrowLeft className="dark:text-white"/>
         </button>
         <img src={image} alt="picture-chat" className="xl:w-14 xl:h-14 w-10 h-10 rounded-full object-cover" onClick={() => pictureGroupModal.current.showModal()} onError={e => e.target.src = `${type === 'private' ? '/picture-user-no-load.png' : '/picture-group-no-load.png'}`}/>
-        <span className="dark:text-white whitespace-nowrap overflow-hidden text-ellipsis">{name}</span>
+        <div className="flex flex-col">
+          <span className="dark:text-white whitespace-nowrap overflow-hidden text-ellipsis">{name}</span>
+          <span className="dark:text-gray-400 text-[12px]">{type === 'group' ? `${chat.members.length} members ` : chat.users.find(user => user.username !== username).username}</span>
+        </div>
         <OptionsChat chatId={id} socket={socket} BACKEND_URL={BACKEND_URL}/>
 
         <dialog ref={pictureGroupModal} className="backdrop:bg-[rgba(0,0,0,.90)] xl:max-w-96 max-w-60 outline-none" onClick={() => pictureGroupModal.current.close()}>

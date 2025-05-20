@@ -15,15 +15,17 @@ const PrivateChat = ({ privateChat, lastMessage, BACKEND_URL }) => {
   const isBlocked = blockedUsers.includes(privateUser._id)
 
   async function openChat() {
-    setIsBlocked(isBlocked || isMyUserBlocked)
-    setIsChatMobileOpen(true)
-    setLoader(true)
-
     if (unSeen[privateChat._id]) {
       const updatedUnSeen = { ...unSeen }
       updatedUnSeen[privateChat._id] = 0
       setUnSeen(updatedUnSeen)
     }
+
+    if (id === privateChat._id) return
+
+    setIsBlocked(isBlocked || isMyUserBlocked)
+    setIsChatMobileOpen(true)
+    setLoader(true)
 
     try {
       const response = await fetch(`${BACKEND_URL}/messages/${privateChat._id}`)

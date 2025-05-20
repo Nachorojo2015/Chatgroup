@@ -29,7 +29,6 @@ export async function uploadFile(filePath, destination) {
     await bucket.upload(filePath, {
         destination: destination
     })
-    console.log('File uploaded')
 }
 
 export async function getFileUrl(filePath) {
