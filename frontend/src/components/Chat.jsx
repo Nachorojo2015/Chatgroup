@@ -15,7 +15,6 @@ import { ClipLoader } from "react-spinners";
 import { toast } from "react-toastify";
 import { IoMusicalNotesOutline } from "react-icons/io5";
 import { FiPaperclip } from "react-icons/fi";
-import ChatAdvice from "./ChatAdvice";
 import SendMessageButton from "./SendMessageButton";
 import EmojiMart from "./EmojiMart";
 import { isSameDate } from "../scripts/isSameDate";
@@ -123,7 +122,7 @@ function openMenu() {
 
   return (
     <section className={`xl:border-l border-black dark:border-white flex flex-col ${!isChatMobileOpen ? 'hidden xl:flex' : ''} xl:w-[70%] w-full relative`}>
-      <header className="shadow w-full p-3 flex items-center gap-3 relative dark:bg-gray-900 bg-slate-100">
+      <header className="shadow w-full p-3 flex items-center gap-3 relative">
         <button onClick={closeChatMobile} className="xl:hidden">
            <FaArrowLeft className="dark:text-white"/>
         </button>
@@ -142,25 +141,20 @@ function openMenu() {
         </dialog>
       </header>
       <div className="relative flex flex-1">
-        <ul className="overflow-y-auto overflow-x-hidden absolute h-full w-full [scrollbar-width:none] px-3 py-3 bg-white dark:bg-black" ref={chatContainer}>
+        <ul className="overflow-y-auto overflow-x-hidden absolute h-full w-full [scrollbar-width:none] px-3 py-3 bg-transparent" ref={chatContainer}>
             {
               loader ? 
               <div className="grid place-content-center place-items-center mt-60">
                 <ClipLoader />
               </div>
               :
-              <>
-              <ChatAdvice />
-              {
-                messages.map((message, index) => (
+              messages.map((message, index) => (
                   <Message key={message._id} message={message} userId={userId} isSameUser={messages[index - 1]?.user?._id === message?.user?._id} isSameDate={isSameDate(messages[index - 1]?.date, message?.date)} socket={socket} typeChat={type}/>
-                ))
-              }
-              </>
+              ))
             }
         </ul>
       </div>
-      <footer className="w-full py-1 px-5 dark:bg-gray-900 bg-slate-100 flex items-center gap-3">
+      <footer className="shadow w-full py-1 px-5 flex items-center gap-3">
         <EmojiMart message={message} ref={textareaMessageRef}/>
         <MessageInput socket={socket} userId={userId} id={id} ref={textareaMessageRef}/>
         {
