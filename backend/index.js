@@ -68,6 +68,6 @@ io.on('connection', socket => {
 })
 
 server.listen(PORT, () => {
-  console.log('App running on port', PORT)
+  console.log('App running')
 })
 

@@ -7,7 +7,7 @@ config()
 mongoose.connect(MONGO_URI)
 
 mongoose.connection.once('open', () => {
-  console.log('Database is connected to', MONGO_URI)
+  console.log('Database is connected')
 })
 
 mongoose.connection.on('error', (error) => {
