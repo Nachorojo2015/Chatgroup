@@ -1,4 +1,3 @@
-import ClipLoader from "react-spinners/ClipLoader";
 import { useRef, useState } from "react";
 import DarkMode from "./DarkMode";
 import CloseSession from "./CloseSession";
@@ -12,6 +11,7 @@ import SearchGroupsButton from "./SearchGroupsButton";
 import SearchUsersButton from "./SearchUsersButton";
 import ProfileUserButton from "./ProfileUserButton";
 import Chats from "./Chats";
+import LoaderChats from "./LoaderChats";
 
 const Menu = ({ socket, BACKEND_URL }) => {
 
@@ -33,7 +33,7 @@ const Menu = ({ socket, BACKEND_URL }) => {
 
   const btnMenuRef = useRef()
   
-  if (!username || !fullname) return <ClipLoader cssOverride={{margin: 'auto'}}/>
+  if (!username || !fullname) return <LoaderChats />
 
   return (
     <aside className={`flex flex-col items-center ${isChatMobileOpen ? 'hidden xl:flex' : 'xl:flex'} xl:w-[30%] w-full`}>
