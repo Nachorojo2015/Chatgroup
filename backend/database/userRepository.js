@@ -57,7 +57,7 @@ export class UserRepository {
         return { _id }
     }
 
-    static async findByEmail(email) {
+    static async findByEmail({ email }) {
         if (!email) throw new ValidateError('email must exists')
 
         if (typeof email !== 'string') throw new TypeError('email must be an string')
@@ -69,8 +69,7 @@ export class UserRepository {
             {
                 _id: 1,
                 email: 1,
-                fullname: 1,
-                password: 0
+                fullname: 1
             }
         )
         

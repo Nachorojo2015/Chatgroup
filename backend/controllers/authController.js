@@ -39,9 +39,16 @@ export const sendMailResetPassword = async (req, res) => {
   const { email } = req.body
 
   try {
-    const user = await UserRepository.findByEmail(email)
+    const user = await UserRepository.findByEmail({ email })
 
-    const token = jwt.sign(user, SECRET_JWT_KEY, { expiresIn: '15m' })
+    const userPayload = {
+      _id: user._id.toString(),  // Convertimos el ObjectId a string
+      email: user.email,
+      fullname: user.fullname,
+    }
+
+    const token = jwt.sign(userPayload, SECRET_JWT_KEY, { expiresIn: '15m' })
+
 
     const data = await resend.emails.send({
       from: 'Acme <onboarding@resend.dev>',
