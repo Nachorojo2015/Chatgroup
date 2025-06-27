@@ -1,4 +1,3 @@
-// src/services/authService.js
 export const login = async (username, password, BACKEND_URL) => {
   try {
     const response = await fetch(`${BACKEND_URL}/auth/login`, {

@@ -4,23 +4,12 @@ import { LuEyeClosed } from "react-icons/lu";
 import { useState } from "react";
 import { toast } from 'react-toastify';
 import PropTypes from "prop-types";
+import useRegisterForm from "../hooks/useRegisterForm";
+import register from "../services/registerService";
 
 const Register = ({ BACKEND_URL }) => {
 
-  const [form, setForm] = useState({
-    email: '',
-    fullname: '',
-    username: '',
-    password: '',
-    confirmPassword: ''
-  })
-
-  const handleChange = (e) => {
-    setForm(prev => ({
-      ...prev,
-      [e.target.name]: e.target.value
-    }))
-  }
+  const { form, handleChange } = useRegisterForm();
 
   const navigate = useNavigate()
 
@@ -36,23 +25,7 @@ const Register = ({ BACKEND_URL }) => {
     const toastId = toast.loading('Register...')
 
     try {
-      const response = await fetch(`${BACKEND_URL}/auth/register`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ email, fullname, username, password })
-      })
-  
-      if (!response.ok) {
-        const errorMessage = await response.text()
-        return toast.update(toastId, {
-          render: errorMessage,
-          type: 'error',
-          isLoading: false,
-          autoClose: 2000
-        })
-      }
+      await register(email, fullname, username, password, BACKEND_URL)
   
       toast.update(toastId, {
         render: 'User registered!',
@@ -60,13 +33,14 @@ const Register = ({ BACKEND_URL }) => {
         isLoading: false,
         autoClose: 2000
       })
+
       setTimeout(() => {
         navigate('/login')
       }, 3000)
+
     } catch (error) {
-      console.log(error.message)
       toast.update(toastId, {
-        render: 'Error in server',
+        render: 'Error in server ' + error,
         type: 'error',
         isLoading: false,
         autoClose: 2000
