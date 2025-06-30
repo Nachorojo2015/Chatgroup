@@ -3,10 +3,11 @@ import { FaArrowLeftLong } from 'react-icons/fa6'
 import { toast } from 'react-toastify'
 import PropTypes from 'prop-types'
 import { IoMdAdd } from 'react-icons/io'
+import HeroCamera from "../assets/camera.png"
 
 const CreateGroupModal = forwardRef(({ fetchUserData, BACKEND_URL }, ref) => {
 
-    const [imageGroup, setImageGroup] = useState('/camera.png')
+    const [imageGroup, setImageGroup] = useState(HeroCamera)
     const [fileImageGroup, setFileImageGroup] = useState(null)
     
     const groupNameRef = useRef()

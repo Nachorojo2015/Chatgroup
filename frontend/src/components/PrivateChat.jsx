@@ -2,7 +2,7 @@ import { toast } from "react-toastify";
 import { useChatStore } from "../store/chatStore";
 import PropTypes from "prop-types";
 import { useUserStore } from "../store/userStore";
-import { formatCustomDate } from "../scripts/formatCustomDate";
+import { formatCustomDate } from "../utils/formatCustomDate";
 
 const PrivateChat = ({ privateChat, lastMessage, BACKEND_URL }) => {
 

@@ -6,8 +6,8 @@ import { FaMicrophone } from "react-icons/fa"
 import Player from "./Player";
 import { forwardRef, useEffect, useRef, useState } from "react";
 import MessageOptionsModal from "./MessageOptionsModal";
-import { formatTime } from "../scripts/formatTime";
-import { formatDate } from "../scripts/formatDate";
+import { formatTime } from "../utils/formatTime";
+import { formatDate } from "../utils/formatDate";
 import { ClipLoader } from "react-spinners";
 import { FaArrowLeftLong } from "react-icons/fa6";
 

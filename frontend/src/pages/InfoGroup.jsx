@@ -9,13 +9,14 @@ import { FaRegEye } from "react-icons/fa";
 import { FaRegEyeSlash } from "react-icons/fa"
 import { MdHistory } from "react-icons/md";
 import { useUserStore } from "../store/userStore";
-import DarkMode from "./DarkMode";
+import DarkMode from "../components/DarkMode";
 import PropTypes from "prop-types";
-import DeleteGroupButton from "./DeleteGroupButton";
-import LeaveGroupButton from "./LeaveGroupButton";
-import CopyLinkGroupButton from "./CopyLinkGroupButton";
+import DeleteGroupButton from "../components/DeleteGroupButton";
+import LeaveGroupButton from "../components/LeaveGroupButton";
+import CopyLinkGroupButton from "../components/CopyLinkGroupButton";
+import { BACKEND_URL } from "../config/variables";
 
-const InfoGroup = ({ socket, BACKEND_URL }) => {
+const InfoGroup = ({ socket }) => {
 
   const navigate = useNavigate()
 
@@ -101,7 +102,7 @@ const InfoGroup = ({ socket, BACKEND_URL }) => {
     
       getInfoGroup()
       fetchUserData(BACKEND_URL)
-  }, [id, fetchUserData, navigate, BACKEND_URL])
+  }, [id, fetchUserData, navigate])
 
   if (!group) {
     return (

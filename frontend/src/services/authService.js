@@ -1,12 +1,12 @@
 export const login = async (username, password, BACKEND_URL) => {
   try {
     const response = await fetch(`${BACKEND_URL}/auth/login`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({ username, password }),
-      credentials: 'include',
+      credentials: "include",
     });
 
     if (!response.ok) {
@@ -23,12 +23,34 @@ export const login = async (username, password, BACKEND_URL) => {
 export const sendForgotPasswordEmail = async (email, BACKEND_URL) => {
   try {
     const response = await fetch(`${BACKEND_URL}/auth/email/forgot-password`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({ email }),
-      credentials: 'include',
+      credentials: "include",
+    });
+
+    if (!response.ok) {
+      const errorMessage = await response.text();
+      throw new Error(errorMessage);
+    }
+
+    return response;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
+export const resetPassword = async (newPassword, BACKEND_URL) => {
+  try {
+    const response = await fetch(`${BACKEND_URL}/auth/email/reset-password`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ newPassword }),
+      credentials: "include",
     });
 
     if (!response.ok) {

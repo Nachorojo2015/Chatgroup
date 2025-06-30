@@ -3,13 +3,13 @@ import { useState } from 'react';
 const useLoader = () => {
   const [isLoading, setIsLoading] = useState(false);
 
-  const startLoader = () => setIsLoading(true); // Iniciar el loader
-  const stopLoader = () => setIsLoading(false); // Detener el loader
+  const startLoader = () => setIsLoading(true); 
+  const stopLoader = () => setIsLoading(false); 
 
   return {
-    isLoading,    // Estado del loader
-    startLoader,  // Función para iniciar el loader
-    stopLoader    // Función para detener el loader
+    isLoading,    
+    startLoader,  
+    stopLoader   
   };
 };
 

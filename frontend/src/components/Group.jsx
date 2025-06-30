@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 import PropTypes from "prop-types";
 import { useChatStore } from "../store/chatStore";
 import { useUserStore } from "../store/userStore";
-import { formatCustomDate } from "../scripts/formatCustomDate";
+import { formatCustomDate } from "../utils/formatCustomDate";
 
 const Group = ({ group, lastMessage, BACKEND_URL }) => {
 

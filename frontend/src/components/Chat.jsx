@@ -17,7 +17,7 @@ import { IoMusicalNotesOutline } from "react-icons/io5";
 import { FiPaperclip } from "react-icons/fi";
 import SendMessageButton from "./SendMessageButton";
 import EmojiMart from "./EmojiMart";
-import { isSameDate } from "../scripts/isSameDate";
+import { isSameDate } from "../utils/isSameDate";
 import OptionsChat from "./OptionsChat";
 
 const Chat = ({ socket, BACKEND_URL }) => {
