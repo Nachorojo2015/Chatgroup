@@ -59,7 +59,7 @@ const PrivateChat = ({ privateChat, lastMessage, BACKEND_URL }) => {
         <img
         src={privateUser.avatar}
         alt="avatar user"
-        className={`xl:w-16 xl:h-16 w-12 h-12 rounded-full object-cover ${isBlocked || isMyUserBlocked ? 'opacity-20' : ''} border-green-500`}
+        className={`xl:w-16 xl:h-16 w-12 h-12 rounded-full object-cover ${isBlocked || isMyUserBlocked ? 'opacity-20' : ''}`}
         onError={e => e.target.src = '/picture-user-no-load.png'}
         />
         <div className="w-full">

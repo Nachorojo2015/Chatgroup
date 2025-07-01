@@ -1,30 +1,15 @@
 import PropTypes from "prop-types"
-import { toast } from "react-toastify"
 import { TbCopyPlusFilled } from "react-icons/tb";
+import { copyLinkGroup } from "../utils/copyLinkGroup";
 
-const CopyLinkGroupButton = ({ _id }) => {
+const CopyLinkGroupButton = ({ _id }) => {  
 
- async function copyLinkGroup() {
-
-    const isDark = document.querySelector('html').className === 'dark'
-
-    const route = window.location.toString()
-
-    navigator.clipboard.writeText(route.includes('/group') ? route : `${route}group/${_id}`)
-     .then(() => {
-        toast.success('Link group copied succesfull', {
-          theme: isDark ? 'dark' : 'light'
-        })
-      })
-      .catch(() => {
-        toast.error('Error to copy the link', {
-          theme: isDark ? 'dark' : 'light'
-        })
-      })
- }   
+  function copyLink() {
+    copyLinkGroup(_id)
+  }
 
   return (
-    <button aria-label="Copy group Link" className="flex items-center justify-center gap-2 text-sm transition hover:opacity-70" onClick={copyLinkGroup}>
+    <button aria-label="Copy group Link" className="flex items-center justify-center gap-2 text-sm transition hover:opacity-70" onClick={copyLink}>
         <TbCopyPlusFilled className="dark:text-white"/>
         <span className="dark:text-white">Copy Link</span>
     </button>

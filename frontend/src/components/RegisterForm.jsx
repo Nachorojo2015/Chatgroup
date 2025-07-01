@@ -1,6 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
 import useRegisterForm from "../hooks/useRegisterForm";
-import register from "../services/registerService";
 import { BACKEND_URL } from "../config/variables";
 import { FaEye } from "react-icons/fa";
 import { LuEyeClosed } from "react-icons/lu";
@@ -9,6 +8,7 @@ import { showToast } from "../utils/showToast";
 import { ClipLoader } from "react-spinners";
 import { useShowPassword } from "../hooks/useShowPassword";
 import { verifySecurePassword } from "../utils/verifySecurePassword";
+import { register } from "../services/authService";
 
 const RegisterForm = () => {
   const { form, handleChange } = useRegisterForm();
