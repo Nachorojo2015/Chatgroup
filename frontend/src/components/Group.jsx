@@ -69,7 +69,7 @@ const Group = ({ group, lastMessage, BACKEND_URL }) => {
         <div className="flex items-center gap-3">
           <FaUserGroup className="dark:text-white"/>
           <span className="dark:text-white font-bold whitespace-nowrap overflow-hidden text-ellipsis max-w-52">{name}</span>
-          <span className={`text-sm ml-auto  dark:text-white`}>{formatCustomDate(lastMessage?.date)}</span>
+          <span className={`text-[12px] ml-auto  dark:text-white`}>{formatCustomDate(lastMessage?.date)}</span>
         </div>
         <div className="flex items-center">
           <span className="flex text-sm items-center gap-3 whitespace-nowrap overflow-hidden text-ellipsis max-w-56 dark:text-white">{lastMessage?.fullname ? lastMessage?.fullname + ': ' : ''} {lastMessage?.content}</span>

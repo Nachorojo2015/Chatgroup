@@ -65,7 +65,7 @@ const PrivateChat = ({ privateChat, lastMessage, BACKEND_URL }) => {
         <div className="w-full">
          <div className="flex items-center">
           <span className="dark:text-white font-bold whitespace-nowrap overflow-hidden text-ellipsis w-52">{privateUser.fullname}</span>
-          <span className={`text-sm ml-auto dark:text-white `}>{formatCustomDate(lastMessage?.date)}</span>
+          <span className={`text-[12px] ml-auto dark:text-white `}>{formatCustomDate(lastMessage?.date)}</span>
          </div>
          <div className="flex items-center">
           <span className="whitespace-nowrap text-sm overflow-hidden text-ellipsis max-w-56 dark:text-white">{lastMessage?.content}</span>

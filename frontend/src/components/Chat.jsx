@@ -91,8 +91,7 @@ const Chat = ({ socket, BACKEND_URL }) => {
   
   if (!id) 
   return ( 
-    <div className="hidden xl:grid place-content-center place-items-center border-black dark:border-white xl:border-l w-[70%]">
-     <span className="dark:text-white px-5 py-1 dark:bg-gray-800 bg-slate-200 rounded-full font-bold">Select a chat</span>
+    <div className="hidden xl:grid place-content-center place-items-center w-[75%] bg-contain  bg-[url(/background-light-chat.png)] dark:bg-[url(/background-dark-chat.png)]">
     </div>
   )
 
@@ -121,14 +120,14 @@ function openMenu() {
   const chat = chats.find(chat => chat._id === id)
 
   return (
-    <section className={`xl:border-l border-black dark:border-white flex flex-col ${!isChatMobileOpen ? 'hidden xl:flex' : ''} xl:w-[70%] w-full relative`}>
-      <header className="shadow w-full p-3 flex items-center gap-3 relative">
+    <section className={`flex flex-col ${!isChatMobileOpen ? 'hidden xl:flex' : ''} xl:w-[75%] w-full relative bg-contain bg-[url(/background-light-chat.png)] dark:bg-[url(/background-dark-chat.png)]`}>
+      <header className="w-full p-2 px-5 flex items-center gap-3 relative bg-white dark:bg-[rgb(33,33,33)]">
         <button onClick={closeChatMobile} className="xl:hidden">
            <FaArrowLeft className="dark:text-white"/>
         </button>
-        <img src={image} alt="picture-chat" className="xl:w-14 xl:h-14 w-10 h-10 rounded-full object-cover" onClick={() => pictureGroupModal.current.showModal()} onError={e => e.target.src = `${type === 'private' ? '/picture-user-no-load.png' : '/picture-group-no-load.png'}`}/>
+        <img src={image} alt="picture-chat" className="xl:w-12 xl:h-12 w-10 h-10 rounded-full object-cover" onClick={() => pictureGroupModal.current.showModal()} onError={e => e.target.src = `${type === 'private' ? '/picture-user-no-load.png' : '/picture-group-no-load.png'}`}/>
         <div className="flex flex-col">
-          <span className="dark:text-white whitespace-nowrap overflow-hidden text-ellipsis">{name}</span>
+          <span className="dark:text-white whitespace-nowrap overflow-hidden text-ellipsis font-bold">{name}</span>
           <span className="dark:text-gray-400 text-[12px]">{type === 'group' ? `${chat.members.length} members ` : chat.users.find(user => user.username !== username).username}</span>
         </div>
         <OptionsChat chatId={id} socket={socket} BACKEND_URL={BACKEND_URL}/>
@@ -154,7 +153,7 @@ function openMenu() {
             }
         </ul>
       </div>
-      <footer className="shadow w-full py-1 px-5 flex items-center gap-3">
+      <footer className="shadow w-full py-1 px-5 flex items-center gap-3 bg-white dark:bg-[rgb(33,33,33)]">
         <EmojiMart message={message} ref={textareaMessageRef}/>
         <MessageInput socket={socket} userId={userId} id={id} ref={textareaMessageRef}/>
         {

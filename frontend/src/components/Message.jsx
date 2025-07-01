@@ -393,7 +393,7 @@ const Message = ({ message, userId, isSameUser, isSameDate, socket, typeChat }) 
   
   return (
     <>
-    <span className={`${!isSameDate ? 'flex' : 'hidden'} justify-center mt-2 p-2 text-[12px] dark:text-white `}>{formatDate(message.date)}</span>
+    <span className={`${!isSameDate ? 'flex' : 'hidden'} justify-center mt-2 p-2 text-sm dark:text-white font-bold`}>{formatDate(message.date)}</span>
     {TypeMessage[message.format]}
     <MessageOptionsModal ref={messageModalRef} socket={socket} message={message} typeChat={typeChat}/>
     </>

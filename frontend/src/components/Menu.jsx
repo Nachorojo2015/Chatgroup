@@ -36,7 +36,7 @@ const Menu = ({ socket, BACKEND_URL }) => {
   if (!username || !fullname) return <LoaderChats />
 
   return (
-    <aside className={`flex flex-col items-center ${isChatMobileOpen ? 'hidden xl:flex' : 'xl:flex'} xl:w-[30%] w-full`}>
+    <aside className={`flex flex-col items-center ${isChatMobileOpen ? 'hidden xl:flex' : 'xl:flex'} xl:w-[25%] xl:border-r w-full bg-white dark:bg-[rgb(33,33,33)]`}>
       <section className="flex items-center w-full">
         <div className="relative m-2 flex items-center">
           <button ref={btnMenuRef} className="p-2 mt-2 transition hover:bg-slate-200 dark:hover:bg-gray-700 rounded-full" onClick={openMenu}>
@@ -51,13 +51,13 @@ const Menu = ({ socket, BACKEND_URL }) => {
             <CloseSession BACKEND_URL={BACKEND_URL}/>
           </div>
         </div>
-        <div className="flex items-center justify-center relative xl:w-[85%] w-[80%]">
-          <input placeholder="Search" className="mt-2 w-full indent-2 rounded-md p-2 pr-10 placeholder:text-black dark:bg-black dark:bg-opacity-40 dark:placeholder:text-white dark:text-gray-100" onChange={(e) => setValueSearch(e.target.value)}/>
+        <div className="flex items-center justify-center relative w-[80%]">
+          <input placeholder="Search" className="mt-2 bg-gray-100 w-full indent-2 rounded-full p-2 pr-10 placeholder:text-black dark:bg-black dark:bg-opacity-40 dark:placeholder:text-white dark:text-gray-100" onChange={(e) => setValueSearch(e.target.value)}/>
           <CiSearch size={22} className="absolute right-2 top-4 dark:text-white"/>
         </div>
       </section>
       
-      <section className="flex flex-1 w-full relative items-center justify-center">
+      <section className="flex flex-1 w-full relative items-center justify-center mt-1">
         <Chats valueSearch={valueSearch} fetchUserData={fetchUserData} username={username} socket={socket} BACKEND_URL={BACKEND_URL}/>
       </section>
     </aside>
