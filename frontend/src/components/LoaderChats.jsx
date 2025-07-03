@@ -1,6 +1,6 @@
 const LoaderChats = () => {
   return (
-    <section className="flex flex-col xl:w-[30%] w-full overflow-x-auto [scrollbar-width:none]">
+    <section className="flex flex-col w-full overflow-x-auto [scrollbar-width:none]">
       <div className="flex flex-col gap-4 p-5 w-full max-w-md">
         <div className="flex items-start gap-3 animate-pulse">
           <div className="w-10 h-10 rounded-full dark:bg-gray-700 bg-slate-300"></div>

@@ -1,11 +1,14 @@
 import { useUserStore } from '../store/userStore'
 import Group from './Group'
+import LoaderChats from './LoaderChats'
 import PrivateChat from './PrivateChat'
 import PropTypes from 'prop-types'
 
 const Chats = ({ valueSearch, fetchUserData, username, socket, BACKEND_URL }) => {
  
   let chats = useUserStore(state => state.chats)
+
+  if (!username) return <LoaderChats />;
 
   if (valueSearch) {
     chats = chats.filter(chat => {
@@ -18,7 +21,7 @@ const Chats = ({ valueSearch, fetchUserData, username, socket, BACKEND_URL }) =>
   if (!chats.length) return <p className='dark:text-white'>Search users or groups on the menu to start</p>
     
   return (
-    <div className='w-full overflow-y-auto h-full absolute [scrollbar-width:thin]'>
+    <div className='w-full overflow-y-auto h-full absolute [scrollbar-width:thin] p-2'>
         {
             chats
                 .map(chat => 

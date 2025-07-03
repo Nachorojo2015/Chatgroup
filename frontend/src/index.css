@@ -1,10 +1,18 @@
+@font-face {
+  font-family: Chatgroup;
+  src: url("/fonts/chatgroup-normal.woff2") format("woff2");
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+@theme {
+  --font-sans: Chatgroup, system-ui, sans-serif;
+}
+
 body {
-  font-family: "Montserrat", serif;
-  scroll-behavior: smooth;
+  font-family: "Chatgroup", sans-serif;
 }
 
 dialog[open] {
@@ -40,5 +48,7 @@ dialog::backdrop {
 .scale-up-bottom{animation:scale-up-bottom 0.2s; } @keyframes scale-up-bottom{0%{transform:scale(.5);transform-origin:center bottom}100%{transform:scale(1);transform-origin:center bottom}}
 .scale-up-top-left{animation:scale-up-top-left 0.4s; } @keyframes scale-up-top-left{0%{transform:scale(.5);transform-origin:top left}100%{transform:scale(1);transform-origin:top left}}
 .scale-up-bottom-left{animation:scale-up-bottom-left 0.4s; } @keyframes scale-up-bottom-left{0%{transform:scale(.5);transform-origin:left bottom}100%{transform:scale(1);transform-origin:left bottom}}
+.scale-up-center{animation:scale-up-center 0.4s; } @keyframes scale-up-center{ 0%{transform:scale(.5)} 100%{transform:scale(1)} }
 .scale-up-top-right{animation:scale-up-top-right 0.2s; } @keyframes scale-up-top-right{0%{transform:scale(.5);transform-origin:top right}100%{transform:scale(1);transform-origin:top right}}
 .blur-in{animation:blur-in 0.1s linear both} @keyframes blur-in{0%{filter:blur(12px);opacity:0}100%{filter:blur(0);opacity:1}}
+.jello-diagonal{animation:jello-diagonal .5s linear both} @keyframes jello-diagonal{0%{transform:skew(0deg 0deg)}30%{transform:skew(25deg 25deg)}40%{transform:skew(-15deg,-15deg)}50%{transform:skew(15deg,15deg)}65%{transform:skew(-5deg,-5deg)}75%{transform:skew(5deg,5deg)}100%{transform:skew(0deg 0deg)}}

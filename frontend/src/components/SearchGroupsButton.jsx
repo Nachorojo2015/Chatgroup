@@ -9,7 +9,7 @@ const SearchGroupsButton = ({ username, fetchUserData, BACKEND_URL }) => {
 
   return (
     <>
-    <button type="button" className="dark:text-white transition hover:opacity-60 flex items-center gap-2 text-sm" onClick={() => modalSearchGroupsRef.current.showModal()}>
+    <button type="button" className="dark:text-white transition rounded-lg hover:bg-[rgba(0,0,0,0.08)] flex items-center gap-2 text-sm p-2" onClick={() => modalSearchGroupsRef.current.showModal()}>
       <CiSearch size={20}/>
       <span>Search Groups</span>
     </button>

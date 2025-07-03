@@ -1,48 +1,31 @@
 import PropTypes from "prop-types";
 import { CiLogout } from "react-icons/ci";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+import { logout } from "../services/authService";
+import { showToast } from "../utils/showToast";
 
 const CloseSession = ({ BACKEND_URL }) => {
   const navigate = useNavigate()
 
   async function closeSession() {
-    const isDark = document.querySelector('html').className === 'dark'
+    const theme = document.querySelector('html').className
     try {
-        const response = await fetch(`${BACKEND_URL}/auth/logout`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            credentials: 'include'
-        })
-
-        if (!response.ok) {
-            const errorMessage = await response.text()
-            return toast.error(errorMessage, {
-              theme: isDark ? 'dark' : 'light'
-            })
-        }
-        
-        const successMessage = await response.text()
-        
-        toast.success(successMessage, {
-          theme: isDark ? 'dark' : 'light'
-        })
+        await logout(BACKEND_URL)
+        showToast('Logout successfull!', 'success', 1500, theme)
 
         setTimeout(() => {
            navigate('/login')
-        }, 2500)
+        }, 2000)
     } catch (error) {
-        alert(error.message)
+        showToast(error.message, 'error', 1500, theme)
     }
   }
 
   return (
-    <button className="text-red-500 transition hover:opacity-60 flex items-center gap-2 text-sm" onClick={closeSession}>
-      <CiLogout size={20} />
-      <span>Close session</span>
-    </button>
+    <div className="flex items-center gap-3 rounded-lg cursor-pointer transition hover:bg-[rgba(0,0,0,0.08)] p-2 text-red-500" onClick={closeSession}>
+      <CiLogout size={20}/>
+      <span className="text-sm font-semibold">Close session</span>
+    </div>
   )
 }
 

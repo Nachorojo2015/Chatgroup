@@ -46,7 +46,7 @@ const OptionsChat = ({ chatId, socket, BACKEND_URL }) => {
     :
     <span className="dark:text-white text-sm ml-auto">Blocked</span>
     }
-    <div className={`transition-all ${!menu ? 'invisible opacity-0' : 'scale-up-top-right opacity-100'} flex flex-col gap-2 p-3 rounded-md z-20 absolute right-7 top-16 shadow bg-white dark:bg-gray-900 dark:text-white min-w-36`}>
+    <div className={`transition-all ${!menu ? 'invisible opacity-0' : 'scale-up-top-right opacity-100'} flex flex-col gap-2 p-3 rounded-md z-20 absolute right-7 top-16 shadow bg-white dark:bg-[rgb(33,33,33)] dark:text-white min-w-36`}>
     {
     isBlocked && !isMyUserBlocked ? 
     <UnlockUserButton avatar={privateUser.avatar} username={privateUser.username} fetchUserData={fetchUserData} socket={socket} privateChatId={chat._id} BACKEND_URL={BACKEND_URL}/>
@@ -68,13 +68,13 @@ const OptionsChat = ({ chatId, socket, BACKEND_URL }) => {
      </button>
     {
     isMine ? 
-    <div className={`transition-all ${!menu ? 'invisible opacity-0' : 'scale-up-top-right opacity-100'} flex flex-col gap-2 p-3 rounded-md absolute z-20 top-16 right-7 shadow bg-white dark:bg-gray-900 dark:text-white min-w-36`}>
+    <div className={`transition-all ${!menu ? 'invisible opacity-0' : 'scale-up-top-right opacity-100'} flex flex-col gap-2 p-3 rounded-md absolute z-20 top-16 right-7 shadow bg-white dark:bg-[rgb(33,33,33)] dark:text-white min-w-36`}>
       <CopyLinkGroupButton _id={chat._id} />
       <EditGroupButton _id={chat._id} name={chat.name} description={chat.description} username={username} picture={chat.picture} members={chat.members} blockedUsers={chat.blockedUsers} visibility={chat.visibility} fetchUserData={fetchUserData} socket={socket} BACKEND_URL={BACKEND_URL}/>
       <DeleteGroupButton picture={chat.picture} name={chat.name} _id={chat._id} socket={socket} BACKEND_URL={BACKEND_URL}/>
     </div>
     :
-    <div className={`transition-all ${!menu ? 'invisible opacity-0' : 'scale-up-top-right opacity-100'} flex flex-col gap-2 p-3 rounded-md absolute z-20 top-16 right-7 shadow dark:bg-gray-900 bg-white dark:text-white min-w-32`}>
+    <div className={`transition-all ${!menu ? 'invisible opacity-0' : 'scale-up-top-right opacity-100'} flex flex-col gap-2 p-3 rounded-md absolute z-20 top-16 right-7 shadow dark:bg-[rgb(33,33,33)] bg-white dark:text-white min-w-32`}>
       <CopyLinkGroupButton _id={chat._id}/>
       <LeaveGroupButton picture={chat.picture} name={chat.name} _id={chat._id} fetchUserData={fetchUserData} BACKEND_URL={BACKEND_URL}/>
     </div>

@@ -1,7 +1,7 @@
 import { useRef } from "react"
-import { MdGroups } from "react-icons/md"
 import CreateGroupModal from "./CreateGroupModal"
 import PropTypes from "prop-types"
+import { FiUsers } from "react-icons/fi";
 
 const CreateGroupButton = ({ fetchUserData, BACKEND_URL }) => {
 
@@ -9,9 +9,9 @@ const CreateGroupButton = ({ fetchUserData, BACKEND_URL }) => {
 
   return (
     <>
-    <button onClick={() => modalCreateGroupRef.current.showModal()} className="text-sm transition hover:opacity-60 flex items-center gap-2 dark:text-white">
-      <MdGroups size={20}/>
-      <span>Create Group</span>
+    <button onClick={() => modalCreateGroupRef.current.showModal()} className="text-sm transition hover:opacity-60 flex items-center gap-5 p-2 dark:text-white">
+      <FiUsers size={20}/>
+      <span>New Group</span>
     </button>
     <CreateGroupModal ref={modalCreateGroupRef} fetchUserData={fetchUserData} BACKEND_URL={BACKEND_URL}/>
     </>

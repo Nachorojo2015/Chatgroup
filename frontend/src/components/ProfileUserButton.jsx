@@ -11,10 +11,10 @@ const ProfileUserButton = ({ username, fullname, avatar, BACKEND_URL }) => {
 
   return (
     <>
-    <button className="dark:text-white transition hover:opacity-60 flex items-center gap-2 text-sm" onClick={() => profileUserModal.current.showModal()}>
-      <img src={avatar} alt="user-avatar" className="w-6 h-6 object-cover rounded-full" onError={e => e.target.src = '/picture-user-no-load.png'}/>
-      <span>My Profile</span>
-    </button>
+    <div className="flex items-center gap-3 rounded-lg cursor-pointer transition hover:bg-[rgba(0,0,0,0.08)] p-2" onClick={() => profileUserModal.current.showModal()}>
+      <img src={avatar} alt="user-avatar" className="w-7 h-7 rounded-full object-cover" onError={e => e.target.src = '/picture-user-no-load.png'}/>
+      <span className="dark:text-white text-sm font-semibold">{fullname}</span>
+    </div>
     <ProfileUserModal ref={profileUserModal} username={username} fullname={fullname} avatar={avatar} BACKEND_URL={BACKEND_URL}/>
     </>
   )
