@@ -27,7 +27,8 @@ export const loginUser = async (req, res) => {
       .cookie('access_token', token, {
       httpOnly: true, // No puede ser accedida mediante JavaScript
       secure: true, // La cookie solo puede ser accedida desde https | Desde el modo desarrollo no se puede porque solo contamos con http
-      sameSite: 'none' // No sera accedida desde el mismo dominio, ya que tenemos diferentes servidores
+      sameSite: 'none', // No sera accedida desde el mismo dominio, ya que tenemos diferentes servidores
+      maxAge: 3 * 24 * 60 * 60 * 1000,
     })
       .send({ user })
   } catch (error) {
